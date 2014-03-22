@@ -8,14 +8,22 @@
         <form action="/bracket/" method="post">
             {% csrf_token %}
             <h1>Create Team</h1>
-            <select name="teamone">{% for Team in Team} print(<option value=){%Team%}>{%Team%})</option>{% endfor %}</select>
-            <select name="teamtwo">{% for Team in Team} print(<option value={%team%}>{%Team%})</option>{% endfor %}</select>  
+            <select name="teamone">
+                {% for team in Team %}
+                <option value={{team}}>{{team}}</option>
+                {% endfor %}
+            </select>
+            <select name="teamtwo">
+                {% for team in Team %}
+                <option value={{team}}>{{team}}</option>
+                {% endfor %}
+            </select>
             <div class="line">Match Date *:<input type="datetime-local" name="date" /></div>
             <div class="line submit"><input type="submit" value="Submit" /></div>
         </form>
     </div>
     Current brackets are:
-    
+
     {% for matchup in Matchup %}
         {{matchup.Team1.name}} Vs {{matchup.Team2.name}} on {{matchup.Date.name}}
     {% endfor %}
