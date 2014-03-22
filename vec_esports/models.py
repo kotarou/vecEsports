@@ -26,8 +26,8 @@ class Team(db.Model):
 
 class Matchup(db.Model):
     """Models a matchup between two teams """
-    team_1 = db.ReferenceProperty(Team)
-    team_2 = db.ReferenceProperty(Team)
+    team_1 = db.ReferenceProperty(Team, collection_name= "T1")
+    team_2 = db.ReferenceProperty(Team, collection_name= "T2")
     date   = db.DateProperty()
 
 
