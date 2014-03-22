@@ -25,3 +25,6 @@ proj_django provides all the 'base' django setup.
   urls.py connects to vec_esports\urls.py
 static contains static files
 vec_esports contains the projects main files
+
+
+Add   login: required    to a handler>url in app.yaml to restrict a page to only logged in users.

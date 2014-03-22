@@ -9,17 +9,30 @@ from vec_esports.models import Greeting
 
 import urllib
 
-def main_page(request):
+
+def main_esports(request):
+    return direct_to_template(request, 'esports/index.html')
+
+def testbook(request):
     guestbook_name = request.GET.get('guestbook_name', 'default_guestbook')
     guestbook_key = Greeting.get_key_from_name(guestbook_name)
     greetings_query = Greeting.all().ancestor(guestbook_key).order('-date')
     greetings = greetings_query.fetch(10)
-    if users.get_current_user():
+    #if users.get_current_user():
+    #    url = users.create_logout_url(request.get_full_path())
+    #    url_linktext = 'Logout'
+    #else:
+    #    url = users.create_login_url(request.get_full_path())
+    #    url_linktext = 'Login'
+
+    user = users.get_current_user()
+    if user:
         url = users.create_logout_url(request.get_full_path())
-        url_linktext = 'Logout'
+        url_linktext = ('Welcome, %s! sign out' % (user.nickname()))
     else:
         url = users.create_login_url(request.get_full_path())
-        url_linktext = 'Login'
+        url_linktext = ('Welcome, guest! sign in')
+
     template_values = {
         'greetings': greetings,
         'guestbook_name': guestbook_name,
@@ -27,6 +40,7 @@ def main_page(request):
         'url_linktext': url_linktext,
     }
     return direct_to_template(request, 'guestbook/main_page.html', template_values)
+
 
 def sign_post(request):
     if request.method == 'POST':

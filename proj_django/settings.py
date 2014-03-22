@@ -3,6 +3,11 @@ import os
 ROOT_PATH = os.path.dirname(__file__)
 
 
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/'
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

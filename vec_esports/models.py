@@ -24,10 +24,16 @@ class Team(db.Model):
     member_6  = db.StringProperty()
     contact_email = db.EmailProperty()
 
-
-
 class Matchup(db.Model):
     """Models a matchup between two teams """
     team_1 = db.ReferenceProperty(Team)
     team_2 = db.ReferenceProperty(Team)
     date   = db.DateProperty()
+
+
+class Player(db.Model):
+    """Models a Player entry with a player name, alias, contact details"""
+    first_name = db.StringProperty()
+    last_name = db.StringProperty()
+    email = db.EmailProperty()
+    alias = db.StringProperty()
