@@ -49,8 +49,7 @@ def bracket_make(request):
         team_one = request.POST.get('teamone')
         team_two = request.POST.get('teamtwo')
         bracket_date =  request.POST.get('date')
-        bracket = Team(key_name=team_name,
-                    contact_email=team_contact)
+        bracket = Matchup(team_1=team_one, team_2 = team_two, date=bracket_date)
         bracket.put()
     return HttpResponseRedirect('/')
 
