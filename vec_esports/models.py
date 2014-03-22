@@ -11,3 +11,15 @@ class Greeting(db.Model):
     @classmethod
     def get_key_from_name(cls, guestbook_name=None):
         return db.Key.from_path('Guestbook', guestbook_name or 'default_guestbook')
+
+class Team(db.Model):
+    """Models a Team entry with a captain, 4-6 other players, and contact details."""
+    name      = db.StringProperty()
+    captain   = db.StringProperty()
+    member_1  = db.StringProperty()
+    member_2  = db.StringProperty()
+    member_3  = db.StringProperty()
+    member_4  = db.StringProperty()
+    member_5  = db.StringProperty()
+    member_6  = db.StringProperty()
+    contact_email = db.EmailProperty()
