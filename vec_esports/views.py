@@ -8,7 +8,7 @@ from google.appengine.api import users
 from vec_esports.models import *
 
 import urllib
-
+from datetime import datetime
 
 def main_esports(request):
     return direct_to_template(request, 'esports/index.html')
@@ -49,7 +49,9 @@ def bracket_make(request):
         team_one = request.POST.get('teamone')
         team_two = request.POST.get('teamtwo')
         bracket_date =  request.POST.get('date')
-        bracket = Matchup(team_1=team_one, team_2 = team_two, date=bracket_date)
+        format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
+        #print(format_date)
+        bracket = Matchup(team_1=team_one, team_2 = team_two, date=format_date)
         bracket.put()
     return HttpResponseRedirect('/')
 
