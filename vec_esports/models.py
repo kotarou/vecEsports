@@ -23,3 +23,11 @@ class Team(db.Model):
     member_5  = db.StringProperty()
     member_6  = db.StringProperty()
     contact_email = db.EmailProperty()
+
+
+
+class Matchup(db.Model):
+    """Models a matchup between two teams """
+    team_1 = db.ReferenceProperty(Team)
+    team_2 = db.ReferenceProperty(Team)
+    date   = db.DateProperty()
