@@ -14,7 +14,11 @@ def main_esports(request):
     return direct_to_template(request, 'esports/index.html')
 
 def brackets(request):
-    return direct_to_template(request, 'esports/brackets.html')
+    teams = Team.all()
+    baracket_vars = {
+        'teams': teams,
+    }
+    return direct_to_template(request, 'esports/brackets.html', baracket_vars)
 
 def team_register(request):
     if request.method == 'POST':

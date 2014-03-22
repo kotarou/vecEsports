@@ -9,13 +9,13 @@
             {% csrf_token %}
             <h1>Create Team</h1>
             <select name="teamone">
-                {% for team in Team %}
-                <option value={{team}}>{{team}}</option>
+                {% for team in teams %}
+                <option value={{team.name}}>{{team.name}}</option>
                 {% endfor %}
             </select>
             <select name="teamtwo">
-                {% for team in Team %}
-                <option value={{team}}>{{team}}</option>
+                {% for team in teams %}
+                <option value={{team.name}}>{{team.name}}</option>
                 {% endfor %}
             </select>
             <div class="line">Match Date *:<input type="datetime-local" name="date" /></div>
