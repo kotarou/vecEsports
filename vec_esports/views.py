@@ -16,7 +16,6 @@ def main_esports(request):
 def brackets(request):
     return direct_to_template(request, 'esports/brackets.html')
 
-
 def team_register(request):
     if request.method == 'POST':
         team_name = request.POST.get('tmn')
