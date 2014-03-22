@@ -1,3 +1,7 @@
+# The base django urls file.
+# We want to have a url file per application.
+# So this file links to each so called "subfile"
+
 from django.conf.urls import patterns, include, url
 from django.conf.urls.defaults import *
 # Uncomment the next two lines to enable the admin:

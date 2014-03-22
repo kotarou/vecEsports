@@ -1,3 +1,5 @@
+# As per any django project; a views file.
+
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseRedirect
 

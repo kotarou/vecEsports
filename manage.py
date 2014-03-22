@@ -1,3 +1,4 @@
+# Provides the command-line interface for the app.
 #!/usr/bin/env python
 import os
 import sys
