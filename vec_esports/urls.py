@@ -6,5 +6,8 @@ from vec_esports.views import *
 
 urlpatterns = patterns('',
     (r'^reg/$', team_register),
+    (r'^bracket/$', bracket_make),
     (r'^$', main_esports),
+    (r'^test/$', testbook),
+    (r'^brackets.html$', brackets),
 )

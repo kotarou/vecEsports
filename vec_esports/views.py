@@ -13,6 +13,10 @@ import urllib
 def main_esports(request):
     return direct_to_template(request, 'esports/index.html')
 
+def brackets(request):
+    return direct_to_template(request, 'esports/brackets.html')
+
+
 def team_register(request):
     if request.method == 'POST':
         team_name = request.POST.get('tmn')
@@ -36,3 +40,14 @@ def team_register(request):
                     contact_email=team_contact)
         team.put()
     return HttpResponseRedirect('/')
+
+def bracket_make(request):
+    if request.method == 'POST':
+        team_one = request.POST.get('teamone')
+        team_two = request.POST.get('teamtwo')
+        bracket_date =  request.POST.get('date')
+        bracket = Team(key_name=team_name,
+                    contact_email=team_contact)
+        bracket.put()
+    return HttpResponseRedirect('/')
+
