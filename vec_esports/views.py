@@ -17,11 +17,11 @@ data_vars = {
 }
 
 def main_esports(request):
-    main_vars = data_vars
+    main_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', main_vars)
 
 def brackets(request):
-    bracket_vars = data_vars
+    bracket_vars = data_vars.copy()
     if request.method == 'POST':
     # We are adding a new matchup
         bracket_vars.update({'last_operation': "Matchup creation"})
@@ -57,9 +57,14 @@ def brackets(request):
 
 
 def team_register(request):
-    team_vars = data_vars
+    team_vars = data_vars.copy()
     if request.method == 'POST':
         team_name = request.POST.get('tmn')
+
+        # q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_name)
+        # team_one = q.fetch(1)[0]
+        # print(team_one)
+
         team_captain = request.POST.get('cap')
         team_p2 =  request.POST.get('pl2')
         team_p3 =  request.POST.get('pl3')
