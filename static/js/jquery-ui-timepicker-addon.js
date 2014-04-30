@@ -57,7 +57,7 @@
 			showTimezone: null,
 			showTime: true,
 			stepHour: 1,
-			stepMinute: 1,
+			stepMinute: 15,
 			stepSecond: 1,
 			stepMillisec: 1,
 			stepMicrosec: 1,
