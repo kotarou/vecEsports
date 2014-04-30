@@ -11,19 +11,56 @@ import urllib
 from datetime import datetime
 
 def main_esports(request):
-    return direct_to_template(request, 'esports/index.html')
-
-def brackets(request):
-    bracket_vars = {
+    main_vars = {
         'last_operation': "None",
         'lo_value': "",
         'lo_reason': "",
         'teams': Team.all(),
         'matchups': Matchup.all()
     }
-    return direct_to_template(request, 'esports/brackets.html', bracket_vars)
+    return direct_to_template(request, 'esports/index.html', main_vars)
+
+def brackets(request):
+    bracket_vars = {
+        'teams': Team.all(),
+        'matchups': Matchup.all()
+    }
+    if request.method == 'POST':
+    # We are adding a new matchup
+        bracket_vars.update({'last_operation': "Matchup creation"})
+
+        team_one_n = request.POST.get('teamone')
+        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
+        team_one = q.fetch(1)[0]
+        team_two_n = request.POST.get('teamtwo')
+        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
+        team_two = q.fetch(1)[0]
+        
+        print(team_one)
+        print(team_two)
+        
+        #bracket_date =  request.POST.get('date')
+        #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
+        
+        if(team_one.name == team_two.name):
+            # Can't have a team face itself!
+            bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
+        else:
+            bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
+            bracket.put()
+            bracket_vars.update({'last_operation': "Matchup creation", 'lo_value': "Success", 'lo_reason': "Matchup created"})
+    else:
+    # We are merely viewing the bracket page
+        bracket_vars.update({'last_operation': "None"})
+    return direct_to_template(request, "esports/brackets.html", bracket_vars)
+
 
 def team_register(request):
+    team_vars = {
+        'last_operation': "None",
+        'lo_value': "",
+        'lo_reason': ""
+    }
     if request.method == 'POST':
         team_name = request.POST.get('tmn')
         team_captain = request.POST.get('cap')
@@ -45,40 +82,13 @@ def team_register(request):
                     player_7=team_p7,
                     contact_email=team_contact)
         team.put()
-    return HttpResponseRedirect('/')
 
-def bracket_make(request):
-    if request.method == 'POST':
-        team_one_n = request.POST.get('teamone')
-        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
-        team_one = q.fetch(1)[0]
-        team_two_n = request.POST.get('teamtwo')
-        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
-        team_two = q.fetch(1)[0]
-        
-        print(team_one)
-        print(team_two)
-        
-        #bracket_date =  request.POST.get('date')
-        #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
-        
-        if(team_one.name == team_two.name):
-            # Can't have a team face itself!
-            bracket_vars = {
-                'last_operation': "Matchup creation",
-                'lo_value': "Fail",
-                'lo_reason': "A team cannot face itself"
-            }
-            return direct_to_template(request, 'esports/brackets.html', bracket_vars)
-        
-        #print(format_date)
-        bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
-        bracket.put()
-
-        bracket_vars = {
-            'last_operation': "Matchup creation",
+        team_vars = {
+            'last_operation': "Team Registration",
             'lo_value': "Success",
-            'lo_reason': "Matchup created"
+            'lo_reason': ""
         }
-    return direct_to_template(request, 'esports/brackets.html', bracket_vars)
+    return direct_to_template(request, 'esports/team.html', team_vars)
+
+
 

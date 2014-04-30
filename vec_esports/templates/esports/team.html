@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+  </head>
+  <body>
+        {% if last_operation != "None" %}
+        <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong> with response <strong>{{lo_reason}}</strong>
+    {% endif %}
+        <div id="container">
+            <form action="/reg/" method="post">
+                {% csrf_token %}
+                <h1>Create Team</h1>
+                <div class="line">Team Name *: <input type="text" name="tmn" /></div>
+                <div class="line">Team Captain *: <input type="text" name="cap" /></div>
+                <div class="line">Team player 2 *:<input type="text" name="pl2" /></div>
+                <div class="line">Team player 3 *: <input type="text" name="pl3" /></div>
+                <div class="line">Team player 4 *: <input type="text" name="pl4" /></div>
+                <div class="line">Team player 5 *: <input type="text" name="pl5" /></div>
+                <div class="line">Team player 6: <input type="text" name="pl6" /></div>
+                <div class="line">Team player 7: <input type="text" name="pl7" /></div>
+                <div class="line">Contact email *: <input type="text" name="eml" /></div>
+                <div class="line submit"><input type="submit" value="Submit" /></div>
+
+                <p>Note: Please make sure your details are correct before submitting form and that all fields marked with * are completed!.</p>
+            </form>
+        </div>
+        <a href="/">Home</a><br />
+        <a href="/m_bracket">Make a matchup</a> <br />
+  </body>
+</html>
