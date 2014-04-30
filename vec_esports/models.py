@@ -14,11 +14,6 @@ class Team(db.Model):
     sub_2  = db.StringProperty()
     contact_email = db.EmailProperty()
 
-    @classmethod
-    def get_key_from_name(cls, team_name=None):
-        return db.Key.from_path('Team', team_name or 'None')
-
-
 
 class Matchup(db.Model):
     """Models a matchup between two teams """

@@ -14,11 +14,14 @@ def main_esports(request):
     return direct_to_template(request, 'esports/index.html')
 
 def brackets(request):
-    baracket_vars = {
+    bracket_vars = {
+        'last_operation': "None",
+        'lo_value': "",
+        'lo_reason': "",
         'teams': Team.all(),
         'matchups': Matchup.all()
     }
-    return direct_to_template(request, 'esports/brackets.html', baracket_vars)
+    return direct_to_template(request, 'esports/brackets.html', bracket_vars)
 
 def team_register(request):
     if request.method == 'POST':
@@ -59,8 +62,23 @@ def bracket_make(request):
         #bracket_date =  request.POST.get('date')
         #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
         
+        if(team_one.name == team_two.name):
+            # Can't have a team face itself!
+            bracket_vars = {
+                'last_operation': "Matchup creation",
+                'lo_value': "Fail",
+                'lo_reason': "A team cannot face itself"
+            }
+            return direct_to_template(request, 'esports/brackets.html', bracket_vars)
+        
         #print(format_date)
         bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
         bracket.put()
-    return HttpResponseRedirect('/')
+
+        bracket_vars = {
+            'last_operation': "Matchup creation",
+            'lo_value': "Success",
+            'lo_reason': "Matchup created"
+        }
+    return direct_to_template(request, 'esports/brackets.html', bracket_vars)
 
