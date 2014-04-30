@@ -37,14 +37,14 @@ def brackets(request):
         print(team_two)
         bracket_date =  request.POST.get('date')
         print(bracket_date)
-        #bracket_date =  request.POST.get('date')
-        #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
-        
+        # Needs error check for date format
+        format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
+
         if(team_one.name == team_two.name):
             # Can't have a team face itself!
             bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
+            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date)
             bracket.put()
             bracket_vars.update({
                 'last_operation': "Matchup creation", 

@@ -21,7 +21,7 @@ class Matchup(db.Model):
     team_2 = db.ReferenceProperty(Team, collection_name= "T2")
     #team_1 = db.StringProperty()
     #team_2 = db.StringProperty()
-    #date   = db.DateTimeProperty()
+    date   = db.DateTimeProperty()
 
 
 class Player(db.Model):
