@@ -25,15 +25,19 @@
                 {% endfor %}
             </select>
             <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+            <link rel="stylesheet" href="/static/css/jquery-ui-timepicker-addon.css">
             <script src="//code.jquery.com/jquery-1.10.2.js"></script>
             <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+            <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
             <script>
             $(function() {
-            $( "#datepicker" ).datepicker();
+            $( "#datepicker" ).datetimepicker();
             });
             </script>
             <div class="line">Match Date *:<input type="text" name="date" id="datepicker" /></div>
             <div class="line submit"><input type="submit" value="Submit" /></div>
+
+
         </form>
     </div>
     <a href="/">Home</a> <br />
