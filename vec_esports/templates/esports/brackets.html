@@ -4,11 +4,14 @@
 </head>
   <body>
     {% if last_operation != "None" %}
-        <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong> with response <strong>{{lo_reason}}</strong>
+        <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong>
+        {% if lo_value != "Success" %}
+            with response <strong>{{lo_reason}}</strong>
+        {% endif %}
     {% endif %}
 
     <div id="container">
-        <form action="/bracket/" method="post">
+        <form action="/m_bracket/" method="post">
             {% csrf_token %}
             <h1>Create Matchup</h1>
             <select name="teamone">
@@ -25,11 +28,8 @@
             <div class="line submit"><input type="submit" value="Submit" /></div>
         </form>
     </div>
-    Current brackets are:
-    <br />
-    {% for matchup in matchups %}
-        {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
-    {% endfor %}
+    <a href="/">Home</a> <br />
+    <a href="/m_team">Register a team</a>
   </body>
 </html>
 

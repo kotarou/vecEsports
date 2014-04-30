@@ -7,7 +7,7 @@
         <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong> with response <strong>{{lo_reason}}</strong>
     {% endif %}
         <div id="container">
-            <form action="/reg/" method="post">
+            <form action="/m_team/" method="post">
                 {% csrf_token %}
                 <h1>Create Team</h1>
                 <div class="line">Team Name *: <input type="text" name="tmn" /></div>

@@ -10,21 +10,18 @@ from vec_esports.models import *
 import urllib
 from datetime import datetime
 
+data_vars = {
+    'last_operation': "None",
+    'teams': Team.all(),
+    'matchups': Matchup.all()
+}
+
 def main_esports(request):
-    main_vars = {
-        'last_operation': "None",
-        'lo_value': "",
-        'lo_reason': "",
-        'teams': Team.all(),
-        'matchups': Matchup.all()
-    }
+    main_vars = data_vars
     return direct_to_template(request, 'esports/index.html', main_vars)
 
 def brackets(request):
-    bracket_vars = {
-        'teams': Team.all(),
-        'matchups': Matchup.all()
-    }
+    bracket_vars = data_vars
     if request.method == 'POST':
     # We are adding a new matchup
         bracket_vars.update({'last_operation': "Matchup creation"})
@@ -48,19 +45,19 @@ def brackets(request):
         else:
             bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
             bracket.put()
-            bracket_vars.update({'last_operation': "Matchup creation", 'lo_value': "Success", 'lo_reason': "Matchup created"})
-    else:
+            bracket_vars.update({
+                'last_operation': "Matchup creation", 
+                'lo_value': "Success", 
+                'lo_reason': "Matchup created"
+            })
+    #else:
     # We are merely viewing the bracket page
-        bracket_vars.update({'last_operation': "None"})
+
     return direct_to_template(request, "esports/brackets.html", bracket_vars)
 
 
 def team_register(request):
-    team_vars = {
-        'last_operation': "None",
-        'lo_value': "",
-        'lo_reason': ""
-    }
+    team_vars = data_vars
     if request.method == 'POST':
         team_name = request.POST.get('tmn')
         team_captain = request.POST.get('cap')
@@ -83,11 +80,11 @@ def team_register(request):
                     contact_email=team_contact)
         team.put()
 
-        team_vars = {
+        team_vars.update({
             'last_operation': "Team Registration",
             'lo_value': "Success",
             'lo_reason': ""
-        }
+        })
     return direct_to_template(request, 'esports/team.html', team_vars)
 
 
