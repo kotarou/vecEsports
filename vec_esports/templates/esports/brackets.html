@@ -23,9 +23,9 @@
         </form>
     </div>
     Current brackets are:
-
-    {% for matchup in Matchup %}
-        {{matchup.Team1.name}} Vs {{matchup.Team2.name}} on {{matchup.Date.name}}
+    <br />
+    {% for matchup in matchups %}
+        {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
     {% endfor %}
   </body>
 </html>

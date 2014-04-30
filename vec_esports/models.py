@@ -10,17 +10,23 @@ class Team(db.Model):
     player_3  = db.StringProperty()
     player_4  = db.StringProperty()
     player_5  = db.StringProperty()
-    player_6  = db.StringProperty()
-    player_7  = db.StringProperty()
+    sub_1  = db.StringProperty()
+    sub_2  = db.StringProperty()
     contact_email = db.EmailProperty()
+
+    @classmethod
+    def get_key_from_name(cls, team_name=None):
+        return db.Key.from_path('Team', team_name or 'None')
+
+
 
 class Matchup(db.Model):
     """Models a matchup between two teams """
-    #team_1 = db.ReferenceProperty(Team, collection_name= "T1")
-    #team_2 = db.ReferenceProperty(Team, collection_name= "T2")
-    team_1 = db.StringProperty()
-    team_2 = db.StringProperty()
-    date   = db.DateTimeProperty()
+    team_1 = db.ReferenceProperty(Team, collection_name= "T1")
+    team_2 = db.ReferenceProperty(Team, collection_name= "T2")
+    #team_1 = db.StringProperty()
+    #team_2 = db.StringProperty()
+    #date   = db.DateTimeProperty()
 
 
 class Player(db.Model):

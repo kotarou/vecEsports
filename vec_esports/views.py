@@ -14,9 +14,9 @@ def main_esports(request):
     return direct_to_template(request, 'esports/index.html')
 
 def brackets(request):
-    teams = Team.all()
     baracket_vars = {
-        'teams': teams,
+        'teams': Team.all(),
+        'matchups': Matchup.all()
     }
     return direct_to_template(request, 'esports/brackets.html', baracket_vars)
 
@@ -46,12 +46,21 @@ def team_register(request):
 
 def bracket_make(request):
     if request.method == 'POST':
-        team_one = request.POST.get('teamone')
-        team_two = request.POST.get('teamtwo')
-        bracket_date =  request.POST.get('date')
-        format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
+        team_one_n = request.POST.get('teamone')
+        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
+        team_one = q.fetch(1)[0]
+        team_two_n = request.POST.get('teamtwo')
+        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
+        team_two = q.fetch(1)[0]
+        
+        print(team_one)
+        print(team_two)
+        
+        #bracket_date =  request.POST.get('date')
+        #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
+        
         #print(format_date)
-        bracket = Matchup(team_1=team_one, team_2 = team_two, date=format_date)
+        bracket = Matchup(team_1 = team_one, team_2 = team_two)#, date=format_date)
         bracket.put()
     return HttpResponseRedirect('/')
 
