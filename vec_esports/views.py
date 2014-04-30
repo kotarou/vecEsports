@@ -35,7 +35,8 @@ def brackets(request):
         
         print(team_one)
         print(team_two)
-        
+        bracket_date =  request.POST.get('date')
+        print(bracket_date)
         #bracket_date =  request.POST.get('date')
         #format_date = datetime.strptime(bracket_date, '%Y-%m-%dT%H:%M')
         
