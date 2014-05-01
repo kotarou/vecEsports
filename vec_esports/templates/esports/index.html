@@ -4,18 +4,39 @@
   </head>
   <body>
 
-    Current teams are:
+    Current LoL teams are:
     <br />
     {% for team in teams %}
-        {{team.name}} <br />
+        {% if team.game = "lol" %}
+            {{team.name}} <br />
+        {% endif %}
+    {% endfor %}
+    <br />
+    Current DOTA2 teams are:
+    <br />
+    {% for team in teams %}
+        {% if team.game = "dota" %}
+            {{team.name}} <br />
+        {% endif %}
     {% endfor %}
 
     <br />
     <br />
-    Current brackets are:
+    Current LoL brackets are:
     <br />
     {% for matchup in matchups %}
-        {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+        {% if matchup.game = "lol" %}
+            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+        {% endif %}
+    {% endfor %}
+    
+    <br />
+    Current DOTA2 brackets are:
+    <br />
+    {% for matchup in matchups %}
+        {% if matchup.game = "dota" %}
+            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+        {% endif %}
     {% endfor %}
     
     <br />

@@ -13,6 +13,10 @@
             <form action="/m_team/" method="post">
                 {% csrf_token %}
                 <h1>Create Team</h1>
+                <select name="game">
+                    <option value="lol">League of Legends</option>
+                    <option value="dota">DOTA2</option>
+                </select>
                 <div class="line">Team Name *: <input type="text" name="tmn" /></div>
                 <div class="line">Team Captain *: <input type="text" name="cap" /></div>
                 <div class="line">Team player 2 *:<input type="text" name="pl2" /></div>

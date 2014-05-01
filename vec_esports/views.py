@@ -25,7 +25,7 @@ def brackets(request):
     if request.method == 'POST':
     # We are adding a new matchup
         bracket_vars.update({'last_operation': "Matchup creation"})
-
+        game = request.POST.get('game')
         team_one_n = request.POST.get('teamone')
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
         team_one = q.fetch(1)[0]
@@ -33,10 +33,7 @@ def brackets(request):
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
         team_two = q.fetch(1)[0]
         
-        print(team_one)
-        print(team_two)
         bracket_date =  request.POST.get('date')
-        print(bracket_date)
         # Needs error check for date format
         format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
 
@@ -44,7 +41,7 @@ def brackets(request):
             # Can't have a team face itself!
             bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date)
+            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game)
             bracket.put()
             bracket_vars.update({
                 'last_operation': "Matchup creation", 
@@ -71,6 +68,7 @@ def team_register(request):
                 'lo_reason': "Team already exists"
             })
         else:
+            team_game = request.POST.get('game')
             team_captain = request.POST.get('cap')
             team_p2 =  request.POST.get('pl2')
             team_p3 =  request.POST.get('pl3')
@@ -80,6 +78,7 @@ def team_register(request):
             team_p7 =  request.POST.get('pl7')
             team_contact =  request.POST.get('eml')
             team = Team(key_name=team_name,
+                        game=team_game,
                         name=team_name,
                         captain=team_captain,
                         player_2=team_p2,
