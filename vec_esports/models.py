@@ -22,8 +22,10 @@ class Matchup(db.Model):
     team_2  = db.ReferenceProperty(Team, collection_name= "T2")
     game    = db.StringProperty()
     m_type  = db.StringProperty()
+    m_class = db.StringProperty()
     date    = db.DateTimeProperty()
     m_id    = db.StringProperty()
+    completed = db.BooleanProperty()
 
 class Result(db.Model):
     """Models a matchup between two teams. Results are stored as integers showing each teams number of wins in the match """

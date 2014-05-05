@@ -40,6 +40,10 @@ def results(request):
             'lo_value': "Success",
             'lo_reason': "Result created"
         })
+
+        match_id.completed = True
+        match_id.put()
+
     return direct_to_template(request, 'esports/results.html', res_vars)
 
 def brackets(request):
@@ -60,6 +64,7 @@ def brackets(request):
         format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
 
         matchtype =  request.POST.get('m_type')
+        matchclass =  request.POST.get('m_class')
 
 
         q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
@@ -70,7 +75,7 @@ def brackets(request):
             # Can't have a team face itself!
             bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid)
+            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
             bracket.put()
             bracket_vars.update({
                 'last_operation': "Matchup creation",

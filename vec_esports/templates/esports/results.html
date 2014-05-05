@@ -16,7 +16,9 @@
             <h1>Set match results</h1>
             <select name="match">
                 {% for match in matchups %}
+                    {% if not match.completed %}
                         <option value={{match.m_id}}>({{match.game}})({{match.m_type}}) {{match.team_1.name}} vs {{match.team_2.name}} on {{match.date}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
             <div class="line">Score for team 1:<input type="text" name="sc1"/></div>
