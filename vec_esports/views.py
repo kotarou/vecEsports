@@ -163,7 +163,8 @@ def team_register(request):
                             sub_1=team_p6,
                             sub_2=team_p7,
                             contact_email=team_contact,
-                            active=True)
+                            active=True,
+                            paid=False)
                 team.put()
                 team_vars.update({
                     'last_operation': "Team Registration",

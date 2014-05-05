@@ -15,6 +15,7 @@ class Team(db.Model):
     sub_2     = db.StringProperty()
     contact_email = db.EmailProperty()
     active = db.BooleanProperty()
+    paid = db.BooleanProperty()
 
 
 class Matchup(db.Model):
