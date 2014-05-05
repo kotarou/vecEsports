@@ -17,13 +17,14 @@
 
         {% for s_game, l_game in games.items %}
             Current {{l_game}} teams are:
-            <ul>
+            <table>
             {% for team in teams %}
                 {% if team.game = s_game and team.active %}
-                    <li> {{team.name}} </li>
+                    <tr><td width="50px"></td><td> {{team.name}} </td></tr>
                 {% endif %}
             {% endfor %}
-            </ul>
+            </table>
+            <br />
         {% endfor %}
 
         {% for s_game, l_game in games.items %}
@@ -40,10 +41,10 @@
                     {% endif %}
                 </table>
             {% endfor %}
+            <br />
         {% endfor %}
-
         {% for s_game, l_game in games.items %}
-            Recent {{l_name}} results:
+            Recent {{l_game}} results:
             {% for result in results %}
             <table>
                 {% if result.match.game = s_game %}
@@ -57,6 +58,7 @@
                 {% endif %}
             </table>
             {% endfor %}
+            <br />
         {% endfor %}
         
         <a href="/m_team">Register a team</a>
