@@ -18,7 +18,7 @@ class Team(db.Model):
 
 
 class Matchup(db.Model):
-    """Models a matchup between two teams. Match type is a string BO1 BO3 etc """
+    """Models a matchup between two teams. Match type is a string BO1 BO3 etc. Match class is roundrobin / final / etc """
     team_1  = db.ReferenceProperty(Team, collection_name= "T1")
     team_2  = db.ReferenceProperty(Team, collection_name= "T2")
     game    = db.StringProperty()

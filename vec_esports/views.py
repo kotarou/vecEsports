@@ -19,6 +19,14 @@ data_vars = {
     'results': Result.all()
 }
 
+match_lengths = {
+    'BO1': 1,
+    'BO2': 2,
+    'BO3': 3,
+    'BO5': 5,
+    'Informal': 1
+}
+
 def main_esports(request):
     main_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', main_vars)
@@ -38,16 +46,27 @@ def results(request):
 
         q = db.GqlQuery('SELECT * FROM Matchup WHERE m_id = :1', match_string)
         match_id = q.fetch(1)[0]
-        result = Result(match=match_id, score_1 = score1, score_2=score2)
-        result.put()
-        res_vars.update({
-            'last_operation': "Result creation",
-            'lo_value': "Success",
-            'lo_reason': "Result created"
-        })
 
-        match_id.completed = True
-        match_id.put()
+        m_length = match_lengths[match_id.m_type]
+        if int(score1) + int(score2) != m_length:
+            # The result is invalid because it contains the wrong number of games
+            res_vars.update({
+                'last_operation': "Result creation",
+                'lo_value': "Fail",
+                'lo_reason': "Incorect number of games"
+            })
+        else:
+            # The result is valid
+            result = Result(match=match_id, score_1 = score1, score_2=score2)
+            result.put()
+            res_vars.update({
+                'last_operation': "Result creation",
+                'lo_value': "Success",
+                'lo_reason': "Result created"
+            })
+
+            match_id.completed = True
+            match_id.put()
 
     return direct_to_template(request, 'esports/results.html', res_vars)
 
