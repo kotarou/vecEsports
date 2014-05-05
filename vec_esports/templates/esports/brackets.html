@@ -25,13 +25,21 @@
             {% csrf_token %}
             <h1>Create LoL Matchup</h1>
             <input type="hidden" name="game" value="lol">
+            <select name="m_type">
+                <option value="BO1">Single Game</option>
+                <option value="BO2">Double Game</option>
+                <option value="BO3">Best of 3</option>
+                <option value="BO5">Best of 5</option>
+                <option value="Informal">Informal game</option>
+            </select>
+            <br />
             <select name="teamone">
                 {% for team in teams %}
                     {% if team.game = "lol" %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
-            </select>
+            </select> VS
             <select name="teamtwo">
                 {% for team in teams %}
                     {% if team.game = "lol" %}
@@ -48,13 +56,21 @@
             {% csrf_token %}
             <h1>Create DOTA2 Matchup</h1>
             <input type="hidden" name="game" value="dota">
+            <select name="m_type">
+                <option value="BO1">Single Game</option>
+                <option value="BO2">Double Game</option>
+                <option value="BO3">Best of 3</option>
+                <option value="BO5">Best of 5</option>
+                <option value="Informal">Informal game</option>
+            </select>
+            <br />
             <select name="teamone">
                 {% for team in teams %}
                     {% if team.game = "dota" %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
-            </select>
+            </select> VS
             <select name="teamtwo">
                 {% for team in teams %}
                     {% if team.game = "dota" %}

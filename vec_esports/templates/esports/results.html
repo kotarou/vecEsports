@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+</head>
+  <body>
+    {% if last_operation != "None" %}
+        <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong>
+        {% if lo_value != "Success" %}
+            with response <strong>{{lo_reason}}</strong>
+        {% endif %}
+    {% endif %}
+
+    <div id="container">
+        <form action="/m_result/" method="post">
+            {% csrf_token %}
+            <h1>Set match results</h1>
+            <select name="match">
+                {% for match in matchups %}
+                        <option value={{match.m_id}}>({{match.game}})({{match.m_type}}) {{match.team_1.name}} vs {{match.team_2.name}} on {{match.date}}</option>
+                {% endfor %}
+            </select>
+            <div class="line">Score for team 1:<input type="text" name="sc1"/></div>
+            <div class="line">Score for team 2:<input type="text" name="sc2"/></div>
+            <div class="line submit"><input type="submit" value="Submit" /></div>
+        </form>
+
+    </div>
+    <a href="/">Home</a> <br />
+
+  </body>
+</html>
+
+

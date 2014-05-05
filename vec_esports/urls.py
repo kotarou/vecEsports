@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     (r'^m_team/$', team_register),
     (r'^$', main_esports),
     (r'^m_bracket/$', brackets),
+    (r'^m_result/$', results),
 )

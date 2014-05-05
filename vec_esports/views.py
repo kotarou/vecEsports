@@ -13,12 +13,34 @@ from datetime import datetime
 data_vars = {
     'last_operation': "None",
     'teams': Team.all(),
-    'matchups': Matchup.all()
+    'matchups': Matchup.all(),
+    'results': Result.all()
 }
 
 def main_esports(request):
     main_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', main_vars)
+
+def results(request):
+    res_vars = data_vars.copy()
+    if request.method == 'POST':
+    # We are adding a new result
+        match_string = request.POST.get('match')
+        score1 = request.POST.get('sc1')
+        score2 = request.POST.get('sc2')
+
+        print(match_string)
+
+        q = db.GqlQuery('SELECT * FROM Matchup WHERE m_id = :1', match_string)
+        match_id = q.fetch(1)[0]
+        result = Result(match=match_id, score_1 = score1, score_2=score2)
+        result.put()
+        res_vars.update({
+            'last_operation': "Result creation",
+            'lo_value': "Success",
+            'lo_reason': "Result created"
+        })
+    return direct_to_template(request, 'esports/results.html', res_vars)
 
 def brackets(request):
     bracket_vars = data_vars.copy()
@@ -32,20 +54,27 @@ def brackets(request):
         team_two_n = request.POST.get('teamtwo')
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
         team_two = q.fetch(1)[0]
-        
+
         bracket_date =  request.POST.get('date')
         # Needs error check for date format
         format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
+
+        matchtype =  request.POST.get('m_type')
+
+
+        q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
+        matchlist = q.fetch(limit=100)
+        matchid = game + "." + team_one.name + "." + team_two.name + "." + str(len(matchlist))
 
         if(team_one.name == team_two.name):
             # Can't have a team face itself!
             bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game)
+            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid)
             bracket.put()
             bracket_vars.update({
-                'last_operation': "Matchup creation", 
-                'lo_value': "Success", 
+                'last_operation': "Matchup creation",
+                'lo_value': "Success",
                 'lo_reason': "Matchup created"
             })
     #else:

@@ -26,21 +26,38 @@
     <br />
     {% for matchup in matchups %}
         {% if matchup.game = "lol" %}
-            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+            ( {{matchup.m_type}} ) {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
         {% endif %}
     {% endfor %}
-    
+
     <br />
     Current DOTA2 brackets are:
     <br />
     {% for matchup in matchups %}
         {% if matchup.game = "dota" %}
-            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+            ( {{matchup.m_type}} ) {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
         {% endif %}
     {% endfor %}
-    
+
     <br />
     <br />
+
+    Recent LoL results are:
+    <br />
+    {% for result in results %}
+        {% if result.match.game = "lol" %}
+            {{result.match.team_1.name}} ( {{result.score_1}} ) Vs {{result.match.team_2.name}} ( {{result.score_2}} ) <br />
+        {% endif %}
+    {% endfor %}
+
+    <br />
+    Recent DOTA2 results are:
+    <br />
+    {% for matchup in matchups %}
+        {% if matchup.game = "dota" %}
+            ( {{matchup.m_type}} ) {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
+        {% endif %}
+    {% endfor %}
     <a href="/m_bracket">Make a matchup</a> <br />
     <a href="/m_team">Register a team</a>
 
