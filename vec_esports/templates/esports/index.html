@@ -1,50 +1,63 @@
 <html>
-  <head>
-    <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
-  </head>
-  <body>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+    </head>
+    <body>
+        Current LoL teams are:
+        <ul>
+        {% for team in teams %}
+            {% if team.game = "lol" %}
+                <li> {{team.name}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 
-    Current LoL teams are:
+        Current DOTA2 teams are:
+        <ul>
+        {% for team in teams %}
+            {% if team.game = "dota" %}
+                <li> {{team.name}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 
-      <ul>
-    {% for team in teams %}
-        {% if team.game = "lol" %}
-          <li> {{team.name}} </li>
-        {% endif %}
-    {% endfor %}
-      </ul>
-    Current DOTA2 teams are:
+        <br />
+        <br />
+        Upcoming LoL matches:
+        <ul>
+        {% for matchup in matchups %}
+            {% if matchup.game = "lol" %}
+                <li>{{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 
-       <ul>
-    {% for team in teams %}
-        {% if team.game = "dota" %}
-           <li> {{team.name}} </li>
-        {% endif %}
-    {% endfor %}
-</ul>
-    <br />
-    <br />
-    Current LoL brackets are:
-    <br />
-    {% for matchup in matchups %}
-        {% if matchup.game = "lol" %}
-            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
-        {% endif %}
-    {% endfor %}
+        Upcoming DOTA2 matches:
+        <ul>
+        {% for matchup in matchups %}
+            {% if matchup.game = "dota" %}
+                <li>{{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 
-    <br />
-    Current DOTA2 brackets are:
-    <br />
-    {% for matchup in matchups %}
-        {% if matchup.game = "dota" %}
-            {{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} <br />
-        {% endif %}
-    {% endfor %}
+        Recent LoL results:
+        <ul>
+        {% for matchup in matchups %}
+            {% if result.match.game = "lol" %}
+                <li>{{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 
-    <br />
-    <br />
-    <a href="/m_team">Register a team</a>
-
-
-  </body>
+        Recent DOTA2 results:
+        <ul>
+        {% for result in results %}
+            {% if result.match.game = "dota" %}
+                <li>{{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <a href="/m_team">Register a team</a>
+    </body>
 </html>
