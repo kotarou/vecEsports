@@ -114,8 +114,8 @@ def team_register(request):
                         player_3=team_p3,
                         player_4=team_p4,
                         player_5=team_p5,
-                        player_6=team_p6,
-                        player_7=team_p7,
+                        sub_1=team_p6,
+                        sub_2=team_p7,
                         contact_email=team_contact)
             team.put()
             team_vars.update({
