@@ -5,21 +5,23 @@
   <body>
 
     Current LoL teams are:
-    <br />
+
+      <ul>
     {% for team in teams %}
         {% if team.game = "lol" %}
-            {{team.name}} <br />
+          <li> {{team.name}} </li>
         {% endif %}
     {% endfor %}
-    <br />
+      </ul>
     Current DOTA2 teams are:
-    <br />
+
+       <ul>
     {% for team in teams %}
         {% if team.game = "dota" %}
-            {{team.name}} <br />
+           <li> {{team.name}} </li>
         {% endif %}
     {% endfor %}
-
+</ul>
     <br />
     <br />
     Current LoL brackets are:
