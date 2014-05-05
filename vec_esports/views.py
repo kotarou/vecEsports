@@ -32,7 +32,7 @@ def brackets(request):
         team_two_n = request.POST.get('teamtwo')
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
         team_two = q.fetch(1)[0]
-        
+
         bracket_date =  request.POST.get('date')
         # Needs error check for date format
         format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
@@ -44,8 +44,8 @@ def brackets(request):
             bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game)
             bracket.put()
             bracket_vars.update({
-                'last_operation': "Matchup creation", 
-                'lo_value': "Success", 
+                'last_operation': "Matchup creation",
+                'lo_value': "Success",
                 'lo_reason': "Matchup created"
             })
     #else:
@@ -85,8 +85,8 @@ def team_register(request):
                         player_3=team_p3,
                         player_4=team_p4,
                         player_5=team_p5,
-                        player_6=team_p6,
-                        player_7=team_p7,
+                        sub_1=team_p6,
+                        sub_2=team_p7,
                         contact_email=team_contact)
             team.put()
             team_vars.update({
