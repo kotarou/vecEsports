@@ -12,11 +12,17 @@ from vec_esports.models import *
 import urllib
 from datetime import datetime
 
+games = {
+    'lol': "League of Legends",
+    'dota': "DOTA2"
+}
+
 data_vars = {
     'last_operation': "None",
     'teams': Team.all(),
     'matchups': Matchup.all(),
-    'results': Result.all()
+    'results': Result.all(),
+    'games': games
 }
 
 match_lengths = {
@@ -26,6 +32,8 @@ match_lengths = {
     'BO5': 5,
     'Informal': 1
 }
+
+
 
 def main_esports(request):
     main_vars = data_vars.copy()

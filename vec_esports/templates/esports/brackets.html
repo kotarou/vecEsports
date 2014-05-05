@@ -1,16 +1,16 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
-                <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-                <link rel="stylesheet" href="/static/css/jquery-ui-timepicker-addon.css">
-                <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-                <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-                <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
-                <script>
-                    $(function() {
-                    $( ".datepicker" ).datetimepicker();
-                    });
-                </script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/static/css/jquery-ui-timepicker-addon.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
+    <script>
+        $(function() {
+            $( ".datepicker" ).datetimepicker();
+        });
+    </script>
 </head>
   <body>
     {% if last_operation != "None" %}
@@ -20,86 +20,49 @@
         {% endif %}
     {% endif %}
 
+    
     <div id="container">
-        <form action="/m_bracket/" method="post">
-            {% csrf_token %}
-            <h1>Create LoL Matchup</h1>
-            <input type="hidden" name="game" value="lol">
-            <select name="m_type">
-                <option value="BO1">Single Game</option>
-                <option value="BO2">Double Game</option>
-                <option value="BO3">Best of 3</option>
-                <option value="BO5">Best of 5</option>
-            </select>
-            <select name="m_class">
-                <option value="Informal">Informal game</option>
-                <option value="Swiss">Swiss</option>
-                <option value="Round Robin">Round robin</option>
-                <option value="Upper Bracket">Upper bracket match</option>
-                <option value="Lower Bracket">Lower bracket match</option>
-                <option value="Quarterfinal">Quarterfinal</option>
-                <option value="Semifinal">Semifinal</option>
-                <option value="Final">Final</option>
-            </select>
-            <br />
-            <select name="teamone">
-                {% for team in teams %}
-                    {% if team.game = "lol" and team.active %}
-                        <option value={{team.name|urlencode}}>{{team.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select> VS
-            <select name="teamtwo">
-                {% for team in teams %}
-                    {% if team.game = "lol" and team.active %}
-                        <option value={{team.name|urlencode}}>{{team.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <div class="line">Match Date *:<input type="text" name="date" class="datepicker" /></div>
-            <div class="line submit"><input type="submit" value="Submit" /></div>
-        </form>
+        {% for s_game, l_game in games.items %}
+            <form action="/m_bracket/" method="post">
+                {% csrf_token %}
+                <h1>Create {{l_game}} Matchup</h1>
+                <input type="hidden" name="game" value={{s_game}}>
+                <select name="m_type">
+                    <option value="BO1">Single Game</option>
+                    <option value="BO2">Double Game</option>
+                    <option value="BO3">Best of 3</option>
+                    <option value="BO5">Best of 5</option>
+                </select>
+                <select name="m_class">
+                    <option value="Informal">Informal game</option>
+                    <option value="Swiss">Swiss</option>
+                    <option value="Round Robin">Round robin</option>
+                    <option value="Upper Bracket">Upper bracket match</option>
+                    <option value="Lower Bracket">Lower bracket match</option>
+                    <option value="Quarterfinal">Quarterfinal</option>
+                    <option value="Semifinal">Semifinal</option>
+                    <option value="Final">Final</option>
+                </select>
+                <br />
+                <select name="teamone">
+                    {% for team in teams %}
+                        {% if team.game = s_game and team.active %}
+                            <option value={{team.name|urlencode}}>{{team.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select> VS
+                <select name="teamtwo">
+                    {% for team in teams %}
+                        {% if team.game = s_game and team.active %}
+                            <option value={{team.name|urlencode}}>{{team.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="line">Match Date *:<input type="text" name="date" class="datepicker" /></div>
+                <div class="line submit"><input type="submit" value="Submit" /></div>
+            </form>
+        {% endfor %}
 
-
-        <form action="/m_bracket/" method="post">
-            {% csrf_token %}
-            <h1>Create DOTA2 Matchup</h1>
-            <input type="hidden" name="game" value="dota">
-            <select name="m_type">
-                <option value="BO1">Single Game</option>
-                <option value="BO2">Double Game</option>
-                <option value="BO3">Best of 3</option>
-                <option value="BO5">Best of 5</option>
-                <option value="Informal">Informal game</option>
-            </select>
-            <select name="m_class">
-                <option value="Informal">Informal game</option>
-                <option value="Swiss">Swiss</option>
-                <option value="Round Robin">Round robin</option>
-                <option value="Upper Bracket">Upper bracket match</option>
-                <option value="Lower Bracket">Lower bracket match</option>
-                <option value="Quarterfinal">Quarterfinal</option>
-                <option value="Semifinal">Semifinal</option>
-                <option value="Final">Final</option>
-            </select>
-            <br />
-            <select name="teamone">
-                {% for team in teams %}
-                    {% if team.game = "dota" and team.active %}
-                        <option value={{team.name|urlencode}}>{{team.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select> VS
-            <select name="teamtwo">
-                {% for team in teams %}
-                    {% if team.game = "dota" and team.active %}
-                        <option value={{team.name|urlencode}}>{{team.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <div class="line">Match Date *:<input type="text" name="date" class="datepicker" /></div>
-            <div class="line submit"><input type="submit" value="Submit" /></div>
-        </form>
 
     </div>
     <a href="/">Home</a> <br />
