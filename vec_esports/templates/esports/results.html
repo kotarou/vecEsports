@@ -17,7 +17,7 @@
             <select name="match">
                 {% for match in matchups %}
                     {% if not match.completed %}
-                        <option value={{match.m_id}}>({{match.game}})({{match.m_type}}) {{match.team_1.name}} vs {{match.team_2.name}} on {{match.date}}</option>
+                        <option value={{match.m_id|urlencode}}>({{match.game}})({{match.m_type}}) {{match.team_1.name}} vs {{match.team_2.name}} on {{match.date}}</option>
                     {% endif %}
                 {% endfor %}
             </select>

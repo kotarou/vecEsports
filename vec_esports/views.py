@@ -2,6 +2,8 @@
 
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseRedirect
+from django.template.defaultfilters import stringfilter
+from urllib import unquote
 
 from google.appengine.api import users
 
@@ -25,11 +27,14 @@ def results(request):
     res_vars = data_vars.copy()
     if request.method == 'POST':
     # We are adding a new result
-        match_string = request.POST.get('match')
+        match_string = unquote(request.POST.get('match'))
         score1 = request.POST.get('sc1')
         score2 = request.POST.get('sc2')
 
-        print(match_string)
+        if score1 == '':
+            score1 = '0'
+        if score2 == '':
+            score2 = '0'
 
         q = db.GqlQuery('SELECT * FROM Matchup WHERE m_id = :1', match_string)
         match_id = q.fetch(1)[0]
@@ -52,10 +57,10 @@ def brackets(request):
     # We are adding a new matchup
         bracket_vars.update({'last_operation': "Matchup creation"})
         game = request.POST.get('game')
-        team_one_n = request.POST.get('teamone')
+        team_one_n = unquote(request.POST.get('teamone'))
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
         team_one = q.fetch(1)[0]
-        team_two_n = request.POST.get('teamtwo')
+        team_two_n = unquote(request.POST.get('teamtwo'))
         q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
         team_two = q.fetch(1)[0]
 
@@ -94,7 +99,7 @@ def team_register(request):
 
         if 'r_team' in request.POST:
             # Team re-registration
-            team_name = request.POST.get('r_team')
+            team_name = unquote(request.POST.get('r_team'))
             q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_name)
             team = q.fetch(1)[0]
             team.active = True
