@@ -58,10 +58,24 @@
                         {% endif %}
                     {% endfor %}
                 </select>
-                <div class="line">Match Date *:<input type="text" name="date" class="datepicker" /></div>
+                <div class="line">Match Date:<input type="text" name="date" class="datepicker" /></div>
                 <div class="line submit"><input type="submit" value="Submit" /></div>
             </form>
         {% endfor %}
+        
+        <form action="/m_bracket/" method="post">
+            <h1> Update match with time </h1>
+            {% csrf_token %}
+            <select name="matchaddtime">
+                {% for matchup in matchups %}
+                    {% if matchup.date = None %}
+                        <option value={{matchup.m_id|urlencode}}>({{matchup.game}}) - {{matchup.m_type}}/{{matchup.m_class}} - {{matchup.team_1.name}} vs {{matchup.team_2.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <div class="line">Match Date:<input type="text" name="date" class="datepicker" /></div>
+            <div class="line submit"><input type="submit" value="Submit" /></div>
+            </form>
 
 
     </div>

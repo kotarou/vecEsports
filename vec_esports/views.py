@@ -33,8 +33,6 @@ match_lengths = {
     'Informal': 1
 }
 
-
-
 def main_esports(request):
     main_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', main_vars)
@@ -81,42 +79,62 @@ def results(request):
 def brackets(request):
     bracket_vars = data_vars.copy()
     if request.method == 'POST':
-    # We are adding a new matchup
-        bracket_vars.update({'last_operation': "Matchup creation"})
-        game = request.POST.get('game')
-        team_one_n = unquote(request.POST.get('teamone'))
-        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
-        team_one = q.fetch(1)[0]
-        team_two_n = unquote(request.POST.get('teamtwo'))
-        q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
-        team_two = q.fetch(1)[0]
-
-        bracket_date =  request.POST.get('date')
-        # Needs error check for date format
-        format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
-
-        matchtype =  request.POST.get('m_type')
-        matchclass =  request.POST.get('m_class')
-
-
-        q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
-        matchlist = q.fetch(limit=100)
-        matchid = game + "." + team_one.name + "." + team_two.name + "." + str(len(matchlist))
-
-        if(team_one.name == team_two.name):
-            # Can't have a team face itself!
-            bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
-        elif(format_date < datetime.now()):
-            # Can't have a game in the past
-            bracket_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
+        if 'matchaddtime' in request.POST:
+            #We are modifying an old matchup
+            matchid = unquote(request.POST.get('matchaddtime'))
+            bracket_vars.update({'last_operation': "Matchup modification"})
+            bracket_date =  request.POST.get('date')
+            format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
+            if(format_date < datetime.now()):
+                # Can't have a game in the past
+                bracket_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
+            else:
+                q = db.GqlQuery('SELECT * FROM Matchup WHERE m_id = :1', matchid)
+                match = q.fetch(1)[0]
+                match.date = format_date
+                match.put()
+                bracket_vars.update({'lo_value': "Success", 'lo_reason': ""})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
-            bracket.put()
-            bracket_vars.update({
-                'last_operation': "Matchup creation",
-                'lo_value': "Success",
-                'lo_reason': "Matchup created"
-            })
+            # We are adding a new matchup
+            bracket_vars.update({'last_operation': "Matchup creation"})
+            game = request.POST.get('game')
+            team_one_n = unquote(request.POST.get('teamone'))
+            q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
+            team_one = q.fetch(1)[0]
+            team_two_n = unquote(request.POST.get('teamtwo'))
+            q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
+            team_two = q.fetch(1)[0]
+
+            bracket_date =  request.POST.get('date')
+            # Needs error check for date format
+
+            matchtype =  request.POST.get('m_type')
+            matchclass =  request.POST.get('m_class')
+
+            q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
+            matchlist = q.fetch(limit=100)
+            matchid = game + "." + team_one.name + "." + team_two.name + "." + str(len(matchlist))
+
+            if(team_one.name == team_two.name):
+                # Can't have a team face itself!
+                bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
+                return direct_to_template(request, "esports/brackets.html", bracket_vars)
+
+            if bracket_date == '':
+                # A date has not been set
+                bracket = Matchup(team_1 = team_one, team_2 = team_two, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
+                bracket.put()
+                bracket_vars.update({'lo_value': "Success", 'lo_reason': "Matchup created"})
+            else:
+                # A date is set and we should check it
+                format_date = datetime.strptime(bracket_date, '%m/%d/%Y %H:%M')
+                if(format_date < datetime.now()):
+                    # Can't have a game in the past
+                    bracket_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
+                else:
+                    bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
+                    bracket.put()
+                    bracket_vars.update({'lo_value': "Success", 'lo_reason': "Matchup created"})
     #else:
     # We are merely viewing the bracket page
 

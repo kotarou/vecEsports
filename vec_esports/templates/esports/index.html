@@ -35,8 +35,7 @@
                             <td width="50px"></td>
                             <td>{{matchup.m_class}} - {{matchup.m_type}}:</td>
                             <td><strong>{{matchup.team_1.name}}</strong> vs</td>
-                            <td> <strong>{{matchup.team_2.name}}</strong> on </td>
-                            <td>{{matchup.date}}</td>
+                            <td> <strong>{{matchup.team_2.name}}</strong> {% if matchup.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{matchup.date}}</td> {% endif %}
                         </tr>
                     {% endif %}
                 </table>
