@@ -39,13 +39,19 @@
         {% endfor %}
 
         Upcoming DOTA2 matches:
-        <ul>
         {% for matchup in matchups%}
+        <table>
             {% if matchup.game = "dota" and not matchup.completed %}
-                <li>{{matchup.team_1.name}} Vs {{matchup.team_2.name}} on {{matchup.date}} </li>
+                <tr>
+                    <td width="50px"></td>
+                    <td>{{matchup.m_class}} - {{matchup.m_type}}:</td>
+                    <td><strong>{{matchup.team_1.name}}</strong> vs</td>
+                    <td> <strong>{{matchup.team_2.name}}</strong> on </td>
+                    <td>{{matchup.date}}</td>
+                </tr>
             {% endif %}
+        </table>
         {% endfor %}
-        </ul>
 
         Recent LoL results:
         {% for result in results %}
@@ -63,13 +69,19 @@
         {% endfor %}
 
         Recent DOTA2 results:
-        <ul>
         {% for result in results %}
-            {% if result.match.game = "dota" %}
-                <li>{{result.match.team_1.name}} Vs {{result.match.team_2.name}}</li>
+        <table>
+            {% if result.match.game = "dota"%}
+                <tr>
+                    <td width="50px"></td>
+                    <td>{{result.match.m_class}} - {{result.match.m_type}}:</td>
+                    <td><strong>{{result.match.team_1.name}}</strong> ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs</td>
+                    <td> <strong>{{result.match.team_2.name}}</strong> ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>  ) played </td>
+                    <td>{{result.match.date}}</td>
+                </tr>    
             {% endif %}
+        </table>
         {% endfor %}
-        </ul>
         <a href="/m_team">Register a team</a>
     </body>
 </html>
