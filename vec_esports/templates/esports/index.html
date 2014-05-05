@@ -3,10 +3,22 @@
         <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
     </head>
     <body>
+
+        These tournaments will run by the following schedule:<br />
+        First week of month (Until the first sunday after the 5th) - Team signups<br />
+        Second week of each month (Second subday after the 5th) - Teams agree on match times<br />
+        Third week of each month - Round Robin Matches<br />
+        Fourth week - More roundrobin matches OR placement matches.<br />
+        <br />
+        To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
+        Each month's prize pool at minimum contains the entirety of the signup money<br />
+
+        <br />
+
         Current LoL teams are:
         <ul>
         {% for team in teams %}
-            {% if team.game = "lol" %}
+            {% if team.game = "lol" and team.active %}
                 <li> {{team.name}} </li>
             {% endif %}
         {% endfor %}
@@ -15,7 +27,7 @@
         Current DOTA2 teams are:
         <ul>
         {% for team in teams %}
-            {% if team.game = "dota" %}
+            {% if team.game = "dota" and team.active %}
                 <li> {{team.name}} </li>
             {% endif %}
         {% endfor %}

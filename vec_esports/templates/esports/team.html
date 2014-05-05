@@ -67,6 +67,21 @@
                 </table>
                 <p>Note: Please make sure your details are correct before submitting form and that all fields marked with * are completed!.</p>
             </form>
+
+            <h1>Re-register Team</h1>
+            <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
+            <form action="/m_team/" method="post">
+                {% csrf_token %}
+                <select name="r_team">
+                    {% for team in teams %}
+                        {% if not team.active %}
+                            <option value={{team.name}}>({{team.game}}) {{team.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Submit" />
+            </form>
+
         </div>
         <a href="/">Home</a><br />
   </body>

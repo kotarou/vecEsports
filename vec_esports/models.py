@@ -3,7 +3,7 @@
 from google.appengine.ext import db
 
 class Team(db.Model):
-    """Models a Team entry with a captain, 4-6 other players, and contact details."""
+    """Models a Team entry with a captain, 4-6 other players, and contact details. An active team is registered for the current month"""
     name      = db.StringProperty()
     game      = db.StringProperty()
     captain   = db.StringProperty()
@@ -14,6 +14,7 @@ class Team(db.Model):
     sub_1     = db.StringProperty()
     sub_2     = db.StringProperty()
     contact_email = db.EmailProperty()
+    active = db.BooleanProperty()
 
 
 class Matchup(db.Model):

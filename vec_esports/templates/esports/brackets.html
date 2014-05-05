@@ -44,14 +44,14 @@
             <br />
             <select name="teamone">
                 {% for team in teams %}
-                    {% if team.game = "lol" %}
+                    {% if team.game = "lol" and team.active %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select> VS
             <select name="teamtwo">
                 {% for team in teams %}
-                    {% if team.game = "lol" %}
+                    {% if team.game = "lol" and team.active %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
@@ -85,14 +85,14 @@
             <br />
             <select name="teamone">
                 {% for team in teams %}
-                    {% if team.game = "dota" %}
+                    {% if team.game = "dota" and team.active %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select> VS
             <select name="teamtwo">
                 {% for team in teams %}
-                    {% if team.game = "dota" %}
+                    {% if team.game = "dota" and team.active %}
                         <option value={{team.name}}>{{team.name}}</option>
                     {% endif %}
                 {% endfor %}
