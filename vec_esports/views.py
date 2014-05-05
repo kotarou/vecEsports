@@ -98,6 +98,9 @@ def brackets(request):
         if(team_one.name == team_two.name):
             # Can't have a team face itself!
             bracket_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
+        elif(format_date < datetime.now()):
+            # Can't have a game in the past
+            bracket_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
         else:
             bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
             bracket.put()
