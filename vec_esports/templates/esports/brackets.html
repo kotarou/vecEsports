@@ -23,7 +23,7 @@
     
     <div id="container">
         {% for s_game, l_game in games.items %}
-            <form action="/p_bracket/" method="post">
+            <form action="/p_brackets/" method="post">
                 {% csrf_token %}
                 <h1>Create {{l_game}} Matchup</h1>
                 <input type="hidden" name="game" value={{s_game}}>

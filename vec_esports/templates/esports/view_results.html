@@ -7,7 +7,7 @@
 	<!-- Basic Page Needs
 	================================================== -->
 	<meta charset="utf-8">
-	<title>VEC ESports : Home</title>
+	<title>VEC ESports : Teams</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -118,11 +118,18 @@
 								<!-- BEGIN NAVIGATION -->
 								<nav class="primary">
 									<ul class="sf-menu">
-										<li class="current-menu-item">
-											<a href="index.html">Home <span><i>|</i> All the info</span></a>
+										<li>
+											<a href="/">Home <span><i>|</i> All the info</span></a>
+											<!-- Sub Navigation -->
+											<!--<ul>
+												<li class="current-menu-item"><a href="index.html">Revolution Slider</a></li>
+												<li><a href="index-flex-fade.html">Flexslider Fade</a></li>
+												<li><a href="index-flex-slide.html">Flexslider Slide</a></li>
+											</ul>-->
+											<!-- /Sub Navigation -->
 										</li>
 										<li>
-											<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
+										<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
 											<!-- Sub Navigation -->
 											<ul>
 												<li><a href="/v_teams/">View Registered teams</a></li>
@@ -133,8 +140,8 @@
 										<li>
 											<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
 										</li>
-										<li>
-											<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
+										<li class="current-menu-item">
+											<a href="">Results <span><i>|</i> Recent matches</span></a>
 										</li>
 										<li>
 											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
@@ -150,100 +157,45 @@
 					
 				</header>
 				<!-- END HEADER -->
-				
-				
-				<!-- BEGIN SLIDER -->
-				<div id="slider" class="slider loading">
-					<div class="container clearfix">
-						<div class="grid_12">
-
+				<!-- BEGIN CONTENT WRAPPER -->
+				<div id="content-wrapper" class="content-wrapper">
+					<div class="container">
+						
+						<div class="clearfix">
+						{% for s_game, l_game in games.items %}
 							<div id="page-title" class="page-title">
 								<div class="container clearfix">
 									<div class="grid_12">
 										<div class="page-title-holder clearfix">
-											<h1>VEC Monthly ESports Tournaments</h1>
+											<h1>Recent {{l_game}} Results:</h1>
 										</div>
 									</div>
 								</div>
 							</div>
-							<h2>League of Legends and DOTA2</h2>
-							These tournaments will run by the following schedule:<br />
-        					First week of month (Until the first sunday after the 5th) - Team signups<br />
-        					Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
-        					Third week of each month - Round Robin Matches<br />
-        					Fourth week - More roundrobin matches OR placement matches.<br />
-        					<br />
-        					To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
-        					Each month's prize pool at minimum contains the entirety of the signup money<br />
-
+							{% for result in results %}
+				            <table>
+				                {% if result.match.game = s_game %}
+				                    <tr>
+				                        <td width="50px"></td>
+				                        <td>{{result.match.m_class}} - {{result.match.m_type}}:</td>
+				                        <td><strong>{{result.match.team_1.name}}</strong> ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs</td>
+				                        <td> <strong>{{result.match.team_2.name}}</strong> ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>  ) played </td>
+				                        <td>{{result.match.date}}</td>
+				                    </tr>    
+				                {% endif %}
+				            </table>
+				            {% endfor %}
+            					<br />
+        					{% endfor %}
 						</div>
 					</div>
-				</div>
-				<!-- END SLIDER -->
-				
-				
-				<!-- BEGIN CONTENT WRAPPER -->
-				<div id="content-wrapper" class="content-wrapper">
-					
-					<div class="container">
-						
-						<div class="clearfix">
-							<div class="grid_12">
-								<!-- BEGIN TABBED CONTENT -->
-								<div class="tabs tabs__alt">
-									<div class="tab-menu clearfix">
-										<ul>
-											<li><a href="#tab1">Latest LoL Results</a></li>
-											<li><a href="#tab3">Latest DOTA2 Results</a></li>
-										</ul>
-									</div>
-									<div class="tab-wrapper">
-										<div id="tab1" class="tab">
-											<ul class="post-loop unstyled clearfix">
-												{% for result in results %}
-													{% if result.match.game = "lol" %}
-												<li>
-													<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-													<div class="post-caption">
-														<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-														<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-													</div>
-												</li>
-													{% endif %}
-												{% endfor %}
-											</ul>
-										</div>
-										<div id="tab3" class="tab">
-											<!-- Featured Posts Loop -->
-											<ul class="post-loop unstyled clearfix">
-												{% for result in results %}
-													{% if result.match.game = "dota" %}
-												<li>
-													<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-													<div class="post-caption">
-														<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-														<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-													</div>
-												</li>
-													{% endif %}
-												{% endfor %}
-											</ul>
-											<!-- /Featured Posts Loop -->
-										</div>
-									</div>
-								</div>
-								<!-- END TABBED CONTENT -->
-							</div>
-						</div>
-						
-						<div class="hr hr-dashed"></div>
-						
-					</div>
-					
 				</div>
 				<!-- END CONTENT WRAPPER -->
 			</div>
 		</div>
+		
+
+		
 	</div>
 	<!-- END WRAPPER -->
 	

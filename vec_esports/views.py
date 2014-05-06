@@ -70,6 +70,17 @@ def main_register(request):
 def main_contact(request):
     return direct_to_template(request, 'esports/contact.html', None)
 
+def view_teams(request):
+    e_vars = data_vars.copy()
+    return direct_to_template(request, 'esports/view_teams.html', e_vars)
+def view_brackets(request):
+    e_vars = data_vars.copy()
+    return direct_to_template(request, 'esports/view_brackets.html', e_vars)
+def view_results(request):
+    e_vars = data_vars.copy()
+    return direct_to_template(request, 'esports/view_results.html', e_vars)
+
+
 def u_team(request, e_vars):
     e_vars.update({'last_operation': "Team re-registration"})
 
