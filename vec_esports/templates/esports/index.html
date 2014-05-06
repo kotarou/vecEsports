@@ -1,276 +1,116 @@
-<!DOCTYPE html>
-<!--[if IE 7]>                  <html class="ie7 no-js" lang="en">     <![endif]-->
-<!--[if lte IE 8]>              <html class="ie8 no-js" lang="en">     <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="not-ie no-js" lang="en">  <!--<![endif]-->
-<head>
+{% include 'esports/t_header.html' %}
+<nav class="primary">
+	<ul class="sf-menu">
+		<li class="current-menu-item">
+			<a href="index.html">Home <span><i>|</i> All the info</span></a>
+		</li>
+		<li>
+			<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
+			<!-- Sub Navigation -->
+			<ul>
+				<li><a href="/v_teams/">View Registered teams</a></li>
+				<li><a href="/p_teams/">Register a team</a></li>
+			</ul>
+			<!-- /Sub Navigation -->
+		</li>
+		<li>
+			<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
+		</li>
+		<li>
+			<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
+		</li>
+		<li>
+			<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
+		</li>
+	</ul>
+</nav>
+<!-- END NAVIGATION -->
+</div></div></div><!-- /Main Header --></header><!-- END HEADER -->
 
-	<!-- Basic Page Needs
-	================================================== -->
-	<meta charset="utf-8">
-	<title>VEC ESports : Home</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	
-	<!-- Mobile Specific Metas
-	================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	
-	
-	
-	<!-- CSS
-	================================================== -->
-	<!-- Normalize default styles -->
-	<link rel="stylesheet" href="/static/css/normalize.css" media="screen" />
-	<!-- Skeleton grid system -->
-	<link rel="stylesheet" href="/static/css/skeleton.css" media="screen" />
-	<!-- Base Template Styles-->
-	<link rel="stylesheet" href="/static/css/base.css" media="screen" />
-	<!-- Template Styles-->
-	<link rel="stylesheet" href="/static/css/style.css" media="screen" />
-	<!-- Superfish -->
-	<link rel="stylesheet" href="/static/css/superfish.css" media="screen" />
-	<!-- Prettyphoto -->
-	<link rel="stylesheet" href="/static/css/prettyPhoto.css" media="screen" />
-	<!-- FontAwesome -->
-	<link rel="stylesheet" href="/static/css/font-awesome.min.css" media="screen" />
-	<!-- REVOLUTION BANNER CSS SETTINGS -->
-	<link rel="stylesheet" href="/static/css/settings.css" media="screen" />
-	<!-- Flexslider -->
-	<link rel="stylesheet" href="/static/css/flexslider.css" media="screen" />
-	<!-- Layout and Media queries-->
-	<link rel="stylesheet" href="/static/css/media-queries.css" media="screen" />
-	
-	<!--[if lt IE 9]>
-		<link rel="stylesheet" href="css/ie/ie8.css" media="screen" />
-	<![endif]-->
-	
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="/static/images/favicon.ico">
-	<link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png">
-	
-	
-</head>
-<body>
-	
-	<!-- BEGIN WRAPPER -->
-	<div id="wrapper">
+<!-- BEGIN SLIDER -->
+<div id="slider" class="slider loading">
+	<div class="container clearfix">
+		<div class="grid_12">
 			
-		<div class="wrapp-holder">
-			<div class="wrap-frame">
-				<!-- BEGIN HEADER -->
-				<header id="header" class="header">
-				
-					<!-- Top Header -->
-					<div class="header-top">
-						<div class="container clearfix">
-							<div class="grid_12">
-								<!-- Top Menu -->
-								<!--<ul class="header-top-menu unstyled">
-									<li><a href="#">Empty link</a></li>
-									<li><a href="#">Empty link</a></li>
-									<li><a href="#">Empty link</a></li>
-								</ul>-->
-								<!-- /Top Menu -->
-								
-								<!-- Social Links -->
-								<ul class="social-links unstyled">
-									<!--<li class="ico-twitter"><a href="#">Twitter</a></li>-->
-									<li class="ico-facebook"><a href="https://www.facebook.com/VictoriaEngineeringClub">Facebook</a></li>
-									<!--<li class="ico-googleplus"><a href="#">Google+</a></li>
-									<li class="ico-dribbble"><a href="#">Dribbble</a></li>
-									<li class="ico-vimeo"><a href="#">Vimeo</a></li>
-									<li class="ico-rss"><a href="#">RSS</a></li>-->
-								</ul>
-								<!-- /Social Links -->
-							</div>
-						</div>
-					</div>
-					<!-- /Top Header -->
-					
-					<!-- Main Header -->
-					<div class="header-main">
-						<div class="container clearfix">
-							<div class="grid_12 hr-bottom">
-								
-								<!-- BEGIN LOGO -->
-								<div id="logo">
-									<!-- Image based Logo -->
-									<a href="index.html"><img src="/static/images/logo.png" alt="Emotion" width="180" /></a>
-									
-									<!-- Text based Logo
-									<h1><a href="index.html">Emotion</a></h1>
-									<p class="tagline">Responsive HTML Template</p>
-									-->
-									
-								</div>
-								<!-- END LOGO -->
-								
-								
-								<!-- BEGIN NAVIGATION -->
-								<nav class="primary">
-									<ul class="sf-menu">
-										<li class="current-menu-item">
-											<a href="index.html">Home <span><i>|</i> All the info</span></a>
-										</li>
-										<li>
-											<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
-											<!-- Sub Navigation -->
-											<ul>
-												<li><a href="/v_teams/">View Registered teams</a></li>
-												<li><a href="/p_teams/">Register a team</a></li>
-											</ul>
-											<!-- /Sub Navigation -->
-										</li>
-										<li>
-											<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
-										</li>
-										<li>
-											<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
-										</li>
-										<li>
-											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
-										</li>
-									</ul>
-								</nav>
-								<!-- END NAVIGATION -->
-								
-							</div>
-						</div>
-					</div>
-					<!-- /Main Header -->
-					
-				</header>
-				<!-- END HEADER -->
-				
-				
-				<!-- BEGIN SLIDER -->
-				<div id="slider" class="slider loading">
-					<div class="container clearfix">
-						<div class="grid_12">
-
-							<div id="page-title" class="page-title">
-								<div class="container clearfix">
-									<div class="grid_12">
-										<div class="page-title-holder clearfix">
-											<h1>VEC Monthly ESports Tournaments</h1>
-										</div>
-									</div>
-								</div>
-							</div>
-							<h2>League of Legends and DOTA2</h2>
-							These tournaments will run by the following schedule:<br />
-        					First week of month (Until the first sunday after the 5th) - Team signups<br />
-        					Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
-        					Third week of each month - Round Robin Matches<br />
-        					Fourth week - More roundrobin matches OR placement matches.<br />
-        					<br />
-        					To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
-        					Each month's prize pool at minimum contains the entirety of the signup money<br />
-
+			<div id="page-title" class="page-title">
+				<div class="container clearfix">
+					<div class="grid_12">
+						<div class="page-title-holder clearfix">
+							<h1>VEC Monthly ESports Tournaments</h1>
 						</div>
 					</div>
 				</div>
-				<!-- END SLIDER -->
-				
-				
-				<!-- BEGIN CONTENT WRAPPER -->
-				<div id="content-wrapper" class="content-wrapper">
-					
-					<div class="container">
-						
-						<div class="clearfix">
-							<div class="grid_12">
-								<!-- BEGIN TABBED CONTENT -->
-								<div class="tabs tabs__alt">
-									<div class="tab-menu clearfix">
-										<ul>
-											<li><a href="#tab1">Latest LoL Results</a></li>
-											<li><a href="#tab3">Latest DOTA2 Results</a></li>
-										</ul>
-									</div>
-									<div class="tab-wrapper">
-										<div id="tab1" class="tab">
-											<ul class="post-loop unstyled clearfix">
-												{% for result in results %}
-													{% if result.match.game = "lol" %}
-												<li>
-													<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-													<div class="post-caption">
-														<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-														<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-													</div>
-												</li>
-													{% endif %}
-												{% endfor %}
-											</ul>
-										</div>
-										<div id="tab3" class="tab">
-											<!-- Featured Posts Loop -->
-											<ul class="post-loop unstyled clearfix">
-												{% for result in results %}
-													{% if result.match.game = "dota" %}
-												<li>
-													<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-													<div class="post-caption">
-														<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-														<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-													</div>
-												</li>
-													{% endif %}
-												{% endfor %}
-											</ul>
-											<!-- /Featured Posts Loop -->
-										</div>
-									</div>
-								</div>
-								<!-- END TABBED CONTENT -->
-							</div>
-						</div>
-						
-						<div class="hr hr-dashed"></div>
-						
-					</div>
-					
-				</div>
-				<!-- END CONTENT WRAPPER -->
 			</div>
+			
+			<h2>League of Legends and DOTA2</h2>
+			These tournaments will run by the following schedule:<br />
+			First week of month (Until the first sunday after the 5th) - Team signups<br />
+			Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
+			Third week of each month - Round Robin Matches<br />
+			Fourth week - More roundrobin matches OR placement matches.<br />
+			<br />
+			To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
+			Each month's prize pool at minimum contains the entirety of the signup money<br />
+
 		</div>
 	</div>
-	<!-- END WRAPPER -->
-	
-	
-	<!-- Javascript Files
-	================================================== -->
-	
-	<!-- initialize jQuery Library -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
-	<script src="/static/js/jquery-migrate-1.1.1.min.js"></script>
-	<!-- Modernizr -->
-	<script src="/static/js/modernizr.custom.17475.js"></script>
+</div>
+<!-- END SLIDER -->
 
-	<!-- Superfish -->
-	<script src="/static/js/jquery.mobilemenu.js"></script>
-	<!-- superfish -->
-	<script src="/static/js/jquery.superfish-1.5.0.js"></script>
 
-	<!-- ElastiSlide Carousel -->
-	<script src="/static/js/jquery.elastislide.js"></script>
+<!-- BEGIN CONTENT WRAPPER -->
+<div id="content-wrapper" class="content-wrapper">
 
-	<!-- Flexslider -->
-	<script src="/static/js/jquery.flexslider.js"></script>
+	<div class="container">
 
-	<!-- Custom -->
-	<script src="/static/js/custom.js"></script>
-	
-</body>
-</html>
+		<div class="clearfix">
+			<div class="grid_12">
+				<!-- BEGIN TABBED CONTENT -->
+				<div class="tabs tabs__alt">
+					<div class="tab-menu clearfix">
+						<ul>
+							<li><a href="#tab1">Latest LoL Results</a></li>
+							<li><a href="#tab3">Latest DOTA2 Results</a></li>
+						</ul>
+					</div>
+					<div class="tab-wrapper">
+						<div id="tab1" class="tab">
+							<ul class="post-loop unstyled clearfix">
+								{% for result in results %}
+								{% if result.match.game = "lol" %}
+								<li>
+									<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
+									<div class="post-caption">
+										<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
+										<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
+									</div>
+								</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						<div id="tab3" class="tab">
+							<ul class="post-loop unstyled clearfix">
+								{% for result in results %}
+								{% if result.match.game = "dota" %}
+								<li>
+									<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
+									<div class="post-caption">
+										<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
+										<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
+									</div>
+								</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- END TABBED CONTENT -->
+			</div>
+		</div>	
+		<div class="hr hr-dashed"></div>
+	</div>
+</div>
+<!-- END CONTENT WRAPPER -->
+{% include 'esports/t_footer.html' %}

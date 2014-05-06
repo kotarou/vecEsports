@@ -1,228 +1,64 @@
-<!DOCTYPE html>
-<!--[if IE 7]>                  <html class="ie7 no-js" lang="en">     <![endif]-->
-<!--[if lte IE 8]>              <html class="ie8 no-js" lang="en">     <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="not-ie no-js" lang="en">  <!--<![endif]-->
-<head>
+{% include 'esports/t_header.html' %}
+<nav class="primary">
+	<ul class="sf-menu">
+		<li>
+			<a href="/">Home <span><i>|</i> All the info</span></a>
+		</li>
+		<li>
+			<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
+			<!-- Sub Navigation -->
+			<ul>
+				<li><a href="/v_teams/">View Registered teams</a></li>
+				<li><a href="/p_teams/">Register a team</a></li>
+			</ul>
+			<!-- /Sub Navigation -->
+		</li>
+		<li>
+			<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
+		</li>
+		<li class="current-menu-item">
+			<a href="">Results <span><i>|</i> Recent matches</span></a>
+		</li>
+		<li>
+			<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
+		</li>
+	</ul>
+</nav>
+<!-- END NAVIGATION -->
+</div></div></div><!-- /Main Header --></header><!-- END HEADER -->
 
-	<!-- Basic Page Needs
-	================================================== -->
-	<meta charset="utf-8">
-	<title>VEC ESports : Teams</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	
-	<!-- Mobile Specific Metas
-	================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	
-	
-	
-	<!-- CSS
-	================================================== -->
-	<!-- Normalize default styles -->
-	<link rel="stylesheet" href="/static/css/normalize.css" media="screen" />
-	<!-- Skeleton grid system -->
-	<link rel="stylesheet" href="/static/css/skeleton.css" media="screen" />
-	<!-- Base Template Styles-->
-	<link rel="stylesheet" href="/static/css/base.css" media="screen" />
-	<!-- Template Styles-->
-	<link rel="stylesheet" href="/static/css/style.css" media="screen" />
-	<!-- Superfish -->
-	<link rel="stylesheet" href="/static/css/superfish.css" media="screen" />
-	<!-- Prettyphoto -->
-	<link rel="stylesheet" href="/static/css/prettyPhoto.css" media="screen" />
-	<!-- FontAwesome -->
-	<link rel="stylesheet" href="/static/css/font-awesome.min.css" media="screen" />
-	<!-- REVOLUTION BANNER CSS SETTINGS -->
-	<link rel="stylesheet" href="/static/css/settings.css" media="screen" />
-	<!-- Flexslider -->
-	<link rel="stylesheet" href="/static/css/flexslider.css" media="screen" />
-	<!-- Layout and Media queries-->
-	<link rel="stylesheet" href="/static/css/media-queries.css" media="screen" />
-	
-	<!--[if lt IE 9]>
-		<link rel="stylesheet" href="css/ie/ie8.css" media="screen" />
-	<![endif]-->
-	
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="/static/images/favicon.ico">
-	<link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png">
-	
-	
-</head>
-<body>
-	
-	<!-- BEGIN WRAPPER -->
-	<div id="wrapper">
-			
-		<div class="wrapp-holder">
-			<div class="wrap-frame">
-				<!-- BEGIN HEADER -->
-				<header id="header" class="header">
-				
-					<!-- Top Header -->
-					<div class="header-top">
-						<div class="container clearfix">
-							<div class="grid_12">
-								<!-- Top Menu -->
-								<!--<ul class="header-top-menu unstyled">
-									<li><a href="#">Empty link</a></li>
-									<li><a href="#">Empty link</a></li>
-									<li><a href="#">Empty link</a></li>
-								</ul>-->
-								<!-- /Top Menu -->
-								
-								<!-- Social Links -->
-								<ul class="social-links unstyled">
-									<!--<li class="ico-twitter"><a href="#">Twitter</a></li>-->
-									<li class="ico-facebook"><a href="https://www.facebook.com/VictoriaEngineeringClub">Facebook</a></li>
-									<!--<li class="ico-googleplus"><a href="#">Google+</a></li>
-									<li class="ico-dribbble"><a href="#">Dribbble</a></li>
-									<li class="ico-vimeo"><a href="#">Vimeo</a></li>
-									<li class="ico-rss"><a href="#">RSS</a></li>-->
-								</ul>
-								<!-- /Social Links -->
-							</div>
-						</div>
-					</div>
-					<!-- /Top Header -->
-					
-					<!-- Main Header -->
-					<div class="header-main">
-						<div class="container clearfix">
-							<div class="grid_12 hr-bottom">
-								
-								<!-- BEGIN LOGO -->
-								<div id="logo">
-									<!-- Image based Logo -->
-									<a href="index.html"><img src="/static/images/logo.png" alt="Emotion" width="180" /></a>
-									
-									<!-- Text based Logo
-									<h1><a href="index.html">Emotion</a></h1>
-									<p class="tagline">Responsive HTML Template</p>
-									-->
-									
-								</div>
-								<!-- END LOGO -->
-								
-								
-								<!-- BEGIN NAVIGATION -->
-								<nav class="primary">
-									<ul class="sf-menu">
-										<li>
-											<a href="/">Home <span><i>|</i> All the info</span></a>
-											<!-- Sub Navigation -->
-											<!--<ul>
-												<li class="current-menu-item"><a href="index.html">Revolution Slider</a></li>
-												<li><a href="index-flex-fade.html">Flexslider Fade</a></li>
-												<li><a href="index-flex-slide.html">Flexslider Slide</a></li>
-											</ul>-->
-											<!-- /Sub Navigation -->
-										</li>
-										<li>
-										<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
-											<!-- Sub Navigation -->
-											<ul>
-												<li><a href="/v_teams/">View Registered teams</a></li>
-												<li><a href="/p_teams/">Register a team</a></li>
-											</ul>
-											<!-- /Sub Navigation -->
-										</li>
-										<li>
-											<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
-										</li>
-										<li class="current-menu-item">
-											<a href="">Results <span><i>|</i> Recent matches</span></a>
-										</li>
-										<li>
-											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
-										</li>
-									</ul>
-								</nav>
-								<!-- END NAVIGATION -->
-								
-							</div>
-						</div>
-					</div>
-					<!-- /Main Header -->
-					
-				</header>
-				<!-- END HEADER -->
-				<!-- BEGIN CONTENT WRAPPER -->
-				<div id="content-wrapper" class="content-wrapper">
-					<div class="container">
-						
-						<div class="clearfix">
-						{% for s_game, l_game in games.items %}
-							<div id="page-title" class="page-title">
-								<div class="container clearfix">
-									<div class="grid_12">
-										<div class="page-title-holder clearfix">
-											<h1>Recent {{l_game}} Results:</h1>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% for result in results %}
-				            <table>
-				                {% if result.match.game = s_game %}
-				                    <tr>
-				                        <td width="50px"></td>
-				                        <td>{{result.match.m_class}} - {{result.match.m_type}}:</td>
-				                        <td><strong>{{result.match.team_1.name}}</strong> ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs</td>
-				                        <td> <strong>{{result.match.team_2.name}}</strong> ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>  ) played </td>
-				                        <td>{{result.match.date}}</td>
-				                    </tr>    
-				                {% endif %}
-				            </table>
-				            {% endfor %}
-            					<br />
-        					{% endfor %}
+<!-- BEGIN CONTENT WRAPPER -->
+<div id="content-wrapper" class="content-wrapper">
+	<div class="container">
+
+		<div class="clearfix">
+			{% for s_game, l_game in games.items %}
+			<div id="page-title" class="page-title">
+				<div class="container clearfix">
+					<div class="grid_12">
+						<div class="page-title-holder clearfix">
+							<h1>Recent {{l_game}} Results:</h1>
 						</div>
 					</div>
 				</div>
-				<!-- END CONTENT WRAPPER -->
 			</div>
+			{% for result in results %}
+			<table>
+				{% if result.match.game = s_game %}
+				<tr>
+					<td width="50px"></td>
+					<td>{{result.match.m_class}} - {{result.match.m_type}}:</td>
+					<td><strong>{{result.match.team_1.name}}</strong> ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs</td>
+					<td> <strong>{{result.match.team_2.name}}</strong> ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>  ) played </td>
+					<td>{{result.match.date}}</td>
+				</tr>    
+				{% endif %}
+			</table>
+			{% endfor %}
+			<br />
+			{% endfor %}
 		</div>
-		
-
-		
 	</div>
-	<!-- END WRAPPER -->
-	
-	
-	<!-- Javascript Files
-	================================================== -->
-	
-	<!-- initialize jQuery Library -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
-	<script src="/static/js/jquery-migrate-1.1.1.min.js"></script>
-	<!-- Modernizr -->
-	<script src="/static/js/modernizr.custom.17475.js"></script>
-
-	<!-- Superfish -->
-	<script src="/static/js/jquery.mobilemenu.js"></script>
-	<!-- superfish -->
-	<script src="/static/js/jquery.superfish-1.5.0.js"></script>
-
-	<!-- ElastiSlide Carousel -->
-	<script src="/static/js/jquery.elastislide.js"></script>
-
-	<!-- Flexslider -->
-	<script src="/static/js/jquery.flexslider.js"></script>
-
-	<!-- Custom -->
-	<script src="/static/js/custom.js"></script>
-	
-</body>
-</html>
+</div>
+<!-- END CONTENT WRAPPER -->
+{% include 'esports/t_footer.html' %}
