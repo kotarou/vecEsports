@@ -18,11 +18,11 @@
         {% for s_game, l_game in games.items %}
             Current {{l_game}} teams are:
             <table>
-            {% for team in teams %}
-                {% if team.game = s_game and team.active %}
-                    <tr><td width="50px"></td><td> {{team.name}} </td></tr>
-                {% endif %}
-            {% endfor %}
+                {% for team in teams %}
+                    {% if team.game = s_game and team.active %}
+                        <tr><td width="50px"></td><td> {{team.name}} </td></tr>
+                    {% endif %}
+                {% endfor %}
             </table>
             <br />
         {% endfor %}
@@ -61,6 +61,9 @@
             <br />
         {% endfor %}
         <br />
+
+        
+
         <a href="/p_team">Register a team</a>
         <br />
         <br />

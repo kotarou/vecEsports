@@ -70,8 +70,6 @@ def main_register(request):
 def main_contact(request):
     return direct_to_template(request, 'esports/contact.html', None)
 
-
-
 def u_team(request, e_vars):
     e_vars.update({'last_operation': "Team re-registration"})
 
@@ -107,19 +105,20 @@ def m_team(request, e_vars):
         team_p6 =  request.POST.get('pl6')
         team_p7 =  request.POST.get('pl7')
         team_contact =  request.POST.get('eml')
-        team = Team(key_name=team_name,
-                    game=team_game,
-                    name=team_name,
-                    captain=team_captain,
-                    player_2=team_p2,
-                    player_3=team_p3,
-                    player_4=team_p4,
-                    player_5=team_p5,
-                    sub_1=team_p6,
-                    sub_2=team_p7,
-                    contact_email=team_contact,
-                    active=True,
-                    paid=False)
+        team = Team(
+            key_name=team_name,
+            game=team_game,
+            name=team_name,
+            captain=team_captain,
+            player_2=team_p2,
+            player_3=team_p3,
+            player_4=team_p4,
+            player_5=team_p5,
+            sub_1=team_p6,
+            sub_2=team_p7,
+            contact_email=team_contact,
+            active=True,
+            paid=False)
         team.put()
         e_vars.update({'lo_value': "Success"})
        
@@ -169,7 +168,14 @@ def m_bracket(request, e_vars):
         e_vars.update({'lo_value': "Fail", 'lo_reason': "A team cannot face itself"})
     elif bracket_date == '':
         # A date has not been set
-        bracket = Matchup(team_1 = team_one, team_2 = team_two, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
+        bracket = Matchup(
+            team_1 = team_one, 
+            team_2 = team_two, 
+            game=game, 
+            m_type=matchtype,
+            m_id=matchid, 
+            m_class=matchclass, 
+            completed=False)
         bracket.put()
         e_vars.update({'lo_value': "Success"})
     else:
@@ -179,7 +185,15 @@ def m_bracket(request, e_vars):
             # Can't have a game in the past
             e_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
         else:
-            bracket = Matchup(team_1 = team_one, team_2 = team_two, date=format_date, game=game, m_type=matchtype, m_id=matchid, m_class=matchclass, completed=False)
+            bracket = Matchup(
+                team_1 = team_one, 
+                team_2 = team_two, 
+                date=format_date, 
+                game=game, 
+                m_type=matchtype, 
+                m_id=matchid, 
+                m_class=matchclass, 
+                completed=False)
             bracket.put()
             e_vars.update({'lo_value': "Success"})
 
@@ -204,7 +218,10 @@ def m_result(request, e_vars):
         e_vars.update({'lo_value': "Fail", 'lo_reason': "Incorect number of games" })
     else:
         # The result is valid
-        result = Result(match=match_id, score_1 = score1, score_2=score2)
+        result = Result(
+            match=match_id, 
+            score_1 = score1, 
+            score_2=score2)
         result.put()
         e_vars.update({'lo_value': "Success"})
         match_id.completed = True
