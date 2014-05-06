@@ -198,6 +198,8 @@ def team_register(request):
                     'lo_reason': ""
                 })
     return direct_to_template(request, 'esports/team.html', team_vars)
+    
 
-
+def admin_contact(request):
+    return direct_to_template(request, 'esports/admincontact.html', None)
 
