@@ -5,9 +5,9 @@ from django.conf.urls.defaults import *
 from vec_esports.views import *
 
 urlpatterns = patterns('',
-    (r'^m_team/$', team_register),
-    (r'^$', main_esports),
-    (r'^m_bracket/$', brackets),
-    (r'^m_result/$', results),
-    (r'^m_admincontact/$', admin_contact),
+    (r'^p_team/$', main_register),
+    (r'^$', main_index),
+    (r'^p_bracket/$', main_brackets),
+    (r'^p_result/$', main_results),
+    (r'^p_contact/$', main_contact),
 )

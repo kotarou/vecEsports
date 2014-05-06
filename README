@@ -1,30 +1,17 @@
-The file structure looks somewhat like this:
-~
-  -proj_django
-    -settings.py
-    -urls.py
-  -static
-    -css
-      -main.css
-  -vec_esports
-    -templates
-      -guestbook
-        -main_page.html
-      -__init__.py
-      -models.py
-      -urls.py
-      -views.py
-  -main.py
-  -manage.py
+Syntax I am attempting to use:
 
-proj_django provides all the 'base' django setup.
-  This folder is mostly boilerplate that connects to the actual app and its configuration files.
-  settings.py is the typical django settings file.
-    ADMIN
-    INSTALLED_APPS
-  urls.py connects to vec_esports\urls.py
-static contains static files
-vec_esports contains the projects main files
+  A html file is named foobar.html
+  The method defined in urls.py that will link to it is named main_foobar 
+  A link to the page will be /p_foobar/
+  For the methods that deal with form data from these pages:
+    m_foobar creates an entity (team / result / matchup / etc)
+    u_foobar updates an entity (reregistration, updating a match time)
 
+  Current files:
+    index.html
+    register.html
+    brackets.html
+    results.html
+    contact.html
 
 Add   login: required    to a handler>url in app.yaml to restrict a page to only logged in users.
