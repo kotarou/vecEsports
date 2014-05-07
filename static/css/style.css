@@ -30,7 +30,7 @@ Tags: light, white, two-columns, right-sidebar, custom-colors, post-formats, res
 
 /* Top Header */
 .header-top {
-	background: #2e3438 url(../images/pattern-alt.gif);
+	background: #2e3438 url(/static/images/pattern-alt.gif);
 	color: #666;
 	border-bottom: 3px solid #1b355f;
 	padding: 14px 0;
@@ -88,7 +88,7 @@ Tags: light, white, two-columns, right-sidebar, custom-colors, post-formats, res
 				display: inline-block;
 				width: 24px;
 				height: 24px;
-				background: url(../images/soc-icons.png) 0 0 no-repeat;
+				background: url(/static/images/soc-icons.png) 0 0 no-repeat;
 				-webkit-border-radius: 50%;
 				-moz-border-radius: 50%;
 				border-radius: 50%;
@@ -556,7 +556,7 @@ nav.primary {
 	top: 0;
 	height: 2px;
 	overflow: hidden;
-	background: url(../images/hr-dashed.gif) 0 0 repeat-x;
+	background: url(/static/images/hr-dashed.gif) 0 0 repeat-x;
 }
 	.post-nav a {
 		color: #040404;
@@ -616,7 +616,7 @@ nav.primary {
 .entry {
 	padding-bottom: 37px;
 	margin-bottom: 35px;
-	background: url(../images/hr-dashed.gif) 0 100% repeat-x;
+	background: url(/static/images/hr-dashed.gif) 0 100% repeat-x;
 }
 	.entry .featured-thumb {
 		margin-bottom: 29px;
@@ -806,7 +806,7 @@ nav.primary {
 #map_canvas {
 	width:100%;
 	height:374px;
-	background: #e5e3df url(../images/loader.gif) 50% 50% no-repeat;
+	background: #e5e3df url(/static/images/loader.gif) 50% 50% no-repeat;
 	-webkit-box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
@@ -950,7 +950,7 @@ nav.primary {
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
-		background: url(../images/overlay-bg.png);
+		background: url(/static/images/overlay-bg.png);
 		background: rgba(40,40,40, .8);
 		opacity: 0;
 		-webkit-transition: all 0.2s ease-out;
@@ -1131,7 +1131,7 @@ nav.primary {
 	top: 0;
 	height: 2px;
 	overflow: hidden;
-	background: url(../images/hr-dashed.gif) 0 0 repeat-x;
+	background: url(/static/images/hr-dashed.gif) 0 0 repeat-x;
 }
 .widget__sidebar:first-child {
 	padding-top: 0;
@@ -1190,7 +1190,7 @@ nav.primary {
 		padding-left: 30px;
 		background-position:0 50%;
 		background-repeat:no-repeat;
-		background-image:url(../images/loader-twitter.gif);
+		background-image:url(/static/images/loader-twitter.gif);
 	}
 /*/ Twitter Widget */
 
@@ -1423,7 +1423,7 @@ nav.primary {
 
 /* Footer Widget */
 .footer-widgets {
-	background: #2e3438 url(../images/pattern-alt.gif);
+	background: #2e3438 url(/static/images/pattern-alt.gif);
 	padding: 37px 0;
 	position: relative;
 }
