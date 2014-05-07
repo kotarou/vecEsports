@@ -40,31 +40,35 @@
 					<div class="tab-wrapper">
 						<div id="tab1" class="tab">
 							<ul class="post-loop unstyled clearfix">
-								{% for result in results %}
-								{% if result.match.game = "lol" %}
-								<li>
-									<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-									<div class="post-caption">
-										<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-										<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-									</div>
-								</li>
-								{% endif %}
+								{% for match in matchups %}
+									{% if match.game = "dota" %}
+										<li>
+											<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
+											<div class="post-caption">
+												<span class="post-cats">
+													<a href="#">{{match.m_class}}</a> / <a href="#">{{match.m_type}}</a></span>
+													<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs <br />{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
+												</span>
+											</div>
+										</li>
+									{% endif %}
 								{% endfor %}
 							</ul>
 						</div>
 						<div id="tab3" class="tab">
 							<ul class="post-loop unstyled clearfix">
-								{% for result in results %}
-								{% if result.match.game = "dota" %}
-								<li>
-									<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
-									<div class="post-caption">
-										<span class="post-cats"><a href="#">{{result.match.m_class}}</a> / <a href="#">{{result.match.m_type}}</a></span>
-										<h5><!--<a href="#">-->{{result.match.team_1.name}} ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs <br />{{result.match.team_2.name}} ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>)</h5>
-									</div>
-								</li>
-								{% endif %}
+								{% for match in matchups %}
+									{% if match.game = "dota" %}
+										<li>
+											<img src="/static/images/img{{result.match.game}}.jpg" alt="" class="post-img" width="220" height="210">
+											<div class="post-caption">
+												<span class="post-cats">
+													<a href="#">{{match.m_class}}</a> / <a href="#">{{match.m_type}}</a></span>
+													<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs <br />{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
+												</span>
+											</div>
+										</li>
+									{% endif %}
 								{% endfor %}
 							</ul>
 						</div>

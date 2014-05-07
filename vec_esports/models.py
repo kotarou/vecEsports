@@ -2,6 +2,10 @@
 
 from google.appengine.ext import db
 
+class Tournament(db.Model):
+    """Models a tournament with a list of teams, a list of matches, a tournament name and a tournament id"""
+    name = db.StringProperty()
+
 class Player(db.Model):
     """Models a Player entry with a player name, alias, contact details"""
     first_name = db.StringProperty()
@@ -21,25 +25,25 @@ class Team(db.Model):
     sub_1     = db.StringProperty()
     sub_2     = db.StringProperty()
     contact_email = db.EmailProperty()
-    active = db.BooleanProperty()
     paid = db.BooleanProperty()
+
+    active = db.BooleanProperty()
+    #active = db.ReferenceProperty(Tournament, collection_name= "T1")
 
 class Matchup(db.Model):
     """Models a matchup between two teams. Match type is a string BO1 BO3 etc. Match class is roundrobin / final / etc """
-    team_1  = db.ReferenceProperty(Team, collection_name= "T1")
-    team_2  = db.ReferenceProperty(Team, collection_name= "T2")
+    team_1  = db.ReferenceProperty(Team, collection_name= "T2")
+    team_2  = db.ReferenceProperty(Team, collection_name= "T3")
     game    = db.StringProperty(choices=set(["lol", "dota"]))
     m_type  = db.StringProperty()
     m_class = db.StringProperty()
     date    = db.DateTimeProperty()
     m_id    = db.StringProperty()
     completed = db.BooleanProperty()
-
     score_1 = db.IntegerProperty()
     score_2 = db.IntegerProperty()
 
-class Tournament(db.Model):
-    """Models a tournament with a list of teams, a list of matches, a tournament name and a tournament id"""
-    name = db.StringProperty()
-    teams = db.ListProperty(db.Key)
-    matches = db.ListProperty(db.Key)
+    tournament = db.ReferenceProperty(Tournament, collection_name= "T4")
+
+
+

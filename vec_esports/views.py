@@ -36,15 +36,24 @@ def main_index(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', e_vars)
 
-def main_results(request):
+def main_contact(request):
     e_vars = data_vars.copy()
+    return direct_to_template(request, 'esports/contact.html', e_vars) 
+
+def main_results(request, change):
+    e_vars = data_vars.copy()
+    if change != True:
+        return direct_to_template(request, 'esports/view_results.html', e_vars)
     if request.method == 'POST':
         # We are adding a new result
         m_result(request, e_vars)
     return direct_to_template(request, 'esports/results.html', e_vars)
 
-def main_brackets(request):
+def main_brackets(request, change):
+    # This is the wrapper function that will deal to all bracket/matchup related requests
     e_vars = data_vars.copy()
+    if change != True:
+        return direct_to_template(request, 'esports/view_brackets.html', e_vars)
     if request.method == 'POST':
         if 'matchaddtime' in request.POST:
             # We are modifying an old matchup
@@ -55,8 +64,11 @@ def main_brackets(request):
 
     return direct_to_template(request, "esports/brackets.html", e_vars)
 
-def main_register(request):
+def main_teams(request, change):
+    # This is the wrapper function that will deal to all team related requests
     e_vars = data_vars.copy()
+    if change != True:
+        return direct_to_template(request, 'esports/view_teams.html', e_vars) 
     if request.method == 'POST':
         if 'r_team' in request.POST:
             # Team re-registration
@@ -66,18 +78,6 @@ def main_register(request):
             m_team(request, e_vars)
     return direct_to_template(request, 'esports/register.html', e_vars)     
 
-def main_contact(request):
-    return direct_to_template(request, 'esports/contact.html', None)
-
-def view_teams(request):
-    e_vars = data_vars.copy()
-    return direct_to_template(request, 'esports/view_teams.html', e_vars)
-def view_brackets(request):
-    e_vars = data_vars.copy()
-    return direct_to_template(request, 'esports/view_brackets.html', e_vars)
-def view_results(request):
-    e_vars = data_vars.copy()
-    return direct_to_template(request, 'esports/view_results.html', e_vars)
 
 
 def u_team(request, e_vars):
@@ -97,40 +97,40 @@ def m_team(request, e_vars):
     
     team_name = request.POST.get('tmn')
 
-    q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_name)
-    team_prexist = q.fetch(1)
-    if(len(team_prexist) > 0):
+    if(Team.get_by_key_name(team_name) != None):
         e_vars.update({
-            'last_operation': "Team Registration",
             'lo_value': "Fail",
             'lo_reason': "Team already exists"
         })
-    else:
-        team_game = request.POST.get('game')
-        team_captain = request.POST.get('cap')
-        team_p2 =  request.POST.get('pl2')
-        team_p3 =  request.POST.get('pl3')
-        team_p4 =  request.POST.get('pl4')
-        team_p5 =  request.POST.get('pl5')
-        team_p6 =  request.POST.get('pl6')
-        team_p7 =  request.POST.get('pl7')
-        team_contact =  request.POST.get('eml')
-        team = Team(
-            key_name=team_name,
-            game=team_game,
-            name=team_name,
-            captain=team_captain,
-            player_2=team_p2,
-            player_3=team_p3,
-            player_4=team_p4,
-            player_5=team_p5,
-            sub_1=team_p6,
-            sub_2=team_p7,
-            contact_email=team_contact,
-            active=True,
-            paid=False)
-        team.put()
-        e_vars.update({'lo_value': "Success"})
+        return
+    
+    team_game       = request.POST.get('game')
+    team_captain    = request.POST.get('cap')
+    team_p2         = request.POST.get('pl2')
+    team_p3         = request.POST.get('pl3')
+    team_p4         = request.POST.get('pl4')
+    team_p5         = request.POST.get('pl5')
+    team_p6         = request.POST.get('pl6')
+    team_p7         = request.POST.get('pl7')
+    team_contact    = request.POST.get('eml')
+
+    team = Team(
+        key_name=team_name,
+        game=team_game,
+        name=team_name,
+        captain=team_captain,
+        player_2=team_p2,
+        player_3=team_p3,
+        player_4=team_p4,
+        player_5=team_p5,
+        sub_1=team_p6,
+        sub_2=team_p7,
+        contact_email=team_contact,
+        active=True,
+        paid=False)
+    team.put()
+    
+    e_vars.update({'lo_value': "Success"})
        
 
 def u_bracket(request, e_vars):
@@ -160,15 +160,11 @@ def m_bracket(request, e_vars):
     bracket_date    = request.POST.get('date')
     matchtype       = request.POST.get('m_type')
     matchclass      = request.POST.get('m_class')
-    
-    q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_one_n)
-    team_one = q.fetch(1)[0]
-    
-    q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_two_n)
-    team_two = q.fetch(1)[0]
-    
-    # Needs error check for date format
 
+    team_one = Team.get_by_key_name(team_one_n)
+    team_two = Team.get_by_key_name(team_two_n)
+
+    # Needs error check for date format
     q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
     matchlist = q.fetch(limit=100)
     matchid = game + "." + team_one.name + "." + team_two.name + "." + str(len(matchlist))
@@ -179,6 +175,7 @@ def m_bracket(request, e_vars):
     elif bracket_date == '':
         # A date has not been set
         bracket = Matchup(
+            key_name=matchid,
             team_1 = team_one, 
             team_2 = team_two, 
             game=game, 
@@ -196,6 +193,7 @@ def m_bracket(request, e_vars):
             e_vars.update({'lo_value': "Fail", 'lo_reason': "Game set for the past"})
         else:
             bracket = Matchup(
+                key_name=matchid,
                 team_1 = team_one, 
                 team_2 = team_two, 
                 date=format_date, 

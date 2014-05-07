@@ -11,7 +11,7 @@
             with response <strong>{{lo_reason}}</strong>
             {% endif %}
             {% endif %}
-            <form action="/p_teams/" method="post">
+            <form action="/c_teams/" method="post">
                 {% csrf_token %}
                 <h1>Create Team</h1>
                 <select name="game">
@@ -25,7 +25,6 @@
                     <tr>
                         <td>Team Name *</td>
                         <td><input type="text" name="tmn" /></td>
-
                     </tr>
                     <tr>
                         <td>Team Contact email *</td>
@@ -70,7 +69,7 @@
 
             <h1>Re-register Team</h1>
             <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
-            <form action="/p_teams/" method="post">
+            <form action="/c_teams/" method="post">
                 {% csrf_token %}
                 <select name="r_team">
                     {% for team in teams %}
