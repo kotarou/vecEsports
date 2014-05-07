@@ -2,25 +2,15 @@
 <!-- BEGIN CONTENT WRAPPER -->
 <div id="content-wrapper" class="content-wrapper">
 	<div class="container">
-
 		<div class="clearfix">
 
-
 			{% for s_game, l_game in games.items %}
-			<div id="page-title" class="page-title">
-				<div class="container clearfix">
-					<div class="grid_12">
-						<div class="page-title-holder clearfix">
-							<h1>Registered {{l_game}} Teams:</h1>
-						</div>
-					</div>
-				</div>
-			</div>
+			{% include 'esports/t_title.html' with title='Registered '|add:l_game|add:' Teams:' size=12 %}
 			<table>
 				{% for team in teams %}
-				{% if team.game = s_game and team.active %}
-				<tr><td width="50px"></td><td> {{team.name}} </td></tr>
-				{% endif %}
+					{% if team.game = s_game and team.active %}
+						<tr><td width="50px"></td><td> {{team.name}} </td></tr>
+					{% endif %}
 				{% endfor %}
 			</table>
 			<br />

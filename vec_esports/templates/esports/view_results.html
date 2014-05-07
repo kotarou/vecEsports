@@ -6,29 +6,21 @@
 
 		<div class="clearfix">
 			{% for s_game, l_game in games.items %}
-			<div id="page-title" class="page-title">
-				<div class="container clearfix">
-					<div class="grid_12">
-						<div class="page-title-holder clearfix">
-							<h1>Recent {{l_game}} Results:</h1>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% for match in matchups %}
-			<table>
-				{% if match.game = s_game and match.completed%}
-				<tr>
-					<td width="50px"></td>
-					<td>{{match.m_class}} - {{match.m_type}}:</td>
-					<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
-					<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
-					<td>{{match.date}}</td>
-				</tr>    
-				{% endif %}
-			</table>
-			{% endfor %}
-			<br />
+			{% include 'esports/t_title.html' with title='Recent '|add:l_game|add:' Results:'  size=12 %}
+				{% for match in matchups %}
+					<table>
+						{% if match.game = s_game and match.completed%}
+						<tr>
+							<td width="50px"></td>
+							<td>{{match.m_class}} - {{match.m_type}}:</td>
+							<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
+							<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
+							<td>{{match.date}}</td>
+						</tr>    
+						{% endif %}
+					</table>
+				{% endfor %}
+				<br />
 			{% endfor %}
 		</div>
 	</div>

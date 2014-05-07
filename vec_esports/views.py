@@ -32,6 +32,13 @@ match_lengths = {
     'Informal': 1
 }
 
+def itemExists(query, value):
+    q = db.GqlQuery('SELECT * FROM Matchup WHERE :1 = :2', query, value)
+    matchlist = q.fetch(limit=100)
+    if len(matchlist) < 1:
+        return False
+    return True
+
 def main_index(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', e_vars)

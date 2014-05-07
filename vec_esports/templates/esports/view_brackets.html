@@ -7,15 +7,7 @@
 
 
 			{% for s_game, l_game in games.items %}
-			<div id="page-title" class="page-title">
-				<div class="container clearfix">
-					<div class="grid_12">
-						<div class="page-title-holder clearfix">
-							<h1>Upcoming {{l_game}} Matches:</h1>
-						</div>
-					</div>
-				</div>
-			</div>
+				{% include 'esports/t_title.html' with title='Upcoming '|add:l_game|add:' Matches:'  size=12 %}
 			<table>
 				{% for matchup in matchups%}
 				<table>
