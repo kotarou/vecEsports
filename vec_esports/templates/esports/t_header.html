@@ -44,11 +44,11 @@
 	<!--[if lt IE 9]>
 		<link rel="stylesheet" href="css/ie/ie8.css" media="screen" />
 		<![endif]-->
-		
+
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		
+
 	<!-- Favicons
 	================================================== -->
 	<link rel="shortcut icon" href="/static/images/favicon.ico">
@@ -63,12 +63,12 @@
 	
 	<!-- BEGIN WRAPPER -->
 	<div id="wrapper">
-		
+
 		<div class="wrapp-holder">
 			<div class="wrap-frame">
 				<!-- BEGIN HEADER -->
 				<header id="header" class="header">
-					
+
 					<!-- Top Header -->
 					<div class="header-top">
 						<div class="container clearfix">
@@ -99,14 +99,41 @@
 					<div class="header-main">
 						<div class="container clearfix">
 							<div class="grid_12 hr-bottom">
-								
+
 								<!-- BEGIN LOGO -->
 								<div id="logo">
 									<!-- Image based Logo -->
-									<a href="index.html"><img src="/static/images/logo.png" alt="Emotion" width="180" /></a>
-									
+									<a href="/"><img src="/static/images/logo.png" alt="Emotion" width="180" /></a>
+
 								</div>
 								<!-- END LOGO -->
-								
-								
-			<!-- BEGIN NAVIGATION -->
+
+
+								<!-- BEGIN NAVIGATION -->
+								<nav class="primary">
+									<ul class="sf-menu">
+										<li {% if current = 'index' %} class="current-menu-item" {% endif %}>
+											<a href="/">Home <span><i>|</i> All the info</span></a>
+										</li>
+										<li {% if current = 'teams' %} class="current-menu-item" {% endif %}>
+											<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
+											<!-- Sub Navigation -->
+											<ul>
+												<li><a href="/v_teams/">View Registered teams</a></li>
+												<li><a href="/p_teams/">Register a team</a></li>
+											</ul>
+											<!-- /Sub Navigation -->
+										</li>
+										<li {% if current = 'brackets' %} class="current-menu-item" {% endif %}>
+											<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
+										</li>
+										<li {% if current = 'results' %} class="current-menu-item" {% endif %}>
+											<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
+										</li>
+										<li {% if current = 'contact' %} class="current-menu-item" {% endif %}>
+											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
+										</li>
+									</ul>
+								</nav>
+								<!-- END NAVIGATION -->
+							</div></div></div><!-- /Main Header --></header><!-- END HEADER -->

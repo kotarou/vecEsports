@@ -1,36 +1,11 @@
-{% include 'esports/t_header.html' %}
-<nav class="primary">
-	<ul class="sf-menu">
-		<li class="current-menu-item">
-			<a href="index.html">Home <span><i>|</i> All the info</span></a>
-		</li>
-		<li>
-			<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
-			<!-- Sub Navigation -->
-			<ul>
-				<li><a href="/v_teams/">View Registered teams</a></li>
-				<li><a href="/p_teams/">Register a team</a></li>
-			</ul>
-			<!-- /Sub Navigation -->
-		</li>
-		<li>
-			<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
-		</li>
-		<li>
-			<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
-		</li>
-		<li>
-			<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
-		</li>
-	</ul>
-</nav>
-<!-- END NAVIGATION -->
-</div></div></div><!-- /Main Header --></header><!-- END HEADER -->
+{% include 'esports/t_header.html' with current='index' %}
+<!-- BEGIN CONTENT WRAPPER -->
+<div id="content-wrapper" class="content-wrapper">
 
-<!-- BEGIN SLIDER -->
-<div id="slider" class="slider loading">
-	<div class="container clearfix">
-		<div class="grid_12">
+	<div class="container">
+
+		<div class="clearfix">
+			<div class="grid_12">
 			
 			<div id="page-title" class="page-title">
 				<div class="container clearfix">
@@ -41,30 +16,19 @@
 					</div>
 				</div>
 			</div>
-			
-			<h2>League of Legends and DOTA2</h2>
-			These tournaments will run by the following schedule:<br />
-			First week of month (Until the first sunday after the 5th) - Team signups<br />
-			Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
-			Third week of each month - Round Robin Matches<br />
-			Fourth week - More roundrobin matches OR placement matches.<br />
+
+			<div class="grid-12" style="margin-bottom:50px">
+				<h2>League of Legends and DOTA2</h2>
+				These tournaments will run by the following schedule:<br />
+				First week of month (Until the first sunday after the 5th) - Team signups<br />
+				Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
+				Third week of each month - Round Robin Matches<br />
+				Fourth week - More roundrobin matches OR placement matches.<br />
+				<br />
+				To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
+				Each month's prize pool at minimum contains the entirety of the signup money<br />
+			</div>
 			<br />
-			To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
-			Each month's prize pool at minimum contains the entirety of the signup money<br />
-
-		</div>
-	</div>
-</div>
-<!-- END SLIDER -->
-
-
-<!-- BEGIN CONTENT WRAPPER -->
-<div id="content-wrapper" class="content-wrapper">
-
-	<div class="container">
-
-		<div class="clearfix">
-			<div class="grid_12">
 				<!-- BEGIN TABBED CONTENT -->
 				<div class="tabs tabs__alt">
 					<div class="tab-menu clearfix">

@@ -1,31 +1,4 @@
-{% include 'esports/t_header.html' %}
-<nav class="primary">
-	<ul class="sf-menu">
-		<li>
-			<a href="/">Home <span><i>|</i> All the info</span></a>
-		</li>
-		<li>
-			<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
-			<!-- Sub Navigation -->
-			<ul>
-				<li><a href="/v_teams/">View Registered teams</a></li>
-				<li><a href="/p_teams/">Register a team</a></li>
-			</ul>
-			<!-- /Sub Navigation -->
-		</li>
-		<li>
-			<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
-		</li>
-		<li class="current-menu-item">
-			<a href="">Results <span><i>|</i> Recent matches</span></a>
-		</li>
-		<li>
-			<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
-		</li>
-	</ul>
-</nav>
-<!-- END NAVIGATION -->
-</div></div></div><!-- /Main Header --></header><!-- END HEADER -->
+{% include 'esports/t_header.html' with current='results' %}
 
 <!-- BEGIN CONTENT WRAPPER -->
 <div id="content-wrapper" class="content-wrapper">
