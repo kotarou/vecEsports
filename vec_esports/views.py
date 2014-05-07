@@ -21,7 +21,6 @@ data_vars = {
     'last_operation': "None",
     'teams': Team.all(),
     'matchups': Matchup.all(),
-    'results': Result.all(),
     'games': games
 }
 
@@ -216,9 +215,14 @@ def m_result(request, e_vars):
     score2 = request.POST.get('sc2')
 
     if score1 == '':
-        score1 = '0'
+        score1 = 0
+    else:
+        score1 = int(score1)    
     if score2 == '':
-        score2 = '0'
+        score2 = 0
+    else:
+        score2 = int(score2)    
+     
 
     q = db.GqlQuery('SELECT * FROM Matchup WHERE m_id = :1', match_string)
     match_id = q.fetch(1)[0]
@@ -229,11 +233,9 @@ def m_result(request, e_vars):
         e_vars.update({'lo_value': "Fail", 'lo_reason': "Incorect number of games" })
     else:
         # The result is valid
-        result = Result(
-            match=match_id, 
-            score_1 = score1, 
-            score_2=score2)
-        result.put()
-        e_vars.update({'lo_value': "Success"})
+        match_id.score_1 = score1
+        match_id.score_2 = score2
         match_id.completed = True
         match_id.put()
+
+        e_vars.update({'lo_value': "Success"})

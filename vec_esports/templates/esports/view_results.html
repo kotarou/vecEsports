@@ -42,15 +42,15 @@
 					</div>
 				</div>
 			</div>
-			{% for result in results %}
+			{% for match in matchups %}
 			<table>
-				{% if result.match.game = s_game %}
+				{% if match.game = s_game and match.completed%}
 				<tr>
 					<td width="50px"></td>
-					<td>{{result.match.m_class}} - {{result.match.m_type}}:</td>
-					<td><strong>{{result.match.team_1.name}}</strong> ( {% if result.score_1 >= result.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_1}} </font>  ) vs</td>
-					<td> <strong>{{result.match.team_2.name}}</strong> ( {% if result.score_2 >= result.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{result.score_2}} </font>  ) played </td>
-					<td>{{result.match.date}}</td>
+					<td>{{match.m_class}} - {{match.m_type}}:</td>
+					<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
+					<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
+					<td>{{match.date}}</td>
 				</tr>    
 				{% endif %}
 			</table>
