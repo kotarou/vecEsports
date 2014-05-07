@@ -12,6 +12,8 @@ from vec_esports.models import *
 import urllib
 from datetime import datetime
 
+current_tournament = "VECLOL#1"
+
 games = {
     'lol': "League of Legends",
     'dota': "DOTA2"
@@ -20,7 +22,9 @@ games = {
 data_vars = {
     'last_operation': "None",
     'teams': Team.all(),
-    'matchups': Matchup.all(),
+    'lol_matches': Matchup.gql('WHERE game = :1', 'lol'),
+    'dota_matches': Matchup.gql('WHERE game = :1', 'dota'),
+    'matches': Matchup.all(),
     'games': games
 }
 
@@ -172,6 +176,8 @@ def m_bracket(request, e_vars):
     team_one = Team.get_by_key_name(team_one_n)
     team_two = Team.get_by_key_name(team_two_n)
 
+    tourney = current_tournament + "_" + game
+
     # Needs error check for date format
     q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)
     matchlist = q.fetch(limit=100)
@@ -190,7 +196,8 @@ def m_bracket(request, e_vars):
             m_type=matchtype,
             m_id=matchid, 
             m_class=matchclass, 
-            completed=False)
+            completed=False,
+            tournament=tourney)
         bracket.put()
         e_vars.update({'lo_value': "Success"})
     else:
@@ -209,7 +216,8 @@ def m_bracket(request, e_vars):
                 m_type=matchtype, 
                 m_id=matchid, 
                 m_class=matchclass, 
-                completed=False)
+                completed=False,
+                tournament=tourney)
             bracket.put()
             e_vars.update({'lo_value': "Success"})
 

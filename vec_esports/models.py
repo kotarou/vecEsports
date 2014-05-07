@@ -42,8 +42,8 @@ class Matchup(db.Model):
     completed = db.BooleanProperty()
     score_1 = db.IntegerProperty()
     score_2 = db.IntegerProperty()
-
-    tournament = db.ReferenceProperty(Tournament, collection_name= "T4")
+    tournament = db.StringProperty()
+    #tournament = db.ReferenceProperty(Tournament, collection_name= "T4")
 
 
 
