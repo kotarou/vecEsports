@@ -41,6 +41,7 @@ def main_contact(request):
     return direct_to_template(request, 'esports/contact.html', e_vars) 
 
 def main_results(request, change):
+    # This is the wrapper function that will deal to all result related requests
     e_vars = data_vars.copy()
     if change != True:
         return direct_to_template(request, 'esports/view_results.html', e_vars)
