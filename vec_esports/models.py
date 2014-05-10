@@ -4,7 +4,9 @@ from google.appengine.ext import db
 
 class Tournament(db.Model):
     """Models a tournament with a list of teams, a list of matches, a tournament name and a tournament id"""
-    name = db.StringProperty()
+    name    = db.StringProperty()
+    game    = db.StringProperty(choices=set(["lol", "dota"]))
+    teams   = db.StringListProperty()
 
 class Player(db.Model):
     """Models a Player entry with a player name, alias, contact details"""
@@ -26,7 +28,8 @@ class Team(db.Model):
     sub_2     = db.StringProperty()
     contact_email = db.EmailProperty()
     paid = db.BooleanProperty()
-
+    tournaments = db.StringListProperty()
+    tournament_results = db.StringListProperty()
     active = db.BooleanProperty()
     #active = db.ReferenceProperty(Tournament, collection_name= "T1")
 

@@ -12,7 +12,8 @@ from vec_esports.models import *
 import urllib
 from datetime import datetime
 
-current_tournament = "VECLOL#1"
+current_tournament_lol = "VECLOL_1"
+current_tournament_dota = "VECDOTA_1"
 
 games = {
     'lol': "League of Legends",
@@ -46,6 +47,52 @@ def itemExists(query, value):
 def main_index(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', e_vars)
+
+def main_views(request, view, value=None, single=True):
+    e_vars = {}
+    # There are three possible view results here
+    #   Tournament
+    #   Team
+    #   Match
+    # e_vars.update({'last_operation': "Team re-registration"})
+    if single:
+        if view == 'team':
+            # Return the view for a single team
+            team = Team.gql('WHERE name = :1', value)[0]
+            e_vars.update({
+                'operation': 'team',
+                'mode': 'single',
+                'team': team,
+                'entered': zip(team.tournaments, team.tournament_results)
+            })
+        if view == 'tournament':
+            # Return the view for a single tournament
+            tourney = Tournament.gql('WHERE name = :1', value)[0]
+            e_vars.update({
+                'operation': 'tournament',
+                'tournament': tourney,
+                'teams': Team.gql('WHERE tournaments = :1', tourney.name)
+            })
+    else:
+        if view == 'team':
+            if value == 'current':
+                # Return the view for the current tournament's registered teams
+                e_vars.update({
+                    'operation': 'tournament',
+                    'mode': 'current',
+                    'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
+                    'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
+                })
+            else:
+                teams = Team.all()
+                e_vars.update({
+                    'operation': 'team',
+                    'mode': 'all',
+                    'lol_teams': Team.gql('WHERE game = :1', 'lol'),
+                    'dota_teams': Team.gql('WHERE game = :1', 'dota'),
+                })
+
+    return direct_to_template(request, 'esports/view.html', e_vars)
 
 def main_contact(request):
     e_vars = data_vars.copy()
@@ -90,8 +137,6 @@ def main_teams(request, change):
             m_team(request, e_vars)
     return direct_to_template(request, 'esports/register.html', e_vars)     
 
-
-
 def u_team(request, e_vars):
     e_vars.update({'last_operation': "Team re-registration"})
 
@@ -108,14 +153,6 @@ def m_team(request, e_vars):
     e_vars.update({'last_operation': "Team Registration"})
     
     team_name = request.POST.get('tmn')
-
-    if(Team.get_by_key_name(team_name) != None):
-        e_vars.update({
-            'lo_value': "Fail",
-            'lo_reason': "Team already exists"
-        })
-        return
-    
     team_game       = request.POST.get('game')
     team_captain    = request.POST.get('cap')
     team_p2         = request.POST.get('pl2')
@@ -125,26 +162,55 @@ def m_team(request, e_vars):
     team_p6         = request.POST.get('pl6')
     team_p7         = request.POST.get('pl7')
     team_contact    = request.POST.get('eml')
+    
+    if(Team.get_by_key_name(team_name) != None):
+        e_vars.update({
+            'lo_value': "Fail",
+            'lo_reason': "Team already exists"
+        })
+        return
+
+    if team_game == 'lol':
+        entry = current_tournament_lol
+    else:
+        entry = current_tournament_dota
 
     team = Team(
         key_name=team_name,
         game=team_game,
         name=team_name,
-        captain=team_captain,
-        player_2=team_p2,
-        player_3=team_p3,
-        player_4=team_p4,
-        player_5=team_p5,
-        sub_1=team_p6,
-        sub_2=team_p7,
+        captain=team_captain, 
+        player_2=team_p2, player_3=team_p3,  player_4=team_p4,  player_5=team_p5,
+        sub_1=team_p6, sub_2=team_p7,
         contact_email=team_contact,
-        active=True,
-        paid=False)
+        tournaments = [entry],
+        tournament_results = ['Registered'],
+        active=True, paid=False
+        )
     team.put()
     
     e_vars.update({'lo_value': "Success"})
-       
 
+def m_tournament(request, e_vars):
+    e_vars.update({'last_operation': "Tournament Creation"})
+    
+    tournament_name = request.POST.get('tmn')
+    
+    if(Team.get_by_key_name(team_name) != None):
+        e_vars.update({
+            'lo_value': "Fail",
+            'lo_reason': "Tournament already exists"
+        })
+        return
+
+    tourney = Tournament(
+        key_name=tournament_name,
+        name=tournament_name,
+        teams=[])
+    tourney.put()
+    
+    e_vars.update({'lo_value': "Success"})
+       
 def u_bracket(request, e_vars):
     e_vars.update({'last_operation': "Matchup modification"})
     
@@ -176,7 +242,7 @@ def m_bracket(request, e_vars):
     team_one = Team.get_by_key_name(team_one_n)
     team_two = Team.get_by_key_name(team_two_n)
 
-    tourney = current_tournament + "_" + game
+    tourney = current_tournament
 
     # Needs error check for date format
     q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)

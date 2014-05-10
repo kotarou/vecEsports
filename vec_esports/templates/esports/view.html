@@ -1,0 +1,72 @@
+{% include 'esports/t_header.html' with current='view' %}
+<!-- BEGIN CONTENT WRAPPER -->
+<div id="content-wrapper" class="content-wrapper">
+	<div class="container">
+		<div class="clearfix">
+			
+				{% if operation = 'team' and mode = 'single' %}
+					<div class="grid_12">
+						{% include 'esports/t_title.html' with title='Team= '|add:team.name|add:'' size=6 %}
+						Registered game: {{team.game}}<br />
+						Captain: {{team.captain}}<br />
+						Player 2: {{team.player_2}}<br />
+						Player 3: {{team.player_3}}<br />
+						Player 4: {{team.player_4}}<br />
+						Player 5: {{team.player_5}}<br />
+						Sub 1: {{team.sub_1}}<br />
+						Sub 2: {{team.sub_2}}<br />	
+
+						Played in:
+							{% for t in entered %}
+								<a href='#'>{{t.0}}</a> ({{t.1}})
+							{% endfor%}
+					</div>
+				{% endif %}
+				
+				{% if operation = 'team' and mode = 'all'  %}
+					<div class="grid_6">
+						{% include 'esports/t_title.html' with title='League of Legends Teams' size=6 %}
+						{% for team in lol_teams %}
+							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+						{% endfor %}
+					</div>
+					<div class="grid_6">
+						{% include 'esports/t_title.html' with title='DOTA2 Teams' size=6 %}
+						{% for team in dota_teams %}
+							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+						{% endfor %}
+					</div>
+				{% endif %}
+				
+				{% if operation = 'tournament' %}
+					{% if mode = 'current' %}
+						{% include 'esports/t_title.html' with title='Teams for current tournaments:' size=12 %}
+						<div class="grid_6">
+							<h2>Registered LoL Teams:</h2>
+							{% for team in lol_teams %}
+								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+							{% endfor %}
+						</div>
+						<div class="grid_6">
+							<h2>Registered DOTA2 Teams:</h2>
+							{% for team in dota_teams %}
+								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+							{% endfor %}
+						</div>	
+					{% else %}
+						{% include 'esports/t_title.html' with title='Tournament= '|add:tournament.name|add:'' size=12 %}
+						<div class="grid_12">
+							<h2>Registered Teams:</h2>
+							{% for team in teams %}
+								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+							{% endfor %}
+						</div>
+					{% endif %}
+				{% endif %}
+			
+			<div class="hr hr-dashed"></div>
+		</div>
+	</div>
+</div>
+<!-- END CONTENT WRAPPER -->
+{% include 'esports/t_footer.html' %}

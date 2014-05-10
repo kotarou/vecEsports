@@ -1,0 +1,36 @@
+{% include 'esports/t_header.html' with current='teams' %}
+
+<!-- BEGIN CONTENT WRAPPER -->
+<div id="content-wrapper" class="content-wrapper">
+    <div class="container">
+
+        <div class="clearfix">
+
+            {% if last_operation != "None" %}
+            <strong>{{last_operation}}</strong> completed, returning  <strong>{{lo_value}}</strong>
+            {% if lo_value != "Success" %}
+            with response <strong>{{lo_reason}}</strong>
+            {% endif %}
+            {% endif %}
+
+            <div class="grid_6">
+                <form action="/c_tournament/" method="post">
+                    {% csrf_token %}
+                    {% include 'esports/t_title.html' with title='Create Tournament' size=6 %}
+                    <select name="game">
+                        <option value="lol">League of Legends</option>
+                        <option value="dota">DOTA2</option>
+                    </select>
+                    <table>
+                        <tr>
+                            <td>Tournament Name *</td>
+                            <td><input type="text" name="tmn" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CONTENT WRAPPER -->
+{% include 'esports/t_footer.html' %}

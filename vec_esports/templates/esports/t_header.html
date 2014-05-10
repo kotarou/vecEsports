@@ -116,10 +116,16 @@
 											<a href="/">Home <span><i>|</i> All the info</span></a>
 										</li>
 										<li {% if current = 'teams' %} class="current-menu-item" {% endif %}>
-											<a href="/v_teams/">Teams <span><i>|</i> View and Register</span></a>
+											<a href="/viewall/team/current">Teams <span><i>|</i> View and Register</span></a>
 											<!-- Sub Navigation -->
 											<ul>
-												<li><a href="/v_teams/">View Registered teams</a></li>
+												<li>
+													<a href="/viewall/team/current/">View Registered teams</a>
+													<ul>
+														<li><a href="/viewall/team/current/">Current Tournament</a></li>
+														<li><a href="/viewall/team/all/">All tournaments</a></li>
+													</ul>
+												</li>
 												<li><a href="/c_teams/">Register a team</a></li>
 											</ul>
 											<!-- /Sub Navigation -->
