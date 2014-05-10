@@ -2,16 +2,18 @@ Syntax I am attempting to use:
 
   A html file is named foobar.html
   The method defined in urls.py that will link to it is named main_foobar 
-  A link to the page will be /p_foobar/
+  Pages will be linked in one of two ways:
+    /c_foo/ if the page will be modifying data
   For the methods that deal with form data from these pages:
     m_foobar creates an entity (team / result / matchup / etc)
     u_foobar updates an entity (reregistration, updating a match time)
 
-  Current files:
-    index.html
-    register.html
-    brackets.html
-    results.html
-    contact.html
+  Views have been refactored:
+    /view/{type}/{value}/ will now show a single entities details
+    	type: team, tournament
+    	value: name
+    /viewall/{type}/{value} will show a collection of entities
+    	type: team, tournament
+    	value: current, all
 
 Add   login: required    to a handler>url in app.yaml to restrict a page to only logged in users.

@@ -44,6 +44,13 @@ def itemExists(query, value):
         return False
     return True
 
+def admin(request):
+    e_vars = data_vars.copy()
+    if request.method == 'POST':
+        m_tournament(request, e_vars)
+    
+    return direct_to_template(request, 'esports/admin.html', e_vars)
+
 def main_index(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', e_vars)
@@ -196,7 +203,7 @@ def m_tournament(request, e_vars):
     
     tournament_name = request.POST.get('tmn')
     
-    if(Team.get_by_key_name(team_name) != None):
+    if(Team.get_by_key_name(tournament_name) != None):
         e_vars.update({
             'lo_value': "Fail",
             'lo_reason': "Tournament already exists"

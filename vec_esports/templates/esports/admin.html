@@ -14,9 +14,9 @@
             {% endif %}
 
             <div class="grid_6">
-                <form action="/c_tournament/" method="post">
+                <form action="/secretadminlink/" method="post">
                     {% csrf_token %}
-                    {% include 'esports/t_title.html' with title='Create Tournament' size=6 %}
+                    {% include 'esports/t_title.html' with title='Create Tournament' size=12 %}
                     <select name="game">
                         <option value="lol">League of Legends</option>
                         <option value="dota">DOTA2</option>
@@ -27,6 +27,7 @@
                             <td><input type="text" name="tmn" /></td>
                         </tr>
                     </table>
+                    <input type="submit" value="Submit" />
                 </form>
             </div>
         </div>

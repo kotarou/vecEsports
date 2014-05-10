@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     (r'^view/(?P<view>[a-z]+)/(?P<value>[a-zA-Z0-9!-~]+)/$',	main_views),
     (r'^viewall/(?P<view>[a-z]+)/$',					main_views,	{'single':False}),
     (r'^viewall/(?P<view>[a-z]+)/(?P<value>[a-z]+)/$',	main_views,	{'single':False}),
+    (r'^secretadminlink/$', 	admin),  
 )
