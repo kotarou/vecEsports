@@ -70,7 +70,7 @@ def main_views(request, view, value=None, single=True):
                 'operation': 'team',
                 'mode': 'single',
                 'team': team,
-                'entered': zip(team.tournaments, team.tournament_results)
+                'entered': zip(team.tournaments, team.tournament_results),
             })
         if view == 'tournament':
             # Return the view for a single tournament
@@ -78,6 +78,8 @@ def main_views(request, view, value=None, single=True):
             e_vars.update({
                 'operation': 'tournament',
                 'tournament': tourney,
+                'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
+                # this is the syntax for lists as well as single entities
                 'teams': Team.gql('WHERE tournaments = :1', tourney.name)
             })
     else:
@@ -85,7 +87,7 @@ def main_views(request, view, value=None, single=True):
             if value == 'current':
                 # Return the view for the current tournament's registered teams
                 e_vars.update({
-                    'operation': 'tournament',
+                    'operation': 'team',
                     'mode': 'current',
                     'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
                     'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
@@ -249,7 +251,10 @@ def m_bracket(request, e_vars):
     team_one = Team.get_by_key_name(team_one_n)
     team_two = Team.get_by_key_name(team_two_n)
 
-    tourney = current_tournament
+    if game == 'lol':
+        tourney = current_tournament_lol
+    else:
+        tourney = current_tournament_dota
 
     # Needs error check for date format
     q = db.GqlQuery('SELECT * FROM Matchup WHERE team_1 = :1 AND team_2 = :2 AND game = :3', team_one, team_two, game)

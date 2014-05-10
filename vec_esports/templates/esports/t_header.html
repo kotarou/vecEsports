@@ -116,7 +116,7 @@
 											<a href="/">Home <span><i>|</i> All the info</span></a>
 										</li>
 										<li {% if current = 'teams' %} class="current-menu-item" {% endif %}>
-											<a href="/viewall/team/current">Teams <span><i>|</i> View and Register</span></a>
+											<a href="/viewall/team/current">Teams <span><i>|</i> View &amp; Register</span></a>
 											<!-- Sub Navigation -->
 											<ul>
 												<li>
@@ -130,11 +130,18 @@
 											</ul>
 											<!-- /Sub Navigation -->
 										</li>
-										<li {% if current = 'brackets' %} class="current-menu-item" {% endif %}>
-											<a href="/v_brackets/">Brackets <span><i>|</i> Upcoming games</span></a>
-										</li>
-										<li {% if current = 'results' %} class="current-menu-item" {% endif %}>
-											<a href="/v_results/">Results <span><i>|</i> Recent matches</span></a>
+										<li {% if current = 'tournament' %} class="current-menu-item" {% endif %}>
+											<a href="/v_brackets/">Matches &amp; Results <span><i>|</i> Completed &amp; Upcoming</span></a>
+											<ul>
+												<li>
+													<a href="#">Current TournamentS</a>
+														<ul>
+															<li><a href="/view/tournament/VECLOL_1/">VECLOL_1</a></li>
+															<li><a href="/view/tournament/VECDOTA_1/">VECDOTA_1</a></li>
+														</ul>
+												</li>
+												<li><a href="#">Prior Tournament</a></li>
+											</ul>
 										</li>
 										<li {% if current = 'contact' %} class="current-menu-item" {% endif %}>
 											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>

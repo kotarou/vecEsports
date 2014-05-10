@@ -1,4 +1,8 @@
-{% include 'esports/t_header.html' with current='view' %}
+{% if operation = 'team' %}
+	{% include 'esports/t_header.html' with current='teams' %}
+{% else %}
+	{% include 'esports/t_header.html' with current='tournament' %}
+{% endif %}
 <!-- BEGIN CONTENT WRAPPER -->
 <div id="content-wrapper" class="content-wrapper">
 	<div class="container">
@@ -20,6 +24,7 @@
 							{% for t in entered %}
 								<a href='/view/tournament/{{t.0}}'>{{t.0}}</a> ({{t.1}})
 							{% endfor%}
+
 					</div>
 				{% endif %}
 				
@@ -37,9 +42,8 @@
 						{% endfor %}
 					</div>
 				{% endif %}
-				
-				{% if operation = 'tournament' %}
-					{% if mode = 'current' %}
+
+				{% if  operation = 'team' and mode = 'current' %}
 						{% include 'esports/t_title.html' with title='Teams for current tournaments:' size=12 %}
 						<div class="grid_6">
 							<h2>Registered LoL Teams:</h2>
@@ -53,15 +57,46 @@
 								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 							{% endfor %}
 						</div>	
-					{% else %}
-						{% include 'esports/t_title.html' with title='Tournament= '|add:tournament.name|add:'' size=12 %}
-						<div class="grid_12">
-							<h2>Registered Teams:</h2>
-							{% for team in teams %}
-								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-							{% endfor %}
-						</div>
-					{% endif %}
+				{% endif %}
+				
+				{% if operation = 'tournament' %}
+					{% include 'esports/t_title.html' with title='Tournament= '|add:tournament.name|add:'' size=12 %}
+					<div class="grid_12">
+						<h2>Registered Teams:</h2>
+						{% for team in teams %}
+							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+						{% endfor %}
+						<br />
+						<h2>Upcoming Matches:</h2>
+						{% for match in matches %}
+							<table>
+								{% if not match.completed %}                        
+									<tr>
+										<td width="50px"></td>
+										<td>{{match.m_class}} - {{match.m_type}}:</td>
+										<td><strong>{{match.team_1.name}}</strong> vs</td>
+										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
+									</tr>
+								{% endif %}
+							</table>
+						{% endfor %}
+						<br />
+						<h2>Completed Matches:</h2>
+						{% for match in matches %}
+							<table>
+								{% if match.completed%}
+									<tr>
+										<td width="50px"></td>
+										<td>{{match.m_class}} - {{match.m_type}}:</td>
+										<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
+										<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
+										<td>{{match.date}}</td>
+									</tr>    
+								{% endif %}
+							</table>
+						{% endfor %}
+					</div>
+
 				{% endif %}
 			
 			<div class="hr hr-dashed"></div>
