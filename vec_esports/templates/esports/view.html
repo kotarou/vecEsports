@@ -44,15 +44,15 @@
 				{% endif %}
 
 				{% if  operation = 'team' and mode = 'current' %}
-						{% include 'esports/t_title.html' with title='Teams for current tournaments:' size=12 %}
+						{% include 'esports/t_title.html' with title='Teams for current tournament:' size=12 %}
 						<div class="grid_6">
-							<h2>Registered LoL Teams:</h2>
+							<h2>Registered VECLOL_1 Teams:</h2>
 							{% for team in lol_teams %}
 								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 							{% endfor %}
 						</div>
 						<div class="grid_6">
-							<h2>Registered DOTA2 Teams:</h2>
+							<h2>Registered VECDOTA_1 Teams:</h2>
 							{% for team in dota_teams %}
 								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 							{% endfor %}
