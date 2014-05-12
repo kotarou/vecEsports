@@ -14,77 +14,90 @@
             {% endif %}
 
             <div class="grid_6">
-                <form action="/c_teams/" method="post">
-                    {% csrf_token %}
-                    {% include 'esports/t_title.html' with title='Register Team' size=6 %}
-                    <select name="game">
-                        <option value="lol">League of Legends</option>
-                        <option value="dota">DOTA2</option>
-                    </select>
-                    All player names should be summoner / in-game names.
-                    <br />
 
-                    <table>
-                        <tr>
-                            <td>Team Name *</td>
-                            <td><input type="text" name="tmn" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team Contact email *</td>
-                            <td><input type="text" name="eml" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team Captain *</td>
-                            <td><input type="text" name="cap" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team player 2 *</td>
-                            <td><input type="text" name="pl2" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team player 3 *</td>
-                            <td><input type="text" name="pl3" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team player 4 *</td>
-                            <td><input type="text" name="pl4" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team player 5 *</td>
-                            <td><input type="text" name="pl5" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team sub 1</td>
-                            <td><input type="text" name="pl6" /></td>
-                        </tr>
-                        <tr>
-                            <td>Team sub 2</td>
-                            <td><input type="text" name="pl7" /></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" value="Submit" />
-                            </td>
-                        </tr>
-                    </table>
-                    <p>Note: Please make sure your details are correct before submitting the form and that all fields marked with * are completed!.</p>
-                </form>
-            </div>
-            <div class="grid_6">
-            {% include 'esports/t_title.html' with title='Re-register Team' size=6%}
-                <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
-                <form action="/c_teams/" method="post">
-                    {% csrf_token %}
-                    <select name="r_team">
-                        {% for team in teams %}
-                        {% if not team.active %}
-                        <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Submit" />
-                </form>
-            </div>
+                {% if phase = 'register' %}
+
+                    <form action="/c_teams/" method="post">
+                        {% csrf_token %}
+                        {% include 'esports/t_title.html' with title='Register Team' size=6 %}
+                        <select name="game">
+                            <option value="lol">League of Legends</option>
+                            <option value="dota">DOTA2</option>
+                        </select>
+                        All player names should be summoner / in-game names.
+                        <br />
+
+                        <table>
+                            <tr>
+                                <td>Team Name *</td>
+                                <td><input type="text" name="tmn" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team Contact email *</td>
+                                <td><input type="text" name="eml" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team Captain *</td>
+                                <td><input type="text" name="cap" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team player 2 *</td>
+                                <td><input type="text" name="pl2" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team player 3 *</td>
+                                <td><input type="text" name="pl3" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team player 4 *</td>
+                                <td><input type="text" name="pl4" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team player 5 *</td>
+                                <td><input type="text" name="pl5" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team sub 1</td>
+                                <td><input type="text" name="pl6" /></td>
+                            </tr>
+                            <tr>
+                                <td>Team sub 2</td>
+                                <td><input type="text" name="pl7" /></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" value="Submit" />
+                                </td>
+                            </tr>
+                        </table>
+                        <p>Note: Please make sure your details are correct before submitting the form and that all fields marked with * are completed!.</p>
+                    </form>
+                </div>
+                <div class="grid_6">
+                {% include 'esports/t_title.html' with title='Re-register Team' size=6%}
+                    <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
+                    <form action="/c_teams/" method="post">
+                        {% csrf_token %}
+                        <select name="r_team">
+                            {% for team in teams %}
+                            {% if not team.active %}
+                            <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+
+            {% else %}
+
+                <div class="grid_12">
+                {% include 'esports/t_title.html' with title='Registrations are closed' size=12%}
+                    <h3> Registrations will open for VECLOL_2 and VECDOTA_2 on June 1, 2014.</h3>
+                </div>
+
+            {% endif %}
+
         </div>
     </div>
 </div>

@@ -10,7 +10,13 @@
 			{% include 'esports/t_title.html' with title='VEC Monthly ESports Tournaments' size=6 %}
 			
 			<div class="grid-12" style="margin-bottom:50px">
-				<h3>Current phase: Team Signups until Midnight Sunday NZST<h3>
+				{% if phase = 'register' %}
+					<h3>Current phase: Team Signups until Midnight Sunday NZST<h3>
+				{% elif phase = 'organize' %}
+					<h3>Current phase: Match time organization </h3>
+				{% else %}
+					<h3>Current phase: Games are being played %}
+				{% endif %}
 				<h2>League of Legends and DOTA2</h2>
 				These tournaments will run by the following schedule:<br />
 				First week of month (Until the first sunday after the 5th) - Team signups<br />
@@ -38,7 +44,7 @@
 					<div class="tab-wrapper">
 						<div id="tab1" class="tab">
 							<ul class="post-loop unstyled clearfix">
-								{% for match in lol_matches|slice:":3" %}
+								{% for match in lol_complete|slice:":3" %}
 										<li>
 											<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80"><!--height = 210 -->
 											<div class="post-caption">
@@ -55,18 +61,18 @@
 						</div>
 						<div id="tab3" class="tab">
 							<ul class="post-loop unstyled clearfix">
-								{% for match in dota_matches|slice:":3" %}
-										<li>
-											<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80">
-											<div class="post-caption">
-												<span class="post-cats">
-													<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
-													<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
-													<div style="margin-left:20px; margin-bottom:-17px">vs</div> <br />
-													{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
-												</span>
-											</div>
-										</li>
+								{% for match in dota_complete|slice:":3" %}
+											<li>
+												<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80">
+												<div class="post-caption">
+													<span class="post-cats">
+														<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
+														<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
+														<div style="margin-left:20px; margin-bottom:-17px">vs</div> <br />
+														{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
+													</span>
+												</div>
+											</li>
 								{% endfor %}
 							</ul>
 						</div>

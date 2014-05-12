@@ -25,8 +25,11 @@ data_vars = {
     'teams': Team.all(),
     'lol_matches': Matchup.gql('WHERE game = :1', 'lol'),
     'dota_matches': Matchup.gql('WHERE game = :1', 'dota'),
+    'lol_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'lol'),
+    'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
     'matches': Matchup.all(),
-    'games': games
+    'games': games,
+    'phase': 'organize'
 }
 
 match_lengths = {
@@ -36,13 +39,6 @@ match_lengths = {
     'BO5': 5,
     'Informal': 1
 }
-
-def itemExists(query, value):
-    q = db.GqlQuery('SELECT * FROM Matchup WHERE :1 = :2', query, value)
-    matchlist = q.fetch(limit=100)
-    if len(matchlist) < 1:
-        return False
-    return True
 
 def admin(request):
     e_vars = data_vars.copy()
@@ -70,6 +66,8 @@ def main_views(request, view, value=None, single=True):
                 'operation': 'team',
                 'mode': 'single',
                 'team': team,
+                'match_blue': Matchup.gql('WHERE team_1 = :1', team),
+                'match_red': Matchup.gql('WHERE team_2 = :1', team),
                 'entered': zip(team.tournaments, team.tournament_results),
             })
         if view == 'tournament':

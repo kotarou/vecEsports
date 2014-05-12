@@ -20,9 +20,34 @@
 						Sub 1: {{team.sub_1}}<br />
 						Sub 2: {{team.sub_2}}<br />	
 
-						Played in:
+						<br />
+						<h3>Upcoming Matches:</h3>
+						<table>
+						{% for match in match_blue%}
+								{% if not match.completed %}                        
+									<tr>
+										<td width="50px"></td>
+										<td>{{match.m_class}} - {{match.m_type}}:</td>
+										<td><strong>{{match.team_1.name}}</strong> vs</td>
+										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
+									</tr>
+								{% endif %}
+						{% endfor %}
+						{% for match in match_red%}
+								{% if not match.completed %}                        
+									<tr>
+										<td width="50px"></td>
+										<td>{{match.m_class}} - {{match.m_type}}:</td>
+										<td><strong>{{match.team_1.name}}</strong> vs</td>
+										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
+									</tr>
+								{% endif %}
+						{% endfor %}
+						</table>
+						<br />
+						<h3>Played in:</h3>
 							{% for t in entered %}
-								<a href='/view/tournament/{{t.0}}'>{{t.0}}</a> ({{t.1}})
+								<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
 							{% endfor%}
 
 					</div>
