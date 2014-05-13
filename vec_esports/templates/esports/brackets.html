@@ -67,9 +67,9 @@
             <h1> Update match with time </h1>
             {% csrf_token %}
             <select name="matchaddtime">
-                {% for matchup in matchups %}
-                    {% if matchup.date = None %}
-                        <option value={{matchup.m_id|urlencode}}>({{matchup.game}}) - {{matchup.m_type}}/{{matchup.m_class}} - {{matchup.team_1.name}} vs {{matchup.team_2.name}}</option>
+                {% for match in matches %}
+                    {% if match.date = None %}
+                        <option value={{match.m_id|urlencode}}>({{match.game}}) - {{match.m_type}}/{{match.m_class}} - {{match.team_1.name}} vs {{match.team_2.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
