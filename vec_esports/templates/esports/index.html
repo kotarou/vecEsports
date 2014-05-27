@@ -1,88 +1,83 @@
-{% include 'esports/t_header.html' with current='index' %}
-<!-- BEGIN CONTENT WRAPPER -->
-<div id="content-wrapper" class="content-wrapper">
+{% extends "esports/base.html" %}
 
-	<div class="container">
+{%block indexview %}		class="current-menu-item"	{%endblock indexview %}
+{%block teamview %}										{%endblock teamview %}
+{%block tournamentview %}								{%endblock tournamentview %}
+{%block contactview %}									{%endblock contactview %}
 
-		<div class="clearfix">
-			<div class="grid_12">
-			
-			{% include 'esports/t_title.html' with title='VEC Monthly ESports Tournaments' size=6 %}
-			
-			<div class="grid-12" style="margin-bottom:50px">
-				{% if phase = 'register' %}
-					<h3>Current phase: Team Signups until Midnight Sunday NZST<h3>
-				{% elif phase = 'organize' %}
-					<h3>Current phase: Match time organization </h3>
-				{% else %}
-					<h3>Current phase: Games are being played %}
-				{% endif %}
-				<h2>League of Legends and DOTA2</h2>
-				These tournaments will run by the following schedule:<br />
-				First week of month (Until the first sunday after the 5th) - Team signups<br />
-				Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
-				Third week of each month - Round Robin Matches<br />
-				Fourth week - More roundrobin matches OR placement matches.<br />
-				<br />
-				To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
-				Each month's prize pool at minimum contains the entirety of the signup money<br />
-				<br />
-				<h3>LoL Rules can be found <a href="https://docs.google.com/a/10percentwolf.com/document/d/1SxWgoLPkFLdciQeEGGKL-AAuGYy2zL3JkmWEZs2JyPw/edit">here</a>.</h3>
-				<h3>DOTA2 Rules can be found <a href="https://docs.google.com/document/d/1pJjfQzqnTr1iHpT_t8QtJ7bveqa8IaW3Zyx76j2XFQM/edit?usp=sharing">here</a>.</h3>
-				<br />
+{% block title %}VEC Monthly ESports Tournaments{% endblock title %}
 
-			</div>
-			<br />
-				<!-- BEGIN TABBED CONTENT -->
-				<div class="tabs tabs__alt">
-					<div class="tab-menu clearfix">
-						<ul>
-							<li><a href="#tab1">Latest LoL Results</a></li>
-							<li><a href="#tab3">Latest DOTA2 Results</a></li>
-						</ul>
-					</div>
-					<div class="tab-wrapper">
-						<div id="tab1" class="tab">
-							<ul class="post-loop unstyled clearfix">
-								{% for match in lol_complete|slice:":3" %}
-										<li>
-											<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80"><!--height = 210 -->
-											<div class="post-caption">
-												<span class="post-cats">
-													<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
-													<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
-													<div style="margin-left:20px; margin-bottom:-17px">vs</div> <br />
-													{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
-												</span>
-											</div>
-										</li>
-								{% endfor %}
-							</ul>
-						</div>
-						<div id="tab3" class="tab">
-							<ul class="post-loop unstyled clearfix">
-								{% for match in dota_complete|slice:":3" %}
-											<li>
-												<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80">
-												<div class="post-caption">
-													<span class="post-cats">
-														<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
-														<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
+{% block content%}		
+<div class="grid-12" style="margin-bottom:50px">
+	{% if phase = 'register' %}
+		<h3>Current phase: Team Signups until Midnight Sunday NZST<h3>
+	{% elif phase = 'organize' %}
+		<h3>Current phase: Match time organization </h3>
+	{% else %}
+		<h3>Current phase: Games are being played %}
+	{% endif %}
+	<h2>League of Legends and DOTA2</h2>
+	These tournaments will run by the following schedule:<br />
+	First week of month (Until the first sunday after the 5th) - Team signups<br />
+	Second week of each month (Second sunday after the 5th) - Teams agree on match times<br />
+	Third week of each month - Round Robin Matches<br />
+	Fourth week - More roundrobin matches OR placement matches.<br />
+	<br />
+	To sign up each month costs $25. An email will be sent to the address provided to sort this out.<br />
+	Each month's prize pool at minimum contains the entirety of the signup money<br />
+	<br />
+	<h3>LoL Rules can be found <a href="https://docs.google.com/a/10percentwolf.com/document/d/1SxWgoLPkFLdciQeEGGKL-AAuGYy2zL3JkmWEZs2JyPw/edit">here</a>.</h3>
+	<h3>DOTA2 Rules can be found <a href="https://docs.google.com/document/d/1pJjfQzqnTr1iHpT_t8QtJ7bveqa8IaW3Zyx76j2XFQM/edit?usp=sharing">here</a>.</h3>
+	<br />
+	</div>
+<br />
+{% endblock content%}	
+
+{% block feed %}
+<!-- BEGIN TABBED CONTENT -->
+<div class="tabs tabs__alt">
+	<div class="tab-menu clearfix">
+		<ul>
+			<li><a href="#tab1">Latest LoL Results</a></li>
+			<li><a href="#tab3">Latest DOTA2 Results</a></li>
+		</ul>
+	</div>
+	<div class="tab-wrapper">
+		<div id="tab1" class="tab">
+			<ul class="post-loop unstyled clearfix">
+				{% for match in lol_complete|slice:":3" %}
+						<li>
+							<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80"><!--height = 210 -->
+							<div class="post-caption">
+								<span class="post-cats">
+									<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
+									<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
+									<div style="margin-left:20px; margin-bottom:-17px">vs</div> <br />
+									{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
+								</span>
+							</div>
+						</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div id="tab3" class="tab">
+			<ul class="post-loop unstyled clearfix">
+				{% for match in dota_complete|slice:":3" %}
+							<li>
+								<img src="/static/images/img{{match.game}}.jpg" alt="" class="post-img" width="220" height="80">
+								<div class="post-caption">
+									<span class="post-cats">
+										<a href="#">{{match.tournament}}</a> / <a href="#">{{match.m_class}}</a></span>
+										<h5><!--<a href="#">-->{{match.team_1.name}} ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) <br />
 														<div style="margin-left:20px; margin-bottom:-17px">vs</div> <br />
-														{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
-													</span>
-												</div>
-											</li>
-								{% endfor %}
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- END TABBED CONTENT -->
-			</div>
-		</div>	
-		<div class="hr hr-dashed"></div>
+										{{match.team_2.name}} ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>)</h5>
+									</span>
+								</div>
+							</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 </div>
-<!-- END CONTENT WRAPPER -->
-{% include 'esports/t_footer.html' %}
+<!-- END TABBED CONTENT -->
+{% endblock feed %}

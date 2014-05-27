@@ -3,21 +3,16 @@
 <!--[if lte IE 8]>              <html class="ie8 no-js" lang="en">     <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html class="not-ie no-js" lang="en">  <!--<![endif]-->
 <head>
-
 	<!-- Basic Page Needs
 	================================================== -->
 	<meta charset="utf-8">
-	<title>VEC ESports</title>
+	<title>{% block pagetitle %} VEC ESports {% endblock pagetitle %}</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />	
 	<!-- Mobile Specific Metas
 	================================================== -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	
-	
-	
 	<!-- CSS
 	================================================== -->
 	<!-- Normalize default styles -->
@@ -55,20 +50,15 @@
 	<link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png">
 	<link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png">
-	
-	
+	<link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png">	
 </head>
 <body>
-	
 	<!-- BEGIN WRAPPER -->
 	<div id="wrapper">
-
 		<div class="wrapp-holder">
 			<div class="wrap-frame">
 				<!-- BEGIN HEADER -->
 				<header id="header" class="header">
-
 					<!-- Top Header -->
 					<div class="header-top">
 						<div class="container clearfix">
@@ -80,7 +70,6 @@
 									<li><a href="#">Empty link</a></li>
 								</ul>-->
 								<!-- /Top Menu -->
-								
 								<!-- Social Links -->
 								<ul class="social-links unstyled">
 									<!--<li class="ico-twitter"><a href="#">Twitter</a></li>-->
@@ -112,10 +101,10 @@
 								<!-- BEGIN NAVIGATION -->
 								<nav class="primary">
 									<ul class="sf-menu">
-										<li {% if current = 'index' %} class="current-menu-item" {% endif %}>
+										<li {%block indexview %}{%endblock indexview %} >
 											<a href="/">Home <span><i>|</i> All the info</span></a>
 										</li>
-										<li {% if current = 'teams' %} class="current-menu-item" {% endif %}>
+										<li {%block teamview %}{%endblock teamview %} >
 											<a href="/viewall/team/current">Teams <span><i>|</i> View &amp; Register</span></a>
 											<!-- Sub Navigation -->
 											<ul>
@@ -130,7 +119,7 @@
 											</ul>
 											<!-- /Sub Navigation -->
 										</li>
-										<li {% if current = 'tournament' %} class="current-menu-item" {% endif %}>
+										<li {%block tournamentview %}{%endblock tournamentview %} >
 											<a href="#">Matches &amp; Results <span><i>|</i> Completed &amp; Upcoming</span></a>
 											<ul>
 												<li>
@@ -143,10 +132,75 @@
 												<li><a href="#">Prior Tournaments</a></li>
 											</ul>
 										</li>
-										<li {% if current = 'contact' %} class="current-menu-item" {% endif %}>
+										<li {%block contactview %}{%endblock contactview %} >
 											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
 										</li>
 									</ul>
 								</nav>
 								<!-- END NAVIGATION -->
-							</div></div></div><!-- /Main Header --></header><!-- END HEADER -->
+							</div>
+						</div>
+					</div><!-- /Main Header -->
+				</header><!-- END HEADER -->
+
+
+
+				<!-- BEGIN CONTENT WRAPPER -->
+				<div id="content-wrapper" class="content-wrapper">
+
+					<div class="container">
+
+						<div class="clearfix">
+							<div class="grid_12">
+							
+								<div id="page-title" class="page-title">
+									<div class="container clearfix">
+										<div class="grid_{{size}}">
+											<div class="page-title-holder clearfix">
+												<h1>{% block title %}VEC Monthly ESports Tournaments{% endblock title %}</h1>
+											</div>
+										</div>
+									</div>
+								</div>
+							
+							</div>
+
+							{% block content %}{% endblock content %}
+							{% block feed %}{% endblock feed %}
+							
+							
+						</div>	
+						<div class="hr hr-dashed"></div>
+					</div>
+				</div>
+				<!-- END CONTENT WRAPPER -->
+			</div>
+		</div>
+	</div>	<!-- END WRAPPER -->
+
+	<!-- Javascript Files
+	================================================== -->
+	
+	<!-- initialize jQuery Library -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+	<script src="/static/js/jquery-migrate-1.1.1.min.js"></script>
+	<!-- Modernizr -->
+	<script src="/static/js/modernizr.custom.17475.js"></script>
+
+	<!-- Superfish -->
+	<script src="/static/js/jquery.mobilemenu.js"></script>
+	<!-- superfish -->
+	<script src="/static/js/jquery.superfish-1.5.0.js"></script>
+
+	<!-- ElastiSlide Carousel -->
+	<script src="/static/js/jquery.elastislide.js"></script>
+
+	<!-- Flexslider -->
+	<script src="/static/js/jquery.flexslider.js"></script>
+
+	<!-- Custom -->
+	<script src="/static/js/custom.js"></script>
+	
+</body>
+</html>
