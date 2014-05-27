@@ -29,7 +29,7 @@ data_vars = {
     'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
     'matches': Matchup.all(),
     'games': games,
-    'phase': 'organize'
+    'phase': 'register'
 }
 
 match_lengths = {

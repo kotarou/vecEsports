@@ -1,132 +1,33 @@
-{% if operation = 'team' %}
-	{% include 'esports/t_header.html' with current='teams' %}
-{% else %}
-	{% include 'esports/t_header.html' with current='tournament' %}
-{% endif %}
-<!-- BEGIN CONTENT WRAPPER -->
-<div id="content-wrapper" class="content-wrapper">
-	<div class="container">
-		<div class="clearfix">
-			
-				{% if operation = 'team' and mode = 'single' %}
-					<div class="grid_12">
-						{% include 'esports/t_title.html' with title='Team= '|add:team.name|add:'' size=6 %}
-						Registered game: {{team.game}}<br />
-						Captain: {{team.captain}}<br />
-						Player 2: {{team.player_2}}<br />
-						Player 3: {{team.player_3}}<br />
-						Player 4: {{team.player_4}}<br />
-						Player 5: {{team.player_5}}<br />
-						Sub 1: {{team.sub_1}}<br />
-						Sub 2: {{team.sub_2}}<br />	
+{% extends "esports/base.html" %}
 
-						<br />
-						<h3>Upcoming Matches:</h3>
-						<table>
-						{% for match in match_blue%}
-								{% if not match.completed %}                        
-									<tr>
-										<td width="50px"></td>
-										<td>{{match.m_class}} - {{match.m_type}}:</td>
-										<td><strong>{{match.team_1.name}}</strong> vs</td>
-										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
-									</tr>
-								{% endif %}
-						{% endfor %}
-						{% for match in match_red%}
-								{% if not match.completed %}                        
-									<tr>
-										<td width="50px"></td>
-										<td>{{match.m_class}} - {{match.m_type}}:</td>
-										<td><strong>{{match.team_1.name}}</strong> vs</td>
-										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
-									</tr>
-								{% endif %}
-						{% endfor %}
-						</table>
-						<br />
-						<h3>Played in:</h3>
-							{% for t in entered %}
-								<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
-							{% endfor%}
+{%block indexview %}{%endblock indexview %}
+{%block teamview %}{% if operation = 'team' %}	class="current-menu-item" {%endif %}{%endblock teamview %}
+{%block tournamentview %}{% if operation != 'team' %}	class="current-menu-item" {%endif %}{%endblock tournamentview %}
+{%block contactview %}{%endblock contactview %}
 
-					</div>
-				{% endif %}
-				
-				{% if operation = 'team' and mode = 'all'  %}
-					<div class="grid_6">
-						{% include 'esports/t_title.html' with title='League of Legends Teams' size=6 %}
-						{% for team in lol_teams %}
-							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-						{% endfor %}
-					</div>
-					<div class="grid_6">
-						{% include 'esports/t_title.html' with title='DOTA2 Teams' size=6 %}
-						{% for team in dota_teams %}
-							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-						{% endfor %}
-					</div>
-				{% endif %}
 
-				{% if  operation = 'team' and mode = 'current' %}
-						{% include 'esports/t_title.html' with title='Teams for current tournament:' size=12 %}
-						<div class="grid_6">
-							<h2>Registered VECLOL_1 Teams:</h2>
-							{% for team in lol_teams %}
-								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-							{% endfor %}
-						</div>
-						<div class="grid_6">
-							<h2>Registered VECDOTA_1 Teams:</h2>
-							{% for team in dota_teams %}
-								<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-							{% endfor %}
-						</div>	
-				{% endif %}
-				
-				{% if operation = 'tournament' %}
-					{% include 'esports/t_title.html' with title='Tournament= '|add:tournament.name|add:'' size=12 %}
-					<div class="grid_12">
-						<h2>Registered Teams:</h2>
-						{% for team in teams %}
-							<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
-						{% endfor %}
-						<br />
-						<h2>Upcoming Matches:</h2>
-						{% for match in matches %}
-							<table>
-								{% if not match.completed %}                        
-									<tr>
-										<td width="50px"></td>
-										<td>{{match.m_class}} - {{match.m_type}}:</td>
-										<td><strong>{{match.team_1.name}}</strong> vs</td>
-										<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
-									</tr>
-								{% endif %}
-							</table>
-						{% endfor %}
-						<br />
-						<h2>Completed Matches:</h2>
-						{% for match in matches %}
-							<table>
-								{% if match.completed%}
-									<tr>
-										<td width="50px"></td>
-										<td>{{match.m_class}} - {{match.m_type}}:</td>
-										<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
-										<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
-										<td>{{match.date}}</td>
-									</tr>    
-								{% endif %}
-							</table>
-						{% endfor %}
-					</div>
+{% block title %}
+	{% if operation = 'team' and mode = 'single' %}
+		Team= {{team.name}}
+	{% elif operation = 'team' and mode = 'all'  %}
+		All registered Teams:
+	{% elif  operation = 'team' and mode = 'current' %}
+		Teams for current tournaments:
+	{% elif operation = 'tournament' %}
+		Tournament= {{tournament.name}}
+	{% endif %}
+{% endblock title %}
 
-				{% endif %}
-			
-			<div class="hr hr-dashed"></div>
-		</div>
-	</div>
-</div>
-<!-- END CONTENT WRAPPER -->
-{% include 'esports/t_footer.html' %}
+{% block content %}
+
+	{% if operation = 'team' and mode = 'single' %}
+		{% include "esports/v_team.html" %}
+	{% elif operation = 'team' and mode = 'all' %}
+		{% include "esports/v_multiteam.html" %}
+	{% elif operation = 'team' and mode = 'current' %}
+		{% include "esports/v_allteam.html" %}
+	{% elif operation = 'tournament' %}
+		{% include "esports/v_tournament.html" %}
+	{% endif %}			
+
+{% endblock content %}

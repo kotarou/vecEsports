@@ -1,0 +1,39 @@
+<div class="grid_12">
+	Registered game: {{team.game}}<br />
+	Captain: {{team.captain}}<br />
+	Player 2: {{team.player_2}}<br />
+	Player 3: {{team.player_3}}<br />
+	Player 4: {{team.player_4}}<br />
+	Player 5: {{team.player_5}}<br />
+	Sub 1: {{team.sub_1}}<br />
+	Sub 2: {{team.sub_2}}<br />	
+	<br />
+	<h3>Upcoming Matches:</h3>
+	<table>
+	{% for match in match_blue%}
+			{% if not match.completed %}                        
+				<tr>
+					<td width="50px"></td>
+					<td>{{match.m_class}} - {{match.m_type}}:</td>
+					<td><strong>{{match.team_1.name}}</strong> vs</td>
+					<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
+				</tr>
+			{% endif %}
+	{% endfor %}
+	{% for match in match_red%}
+			{% if not match.completed %}                        
+				<tr>
+					<td width="50px"></td>
+					<td>{{match.m_class}} - {{match.m_type}}:</td>
+					<td><strong>{{match.team_1.name}}</strong> vs</td>
+					<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
+				</tr>
+			{% endif %}
+	{% endfor %}
+	</table>
+	<br />
+	<h3>Played in:</h3>
+	{% for t in entered %}
+		<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
+	{% endfor%}
+</div>
