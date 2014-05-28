@@ -32,6 +32,32 @@
 	{% endfor %}
 	</table>
 	<br />
+	<h3>Recent Results:</h3>
+	<table>
+	{% for match in match_blue%}
+			{% if match.completed %}                        
+				<tr>
+					<td width="50px"></td>
+					<td>{{match.m_class}} - {{match.m_type}}:</td>
+					<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
+					<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
+					<td>{{match.date}} </td>
+				</tr> 
+			{% endif %}
+	{% endfor %}
+	{% for match in match_red%}
+			{% if match.completed %}                        
+				<tr>
+					<td width="50px"></td>
+					<td>{{match.m_class}} - {{match.m_type}}:</td>
+					<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
+					<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
+					<td>{{match.date}}</td>
+				</tr> 
+			{% endif %}
+	{% endfor %}
+	</table>
+	<br />
 	<h3>Played in:</h3>
 	{% for t in entered %}
 		<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
