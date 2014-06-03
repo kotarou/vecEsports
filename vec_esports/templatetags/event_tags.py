@@ -77,12 +77,16 @@ class EventCalendar(HTMLCalendar):
                 #     body.append('</li>')
                 # body.append('</ul>')
                 count = 0
-                for event in filter(lambda x: x.date.month == self.month, self.events[day]):
+                # Make sure the event is for this month and year!
+                for event in filter(lambda x: (x.date.month == self.month and x.date.year == self.year), self.events[day]):
                     count += 1
-                plural = ''
-                if count > 1:
-                    plural = 's'
+
+                # Did we manage to find events on this day for this month/year?
                 if count > 0:
+                    # Pretty output with correct pluralization
+                    plural = ''
+                    if count > 1:
+                        plural = 's'
                     body=("<span class='mini'>%d game%s</span>" % (count, plural))
                     return self.day_cell(cssclass, '<span class="dayNumber"><strong>%d</strong></span> <br />%s' % (day, body)) #%s' % (day, ''.join(body)))
             return self.day_cell(cssclass, '<span class="dayNumberNoEvents">%d</span>' % (day))
