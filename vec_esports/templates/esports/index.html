@@ -7,8 +7,17 @@
 
 {% block title %}VEC Monthly ESports Tournaments{% endblock title %}
 
-{% block content%}		
-<div class="grid-12" style="margin-bottom:50px">
+
+
+
+
+
+
+
+{% block content%}
+
+
+<div class="grid_12" style="margin-bottom:50px">
 	{% if phase = 'register' %}
 		<h3>Current phase: Team Signups until Midnight Sunday NZST<h3>
 	{% elif phase = 'organize' %}
@@ -30,12 +39,15 @@
 	<br />
 	<h3>LoL Rules can be found <a href="https://docs.google.com/a/10percentwolf.com/document/d/1SxWgoLPkFLdciQeEGGKL-AAuGYy2zL3JkmWEZs2JyPw/edit">here</a>.</h3>
 	<h3>DOTA2 Rules can be found <a href="https://docs.google.com/document/d/1pJjfQzqnTr1iHpT_t8QtJ7bveqa8IaW3Zyx76j2XFQM/edit?usp=sharing">here</a>.</h3>
-	</div>
+</div>
+
+
+
 {% endblock content%}	
 
 {% block feed %}
 <!-- BEGIN TABBED CONTENT -->
-<div class="tabs tabs__alt">
+<div class="tabs tabs__alt grid_12">
 	<div class="tab-menu clearfix">
 		<ul>
 			<li><a href="#tab1">Latest LoL Results</a></li>
