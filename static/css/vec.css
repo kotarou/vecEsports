@@ -1,16 +1,16 @@
 .month{
-	
-
+	margin: 0 auto;
 }
 
 .month > tbody > tr{
-	height: 50px;
+	height: 100px;
 }
 
-.month > tbody > tr > *{
-	width: 60px;
+.month > tbody > tr > td{
+	width: 100px;
 	text-align: left;
 	vertical-align: top;
+	border : #333 1px solid;
 }
 
 span.mini{

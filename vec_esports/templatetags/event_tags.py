@@ -17,10 +17,10 @@ def do_event_calendar(parser, token):
     """
 
     try:
-        tag_name, year, month, event_list = token.split_contents()
+        tag_name, year, month, day, event_list = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires three arguments" % token.contents.split()[0]
-    return EventCalendarNode(year, month, event_list)
+        raise template.TemplateSyntaxError, "%r tag requires four arguments" % token.contents.split()[0]
+    return EventCalendarNode(year, month, day, event_list)
 
 
 class EventCalendarNode(template.Node):
@@ -28,10 +28,11 @@ class EventCalendarNode(template.Node):
     Process a particular node in the template. Fail silently.
     """
 
-    def __init__(self, year, month, event_list):
+    def __init__(self, year, month, day, event_list):
         try:
             self.year = template.Variable(year)
             self.month = template.Variable(month)
+            self.day = template.Variable(day)
             self.event_list = template.Variable(event_list)
         except ValueError:
             raise template.TemplateSyntaxError
@@ -42,6 +43,7 @@ class EventCalendarNode(template.Node):
             my_event_list = self.event_list.resolve(context)
             my_year = self.year.resolve(context)
             my_month = self.month.resolve(context)
+            my_day = self.day.resolve(context)
             cal = EventCalendar(my_event_list)
             return cal.formatmonth(int(my_year), int(my_month))
         except ValueError:
