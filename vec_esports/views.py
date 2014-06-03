@@ -29,7 +29,7 @@ data_vars = {
     'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
     'matches': Matchup.all(),
     'games': games,
-    'phase': 'register'
+    'phase': 'play'
 }
 
 match_lengths = {
@@ -72,14 +72,21 @@ def main_views(request, view, value=None, single=True):
             })
         if view == 'tournament':
             # Return the view for a single tournament
-            tourney = Tournament.gql('WHERE name = :1', value)[0]
-            e_vars.update({
+            tt = Tournament.gql('WHERE name = :1', value)
+            if tt.count() > 0:
+                tourney = tt[0]
+                e_vars.update({
                 'operation': 'tournament',
                 'tournament': tourney,
                 'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
                 # this is the syntax for lists as well as single entities
                 'teams': Team.gql('WHERE tournaments = :1', tourney.name)
-            })
+                })
+            else:
+                e_vars.update({
+                    'lo_value': "Fail",
+                    'lo_reason': "Tournament does not exist"
+                })
     else:
         if view == 'team':
             if value == 'current':
