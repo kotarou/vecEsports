@@ -1,7 +1,3 @@
-##### Here is the template tag code. It goes in a file named 
-# "event_tags.py" in a subdirectory of your app called "templatetags".
-#####
-
 from calendar import HTMLCalendar
 from django import template
 from datetime import date
@@ -19,7 +15,7 @@ def do_event_calendar(parser, token):
     try:
         tag_name, year, month, day, event_list = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires four arguments" % token.contents.split()[0]
+        raise template.TemplateSyntaxError, "%r tag requires three arguments" % token.contents.split()[0]
     return EventCalendarNode(year, month, day, event_list)
 
 
