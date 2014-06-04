@@ -15,5 +15,8 @@ libraries:
 - name: django
   version: "1.4"
 
+builtins:
+- remote_api: on
+
 env_variables:
   DJANGO_SETTINGS_MODULE: 'proj_django.settings'

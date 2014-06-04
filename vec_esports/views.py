@@ -14,6 +14,8 @@ from datetime import datetime
 import re, calendar 
 
 import ConfigParser
+import logging
+import pickle
 
 config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
@@ -48,8 +50,27 @@ match_lengths = {
     'Informal': 1
 }
 
-
 def admin(request):
+
+    # This commented code if migration code.
+    # teams = Team.all()
+    # for team in teams:
+    #     results = {}
+    #     if team.game == 'lol':
+    #         results["VECLOL_1"] =  0
+    #     else:
+    #         results["VECDOTA_1"] = 0
+    #     data = pickle.dumps(results)
+    #     team.results = data
+    #     team.put()
+    # teams = Team.all()
+    # for team in teams:
+    #     res = pickle.loads(team.results)
+    #     try:
+    #         logging.info("%s" % res['VECLOL_1'])
+    #     except KeyError:
+    #         logging.info("%s" % res['VECDOTA_1'])
+
     e_vars = data_vars.copy()
     if request.method == 'POST':
         m_tournament(request, e_vars)
@@ -89,7 +110,7 @@ def main_views(request, view, value=None, single=True):
                 'mode': 'single',
                 'team': team,
                 'matches': matches,
-                'results': team.tournaments,
+                'results': pickle.loads(team.results).keys(),
                 'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
             })
         if view == 'tournament':
@@ -97,12 +118,16 @@ def main_views(request, view, value=None, single=True):
             tt = Tournament.gql('WHERE name = :1', value)
             if tt.count() > 0:
                 tourney = tt[0]
+                tteams = filter(lambda x: tourney.name in pickle.loads(x.results).keys(), Team.all())
+                res = []
+                for team in tteams:
+                    res.append(pickle.loads(team.results)[tourney.name])
                 e_vars.update({
                 'operation': 'tournament',
                 'tournament': tourney,
                 'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
                 # this is the syntax for lists as well as single entities
-                'teams': tourney.teams,
+                'teams': zip(tteams, res),
                 })
             else:
                 e_vars.update({
@@ -116,8 +141,8 @@ def main_views(request, view, value=None, single=True):
                 e_vars.update({
                     'operation': 'team',
                     'mode': 'current',
-                    'lol_teams': filter(lambda x: current_tournament_lol in x.tournaments, Team.gql('WHERE game = :1', 'lol').fetch(None)),
-                    'dota_teams': filter(lambda x: current_tournament_dota in x.tournaments, Team.gql('WHERE game = :1', 'dota').fetch(None)),
+                    'lol_teams': filter(lambda x: current_tournament_lol in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
+                    'dota_teams': filter(lambda x: current_tournament_dota in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
                     #'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
                     #'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
                 })
@@ -176,6 +201,8 @@ def main_teams(request, change):
     return direct_to_template(request, 'esports/register.html', e_vars)     
 
 def u_team(request, e_vars):
+    # have to totally rework this
+
     e_vars.update({'last_operation': "Team re-registration"})
 
     team_name = unquote(request.POST.get('r_team'))
@@ -207,11 +234,11 @@ def m_team(request, e_vars):
             'lo_reason': "Team already exists"
         })
         return
-
+        entry = {}
     if team_game == 'lol':
-        entry = current_tournament_lol
+        entry[current_tournament_lol] =  0
     else:
-        entry = current_tournament_dota
+        entry[current_tournament_dota] = 0
 
     team = Team(
         key_name=team_name,
@@ -221,10 +248,7 @@ def m_team(request, e_vars):
         player_2=team_p2, player_3=team_p3,  player_4=team_p4,  player_5=team_p5,
         sub_1=team_p6, sub_2=team_p7,
         contact_email=team_contact,
-        tournaments = {entry: '0'},
-        #tournaments = [entry],
-        #tournament_results = ['Registered'],
-        active=True, paid=False
+        results = pickle.dumps(entry),
         )
     team.put()
     
