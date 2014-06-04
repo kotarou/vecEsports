@@ -11,12 +11,11 @@
 	<br />
 	<h3>Upcoming Matches:</h3>
 	{% match_list 'upcoming' 'date_asc' matches %}
-	<br />
+	<h3>Unschedulded Matches and Matches awaiting results:</h3>
+	{% match_list 'incomplete' 'date_asc' matches %}
 	<h3>Recent Results:</h3>
 	{% match_list 'complete' 'date_dec' matches %}
-	<br />
-	<h3>Matches awaiting result:</h3>
-	{% match_list 'imcomplete' 'date_asc' matches %}
+
 	<h3>Played in:</h3>
 	{% for t in entered %}
 		<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
