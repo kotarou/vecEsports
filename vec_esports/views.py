@@ -116,8 +116,10 @@ def main_views(request, view, value=None, single=True):
                 e_vars.update({
                     'operation': 'team',
                     'mode': 'current',
-                    'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
-                    'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
+                    'lol_teams': filter(lambda x: current_tournament_lol in x.tournaments, Team.gql('WHERE game = :1', 'lol').fetch(None)),
+                    'dota_teams': filter(lambda x: current_tournament_dota in x.tournaments, Team.gql('WHERE game = :1', 'dota').fetch(None)),
+                    #'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
+                    #'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
                 })
             else:
                 teams = Team.all()
