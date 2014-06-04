@@ -318,7 +318,7 @@ def m_result(request, e_vars):
     match_id = q.fetch(1)[0]
 
     m_length = match_lengths[match_id.m_type]
-    if int(score1) + int(score2) < (m_length // 2) + 1:
+    if int(score1) + int(score2) != m_length:
         # The result is invalid because it contains the wrong number of games
         e_vars.update({'lo_value': "Fail", 'lo_reason': "Incorect number of games" })
     else:
