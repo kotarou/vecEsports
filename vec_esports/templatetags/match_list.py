@@ -4,6 +4,24 @@ from operator import attrgetter
 
 register = template.Library()
 
+def matchSort(s):
+    if s.m_class == 'Final':
+        return 1
+    elif s.m_class == 'Semifinal':
+        return 2
+    elif s.m_class == 'Quarterfinal':
+        return 3
+    elif s.m_class == 'Upper Bracket':
+        return 4
+    elif s.m_class == 'Lower Bracket':
+         return 5
+    elif s.m_class == 'Swiss':
+         return 7
+    elif s.m_class == 'Round Robin':
+        return 8
+    elif s.m_class == 'Informal':
+        return 9    
+
 def do_matches(parser, token):
     """
     The template tag's syntax is {% match_list type order matchlist %}
@@ -65,23 +83,31 @@ class matchlistNode(template.Node):
             m_list = sorted(m_list, key=attrgetter('date'), reverse=True)
         elif m_order == 'importance':
             # This is the difficult one
-            new_list = []
-            for match in filter(lambda x: x.m_class == 'Final', m_list):
-                new_list.append(match)
-            for match in filter(lambda x: x.m_class == 'Upper Bracket', m_list):
-                new_list.append(match)
-            for match in filter(lambda x: x.m_class == 'Lower Bracket', m_list):
-                new_list.append(match)
-            for match in filter(lambda x: x.m_class == 'Swiss', m_list):
-                new_list.append(match)
-            for match in filter(lambda x: x.m_class == 'Round Robin', m_list):
-                new_list.append(match)
-            m_list = new_list
+            m_list = sorted(m_list, key=matchSort)
         # Now we have a sorted list
         # Return it in html form
+
         body = "<ul>"
-        for match in m_list:
-            body += ("<li>%s vs %s at %s</li>" % (match.team_1.name, match.team_2.name, match.date))
+
+        if m_type == 'complete':
+            # These matches have results
+            for match in m_list:
+                if match.score_1 > match.score_2:
+                    team1_result = '<font color="green">%d</font>' % match.score_1
+                    team2_result = '<font color="red">%d</font>' % match.score_2
+                elif match.score_1 < match.score_2:
+                    team1_result = '<font color="red">%d</font>' % match.score_1
+                    team2_result = '<font color="green">%d</font>' % match.score_2
+                else:
+                    team1_result = '<font color="black">%d</font>' % match.score_1
+                    team2_result = '<font color="black">%d</font>' % match.score_2
+                body += ("<li>%s: %s / %s: <strong>%s</strong> (%s) vs <strong>%s</strong> (%s) played %s</li>" % (match.tournament, match.m_class, match.m_type, match.team_1.name, team1_result, match.team_2.name, team2_result, match.date.strftime("%a %d %B, %Y")))         
+        elif m_type == 'upcoming':
+            for match in m_list:
+                body += ("<li>%s: %s / %s: <strong>%s</strong> vs <strong>%s</strong> scheduled for %s</li>" % (match.tournament, match.m_class, match.m_type, match.team_1.name, match.team_2.name, match.date.strftime("%H:%M %a %d %B, %Y")))
+        elif m_type == 'incomplete':
+            for match in m_list:
+                body += ("<li>%s: %s / %s: <strong>%s</strong> vs <strong>%s</strong> played %s</li>" % (match.tournament, match.m_class, match.m_type, match.team_1.name, match.team_2.name, match.date.strftime("%a %d %B, %Y")))
         body += ("</ul>")
         return body
 

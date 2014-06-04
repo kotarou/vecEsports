@@ -79,12 +79,12 @@ def main_views(request, view, value=None, single=True):
         if view == 'team':
             # Return the view for a single team
             team = Team.gql('WHERE name = :1', value)[0]
+            matches = Matchup.gql('WHERE team_1 = :1', team).fetch(limit=None) +  Matchup.gql('WHERE team_2 = :1', team).fetch(limit=None)
             e_vars.update({
                 'operation': 'team',
                 'mode': 'single',
                 'team': team,
-                'match_blue': Matchup.gql('WHERE team_1 = :1', team),
-                'match_red': Matchup.gql('WHERE team_2 = :1', team),
+                'matches': matches,
                 'entered': zip(team.tournaments, team.tournament_results),
             })
         if view == 'tournament':
@@ -342,7 +342,7 @@ def m_result(request, e_vars):
     match_id = q.fetch(1)[0]
 
     m_length = match_lengths[match_id.m_type]
-    if int(score1) + int(score2) != m_length:
+    if int(score1) + int(score2) > m_length or int(score1) + int(score2) < m_length // 2 + 1:
         # The result is invalid because it contains the wrong number of games
         e_vars.update({'lo_value': "Fail", 'lo_reason': "Incorect number of games" })
     else:
