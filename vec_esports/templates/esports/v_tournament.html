@@ -1,8 +1,9 @@
 {% load match_list %}
 <div class="grid_12">
+	{% if tournament.completed %}<h1> This tournament has ended </h1> {% endif %}
 	<h3>Registered Teams:</h3>
-	{% for team in teams %}
-	<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+	{% for teamname, score in teams.items %}
+	({{score}}) <a href='/view/team/{{teamname}}'>{{teamname}}</a><br />
 	{% endfor %}
 	<br />
 	<h3>Upcoming Matches:</h3>

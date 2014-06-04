@@ -13,8 +13,14 @@ import urllib
 from datetime import datetime
 import re, calendar 
 
-current_tournament_lol = "VECLOL_1"
-current_tournament_dota = "VECDOTA_1"
+import ConfigParser
+
+config = ConfigParser.RawConfigParser()
+config.read('settings.cfg')
+
+current_tournament_lol = config.get('CurrentTournaments', 'lol')
+current_tournament_dota = config.get('CurrentTournaments', 'dota')
+current_phase = config.get('General', 'phase')
 
 games = {
     'lol': "League of Legends",
@@ -30,9 +36,7 @@ data_vars = {
     'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
     'matches': Matchup.all(),
     'games': games,
-    'phase': 'play',
-    'year': 2014,
-    'month': 6,
+    'phase': current_phase,
     'event_list': Matchup.all(),
 }
 
@@ -85,7 +89,8 @@ def main_views(request, view, value=None, single=True):
                 'mode': 'single',
                 'team': team,
                 'matches': matches,
-                'entered': zip(team.tournaments, team.tournament_results),
+                'results': team.tournaments,
+                'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
             })
         if view == 'tournament':
             # Return the view for a single tournament
@@ -97,7 +102,7 @@ def main_views(request, view, value=None, single=True):
                 'tournament': tourney,
                 'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
                 # this is the syntax for lists as well as single entities
-                'teams': Team.gql('WHERE tournaments = :1', tourney.name)
+                'teams': tourney.teams,
                 })
             else:
                 e_vars.update({
@@ -214,19 +219,31 @@ def m_team(request, e_vars):
         player_2=team_p2, player_3=team_p3,  player_4=team_p4,  player_5=team_p5,
         sub_1=team_p6, sub_2=team_p7,
         contact_email=team_contact,
-        tournaments = [entry],
-        tournament_results = ['Registered'],
+        tournaments = {entry: '0'},
+        #tournaments = [entry],
+        #tournament_results = ['Registered'],
         active=True, paid=False
         )
     team.put()
     
+    if team_game == 'lol':
+        gameid = current_tournament_lol
+    else:
+        gameid = current_tournament_dota
+    tt = db.GqlQuery('SELECT * FROM Tournament WHERE name = :1', gameid)
+    tourney = tt.fetch(1)[0]
+    dictt = tourney.teams
+    dictt[team_name] = 0
+    tourney.teams = dictt
+    tourney.put()
+
     e_vars.update({'lo_value': "Success"})
 
 def m_tournament(request, e_vars):
     e_vars.update({'last_operation': "Tournament Creation"})
     
     tournament_name = request.POST.get('tmn')
-    
+    tournament_game = request.POST.get('game')
     if(Team.get_by_key_name(tournament_name) != None):
         e_vars.update({
             'lo_value': "Fail",
@@ -237,7 +254,9 @@ def m_tournament(request, e_vars):
     tourney = Tournament(
         key_name=tournament_name,
         name=tournament_name,
-        teams=[])
+        game=tournament_game,
+        completed=False,
+        )
     tourney.put()
     
     e_vars.update({'lo_value': "Success"})
