@@ -1,9 +1,10 @@
 {% load match_list %}
+{% load filters %}
 <div class="grid_12">
 	{% if tournament.completed %}<h1> This tournament has ended </h1> {% endif %}
 	<h3>Registered Teams:</h3>
-	{% for teamname, score in teams.items %}
-	({{score}}) <a href='/view/team/{{teamname}}'>{{teamname}}</a><br />
+	{% for team, score in teams %}
+	({{score}}) <a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 	{% endfor %}
 	<br />
 	<h3>Upcoming Matches:</h3>
