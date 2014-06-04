@@ -11,9 +11,16 @@ from vec_esports.models import *
 
 import urllib
 from datetime import datetime
+import re, calendar 
 
-current_tournament_lol = "VECLOL_1"
-current_tournament_dota = "VECDOTA_1"
+import ConfigParser
+
+config = ConfigParser.RawConfigParser()
+config.read('settings.cfg')
+
+current_tournament_lol = config.get('CurrentTournaments', 'lol')
+current_tournament_dota = config.get('CurrentTournaments', 'dota')
+current_phase = config.get('General', 'phase')
 
 games = {
     'lol': "League of Legends",
@@ -29,7 +36,8 @@ data_vars = {
     'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
     'matches': Matchup.all(),
     'games': games,
-    'phase': 'register'
+    'phase': current_phase,
+    'event_list': Matchup.all(),
 }
 
 match_lengths = {
@@ -39,6 +47,7 @@ match_lengths = {
     'BO5': 5,
     'Informal': 1
 }
+
 
 def admin(request):
     e_vars = data_vars.copy()
@@ -54,32 +63,52 @@ def main_index(request):
 def main_views(request, view, value=None, single=True):
     e_vars = {}
     # There are three possible view results here
-    #   Tournament
-    #   Team
+    #   Tournament (single/name)
+    #   Team (single/name, multi/current, multi/all)
     #   Match
+    #   Date
     # e_vars.update({'last_operation': "Team re-registration"})
+    
+    if view == 'date':
+        e_vars.update({
+            'operation': 'date',
+            'mode': 'single',
+            'year': value[0:4],
+            'month': value[4:6],
+            'day': value[6:8],
+            'matches': Matchup.all(), #filter(lambda x: x.date.day == value, Matchup.all())
+        })
+
     if single:
         if view == 'team':
             # Return the view for a single team
             team = Team.gql('WHERE name = :1', value)[0]
+            matches = Matchup.gql('WHERE team_1 = :1', team).fetch(limit=None) +  Matchup.gql('WHERE team_2 = :1', team).fetch(limit=None)
             e_vars.update({
                 'operation': 'team',
                 'mode': 'single',
                 'team': team,
-                'match_blue': Matchup.gql('WHERE team_1 = :1', team),
-                'match_red': Matchup.gql('WHERE team_2 = :1', team),
-                'entered': zip(team.tournaments, team.tournament_results),
+                'matches': matches,
+                'results': team.tournaments,
+                'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
             })
         if view == 'tournament':
             # Return the view for a single tournament
-            tourney = Tournament.gql('WHERE name = :1', value)[0]
-            e_vars.update({
+            tt = Tournament.gql('WHERE name = :1', value)
+            if tt.count() > 0:
+                tourney = tt[0]
+                e_vars.update({
                 'operation': 'tournament',
                 'tournament': tourney,
                 'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
                 # this is the syntax for lists as well as single entities
-                'teams': Team.gql('WHERE tournaments = :1', tourney.name)
-            })
+                'teams': tourney.teams,
+                })
+            else:
+                e_vars.update({
+                    'lo_value': "Fail",
+                    'lo_reason': "Tournament does not exist"
+                })
     else:
         if view == 'team':
             if value == 'current':
@@ -87,8 +116,10 @@ def main_views(request, view, value=None, single=True):
                 e_vars.update({
                     'operation': 'team',
                     'mode': 'current',
-                    'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
-                    'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
+                    'lol_teams': filter(lambda x: current_tournament_lol in x.tournaments, Team.gql('WHERE game = :1', 'lol').fetch(None)),
+                    'dota_teams': filter(lambda x: current_tournament_dota in x.tournaments, Team.gql('WHERE game = :1', 'dota').fetch(None)),
+                    #'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
+                    #'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
                 })
             else:
                 teams = Team.all()
@@ -190,19 +221,31 @@ def m_team(request, e_vars):
         player_2=team_p2, player_3=team_p3,  player_4=team_p4,  player_5=team_p5,
         sub_1=team_p6, sub_2=team_p7,
         contact_email=team_contact,
-        tournaments = [entry],
-        tournament_results = ['Registered'],
+        tournaments = {entry: '0'},
+        #tournaments = [entry],
+        #tournament_results = ['Registered'],
         active=True, paid=False
         )
     team.put()
     
+    if team_game == 'lol':
+        gameid = current_tournament_lol
+    else:
+        gameid = current_tournament_dota
+    tt = db.GqlQuery('SELECT * FROM Tournament WHERE name = :1', gameid)
+    tourney = tt.fetch(1)[0]
+    dictt = tourney.teams
+    dictt[team_name] = 0
+    tourney.teams = dictt
+    tourney.put()
+
     e_vars.update({'lo_value': "Success"})
 
 def m_tournament(request, e_vars):
     e_vars.update({'last_operation': "Tournament Creation"})
     
     tournament_name = request.POST.get('tmn')
-    
+    tournament_game = request.POST.get('game')
     if(Team.get_by_key_name(tournament_name) != None):
         e_vars.update({
             'lo_value': "Fail",
@@ -213,7 +256,9 @@ def m_tournament(request, e_vars):
     tourney = Tournament(
         key_name=tournament_name,
         name=tournament_name,
-        teams=[])
+        game=tournament_game,
+        completed=False,
+        )
     tourney.put()
     
     e_vars.update({'lo_value': "Success"})
@@ -318,7 +363,7 @@ def m_result(request, e_vars):
     match_id = q.fetch(1)[0]
 
     m_length = match_lengths[match_id.m_type]
-    if int(score1) + int(score2) != m_length:
+    if int(score1) + int(score2) > m_length or int(score1) + int(score2) < m_length // 2 + 1:
         # The result is invalid because it contains the wrong number of games
         e_vars.update({'lo_value': "Fail", 'lo_reason': "Incorect number of games" })
     else:
@@ -329,3 +374,4 @@ def m_result(request, e_vars):
         match_id.put()
 
         e_vars.update({'lo_value': "Success"})
+

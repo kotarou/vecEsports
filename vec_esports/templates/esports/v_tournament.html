@@ -1,35 +1,15 @@
+{% load match_list %}
 <div class="grid_12">
-	<h2>Registered Teams:</h2>
-	{% for team in teams %}
-	<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
+	{% if tournament.completed %}<h1> This tournament has ended </h1> {% endif %}
+	<h3>Registered Teams:</h3>
+	{% for teamname, score in teams.items %}
+	({{score}}) <a href='/view/team/{{teamname}}'>{{teamname}}</a><br />
 	{% endfor %}
 	<br />
-	<h2>Upcoming Matches:</h2>
-	{% for match in matches %}
-	<table>
-		{% if not match.completed %}                        
-		<tr>
-			<td width="50px"></td>
-			<td>{{match.m_class}} - {{match.m_type}}:</td>
-			<td><strong>{{match.team_1.name}}</strong> vs</td>
-			<td> <strong>{{match.team_2.name}}</strong> {% if match.date = None %} with </td> <td>no datetime set </td> {% else %} on </td> <td>{{match.date}}</td> {% endif %}
-		</tr>
-		{% endif %}
-	</table>
-	{% endfor %}
-	<br />
-	<h2>Completed Matches:</h2>
-	{% for match in matches %}
-	<table>
-		{% if match.completed%}
-		<tr>
-			<td width="50px"></td>
-			<td>{{match.m_class}} - {{match.m_type}}:</td>
-			<td><strong>{{match.team_1.name}}</strong> ( {% if match.score_1 >= match.score_2 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_1}} </font>  ) vs</td>
-			<td> <strong>{{match.team_2.name}}</strong> ( {% if match.score_2 >= match.score_1 %} <font color="green"> {% else %} <font color="red"> {% endif %} {{match.score_2}} </font>  ) played </td>
-			<td>{{match.date}}</td>
-		</tr>    
-		{% endif %}
-	</table>
-	{% endfor %}
+	<h3>Upcoming Matches:</h3>
+	{% match_list 'upcoming' 'date_asc' matches %}
+	<h3>Unschedulded Matches and Matches awaiting results:</h3>
+	{% match_list 'incomplete' 'date_asc' matches %}
+	<h3>Completed Matches:</h3>
+	{% match_list 'complete' 'importance' matches %}
 </div>

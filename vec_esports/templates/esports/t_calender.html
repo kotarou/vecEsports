@@ -1,0 +1,10 @@
+{% block content %}
+{% load event_tags %}
+
+<div class="grid_12">
+	<div id="calendar">
+	    {% event_calendar year month day matches %}
+	</div>	
+</div>	
+
+{% endblock content %}

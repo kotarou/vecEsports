@@ -15,6 +15,8 @@
 		Teams for current tournaments:
 	{% elif operation = 'tournament' %}
 		Tournament= {{tournament.name}}
+	{% elif operation = 'date' %}
+		Matches
 	{% endif %}
 {% endblock title %}
 
@@ -28,6 +30,8 @@
 		{% include "esports/v_allteam.html" %}
 	{% elif operation = 'tournament' %}
 		{% include "esports/v_tournament.html" %}
+	{% elif operation = 'date' %}
+		{% include "esports/t_calender.html" %}
 	{% endif %}			
 
 {% endblock content %}
