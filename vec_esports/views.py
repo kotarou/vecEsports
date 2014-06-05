@@ -51,8 +51,17 @@ match_lengths = {
 }
 
 def admin(request):
+    if users.get_current_user():
+        url = users.create_logout_url(request.get_full_path())
+        url_linktext = 'Logout'
+        url_logintext = ('Logged in as %s' % users.get_current_user().email())
+    else:
+        url = users.create_login_url(request.get_full_path())
+        url_linktext = 'Login'
+        url_logintext = ""
 
-    # This commented code if migration code.
+
+    # This commented code is migration code.
     # teams = Team.all()
     # for team in teams:
     #     results = {}
@@ -72,6 +81,9 @@ def admin(request):
     #         logging.info("%s" % res['VECDOTA_1'])
 
     e_vars = data_vars.copy()
+    e_vars['url'] = url
+    e_vars['url_linktext'] = url_linktext
+    e_vars['url_logintext'] = url_logintext
     if request.method == 'POST':
         m_tournament(request, e_vars)
     

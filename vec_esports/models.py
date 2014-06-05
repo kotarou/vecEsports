@@ -1,6 +1,7 @@
 # As per any django project; a models file.
 
 from google.appengine.ext import db
+from django.contrib.auth.models import User
 
 class Tournament(db.Model):
     """Models a tournament with a name, game, a dict of entered teams and their standings, and a dict of matches and their winners"""
@@ -8,12 +9,16 @@ class Tournament(db.Model):
     game        = db.StringProperty(choices=set(["lol", "dota"]))
     completed   = db.BooleanProperty()
 
-class Player(db.Model):
-    """Models a Player entry with a player name, alias, contact details"""
-    first_name = db.StringProperty()
-    last_name  = db.StringProperty()
-    email      = db.EmailProperty()
-    alias      = db.StringProperty()
+class UserProfile(db.Model):
+    """Models a registered user"""
+    firstlogin  = db.BooleanProperty()
+    email       = db.EmailProperty()
+    name        = db.StringProperty()
+    u_type      = db.StringProperty(choices=set(["captain", "caster", "admin"]))
+    alias       = db.StringProperty()
+    # Below this are fields that are specific to each account type
+    organisation= db.StringProperty()
+    team        = db.StringProperty()
 
 class Team(db.Model):
     """Models a Team entry with a captain, 4-6 other players, and contact details. Each team has a dict of entered tournaments and their results thereof."""

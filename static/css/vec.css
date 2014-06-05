@@ -1,3 +1,4 @@
+/* calendar*/
 .month{
 	margin: 0 auto;
 }
@@ -15,6 +16,11 @@
 
 span.mini{
 	font-size: 12px;
+}
+
+/* login data */
+.header-top-menu li{
+	padding-right: 10px;
 }
 
 /*border-collapse: none; border: 1px solid;*/
