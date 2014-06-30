@@ -1,7 +1,7 @@
 {% load match_list %}
 <div class="grid_12">
 
-	This team <strong>is{% if current not in entered.0 %} not {% endif %}</strong> entered in the current {{team.game}} tournament; {{current}}
+	This team <strong>is{% if current not in results.0 %} not {% endif %}</strong> entered in the current {{team.game}} tournament; {{current}}
 	<br />
 	<br />
 	Registered game: {{team.game}}<br />

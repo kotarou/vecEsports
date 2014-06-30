@@ -7,7 +7,9 @@ from vec_esports.views import *
 urlpatterns = patterns('',
     (r'^login/$', 'django.contrib.auth.views.login'),
     (r'^logout/$', 'django.contrib.auth.views.logout'),
-    (r'^c_teams/$', 	main_teams,		{'change':True}),
+    (r'^c_teams/$', 	main_teams,		{'change':True, 're':False}),     # Legacy link
+    (r'^register/$',    main_teams,     {'change':True, 're':False}),
+    (r'^reregister/$',  main_teams,     {'change':True, 're':True}),
     (r'^c_brackets/$', 	main_brackets,	{'change':True}),
     (r'^c_results/$', 	main_results,	{'change':True}),
     (r'^$', 			main_index),

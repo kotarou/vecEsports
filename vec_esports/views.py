@@ -198,11 +198,14 @@ def main_brackets(request, change):
 
     return direct_to_template(request, "esports/brackets.html", e_vars)
 
-def main_teams(request, change):
+def main_teams(request, change, re):
     # This is the wrapper function that will deal to all team related requests
     e_vars = data_vars.copy()
     if change != True:
         return direct_to_template(request, 'esports/view_teams.html', e_vars) 
+    if re:
+        e_vars.update({'reregistration':True})
+        return direct_to_template(request, 'esports/register.html', e_vars) 
     if request.method == 'POST':
         if 'r_team' in request.POST:
             # Team re-registration
@@ -222,7 +225,23 @@ def u_team(request, e_vars):
     q = db.GqlQuery('SELECT * FROM Team WHERE name = :1', team_name)
     team = q.fetch(1)[0]
     
-    team.active = True
+    entry = pickle.loads(team.results)  
+
+    if( current_tournament_lol in entry.keys() or current_tournament_dota in entry.keys()):
+        e_vars.update({
+            'lo_value': "Fail",
+            'lo_reason': "Team already entered in the current tournament"
+        })
+        return
+
+    if team.game == 'lol':
+        entry[current_tournament_lol] =  0
+    else:
+        entry[current_tournament_dota] = 0
+
+    results = pickle.dumps(entry)
+    team.results = results
+
     team.put()
     e_vars.update({'lo_value': "Success"})
 
@@ -246,7 +265,7 @@ def m_team(request, e_vars):
             'lo_reason': "Team already exists"
         })
         return
-        entry = {}
+    entry = {}
     if team_game == 'lol':
         entry[current_tournament_lol] =  0
     else:
@@ -268,12 +287,12 @@ def m_team(request, e_vars):
         gameid = current_tournament_lol
     else:
         gameid = current_tournament_dota
-    tt = db.GqlQuery('SELECT * FROM Tournament WHERE name = :1', gameid)
-    tourney = tt.fetch(1)[0]
-    dictt = tourney.teams
-    dictt[team_name] = 0
-    tourney.teams = dictt
-    tourney.put()
+    # tt = db.GqlQuery('SELECT * FROM Tournament WHERE name = :1', gameid)
+    # tourney = tt.fetch(1)[0]
+    # dictt = tourney.teams
+    # dictt[team_name] = 0
+    # tourney.teams = dictt
+    # tourney.put()
 
     e_vars.update({'lo_value': "Success"})
 

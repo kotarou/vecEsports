@@ -23,6 +23,11 @@ with response <strong>{{lo_reason}}</strong>
     <form action="/c_teams/" method="post">
         {% csrf_token %}
         <h2>Register New Team</h2>
+        <strong>
+            Entry fees to our tournaments are currently $25 per team.<br/>
+            Please send this through to the account: 12-3141-0343764-52 with a reference similar to your team name.<br/>
+            Your registration will not be considered complete until this payment is recieved.<br/><br/>
+        </strong>
         <select name="game">
             <option value="lol">League of Legends</option>
             <option value="dota">DOTA2</option>
@@ -76,22 +81,24 @@ with response <strong>{{lo_reason}}</strong>
         <p>Note: Please make sure your details are correct before submitting the form and that all fields marked with * are completed!.</p>
     </form>
 </div>
-<div class="grid_6">
-   <!-- <h2>Re-register Team</h2>
-    <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
-    <form action="/c_teams/" method="post">
-        {% csrf_token %}
-        <select name="r_team">
-            {% for team in teams %}
-            {% if not team.active %}
-            <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
-            {% endif %}
-            {% endfor %}
-        </select>
-        <input type="submit" value="Submit" />
-    </form>-->
-</div>
-
+{% if reregistration %}
+    <div class="grid_6">
+       <h2>Re-register Team</h2>
+        <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
+        <strong> The same $25 entry fee applies as for normal registration</strong>
+        <form action="/c_teams/" method="post">
+            {% csrf_token %}
+            <select name="r_team">
+                {% for team in teams %}
+                    {% if not team.active %}
+                    <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+{% endif %}
 {% else %}
 
 <div class="grid_12">
