@@ -80,6 +80,15 @@ def admin(request):
     #     except KeyError:
     #         logging.info("%s" % res['VECDOTA_1'])
 
+    # Manual score adding
+    # teams = Team.all()
+    # for team in teams:
+    #     if team.name == "The Villains":
+    #         res = {}
+    #         res['VECLOL_1'] = "1"
+    #         team.results = pickle.dumps(res)
+    #         team.put()
+
     e_vars = data_vars.copy()
     e_vars['url'] = url
     e_vars['url_linktext'] = url_linktext
