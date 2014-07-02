@@ -8,6 +8,7 @@ class Tournament(db.Model):
     name        = db.StringProperty()
     game        = db.StringProperty(choices=set(["lol", "dota"]))
     completed   = db.BooleanProperty()
+    description = db.StringProperty(multiline=True)
 
 class UserProfile(db.Model):
     """Models a registered user"""

@@ -20,26 +20,22 @@ import pickle
 config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
 
-current_tournament_lol = config.get('CurrentTournaments', 'lol')
+current_tournament_lol  = config.get('CurrentTournaments', 'lol')
 current_tournament_dota = config.get('CurrentTournaments', 'dota')
-current_phase = config.get('General', 'phase')
+current_phase           = config.get('General', 'phase')
 
-games = {
-    'lol': "League of Legends",
-    'dota': "DOTA2"
-}
-
+# This data is always relevant, regardless of what the current page is
 data_vars = {
     'last_operation': "None",
-    'teams': Team.all(),
-    'lol_matches': Matchup.gql('WHERE game = :1', 'lol'),
-    'dota_matches': Matchup.gql('WHERE game = :1', 'dota'),
-    'lol_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'lol'),
-    'dota_complete': Matchup.gql('WHERE game = :1 AND completed=TRUE', 'dota'),
-    'matches': Matchup.all(),
-    'games': games,
     'phase': current_phase,
-    'event_list': Matchup.all(),
+    'current_tournament_lol':current_tournament_lol,
+    'current_tournament_dota':current_tournament_dota,
+    'current_lol_teams':    filter(lambda x: current_tournament_lol in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
+    'old_lol_teams':        filter(lambda x: current_tournament_lol not in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
+    'current_dota_teams':   filter(lambda x: current_tournament_dota in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
+    'old_dota_teams':       filter(lambda x: current_tournament_dota not in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
+    'all_lol_teams':        Team.gql('WHERE game = :1', 'lol').fetch(None),
+    'all_dota_teams':       Team.gql('WHERE game = :1', 'dota').fetch(None),
 }
 
 match_lengths = {
@@ -83,9 +79,9 @@ def admin(request):
     # Manual score adding
     # teams = Team.all()
     # for team in teams:
-    #     if team.name == "The Villains":
+    #     if team.name == "iiiiiiiii":
     #         res = {}
-    #         res['VECLOL_1'] = "1"
+    #         res['VECLOL_2'] = "Disqualified"
     #         team.results = pickle.dumps(res)
     #         team.put()
 
@@ -102,82 +98,108 @@ def main_index(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/index.html', e_vars)
 
-def main_views(request, view, value=None, single=True):
-    e_vars = {}
-    # There are three possible view results here
-    #   Tournament (single/name)
-    #   Team (single/name, multi/current, multi/all)
-    #   Match
+def teamSort(team, tournament_name):
+    # Sort teams in a tournament listing
+    res = pickle.loads(team.results)[tournament_name]
+    # res can take one of two forms:
+    #   exact placing: 1/2/3/4/5
+    #   string describing why they don't have a placing
+    if type(res) is int or res.isdigit():
+        # They have a placing, score by that
+        return int(res)
+    else:
+        # They did not attain a score
+        if res == "Banned":
+            return 10000
+        if res == "Disqualified":
+            return  9999
+        if res == "Dropped out":
+            return  9998
+        if res == "Unpaid":
+            return  9002
+        if res == "Paid":
+            return  9001
+
+def main_views(request, view, value=None, mode='single'):
+    # This function takes care of all pages where the info is based on URL parameters
+    e_vars = data_vars.copy()
+    # The following views are possible:
+    #   View the details for a single tournament:
+    #       view    = tournament
+    #       value   = tournament_name
+    #   View the details for a single team:
+    #       view    = team
+    #       value   = team_name
+    #       mode    = single
+    #   View the list of all teams registered
+    #       view    = team
+    #       mode    = all
+    #   View all teams in the current tournament
+    #       view    = team
+    #       mode    = current
     #   Date
     # e_vars.update({'last_operation': "Team re-registration"})
-    
-    if view == 'date':
+
+    if view == 'tournament':
+        tt = Tournament.gql('WHERE name = :1', value)
+        if tt.count() > 0:
+            tourney = tt[0]
+            entered_teams = filter(lambda x: tourney.name in pickle.loads(x.results).keys(), Team.all())
+            entered_teams.sort(key = lambda x: teamSort(x, tourney.name))
+            res = []
+            for team in entered_teams:
+                res.append(pickle.loads(team.results)[tourney.name])
+                e_vars.update({
+                    'operation': 'tournament',
+                    'tournament': tourney,
+                    'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
+                    'teams': zip(entered_teams, res),
+                    })
+        else:
+            e_vars.update({
+                'lo_value': "Fail",
+                'lo_reason': "Tournament does not exist"
+            })
+
+    elif view == 'team' and mode == 'single':
+        # Return the view for a single team
+        team = Team.gql('WHERE name = :1', value)[0]
+        matches = Matchup.gql('WHERE team_1 = :1', team).fetch(limit=None) +  Matchup.gql('WHERE team_2 = :1', team).fetch(limit=None)
         e_vars.update({
-            'operation': 'date',
+            'operation': 'team',
             'mode': 'single',
-            'year': value[0:4],
-            'month': value[4:6],
-            'day': value[6:8],
-            'matches': Matchup.all(), #filter(lambda x: x.date.day == value, Matchup.all())
+            'team': team,
+            'matches': matches,
+            'results': pickle.loads(team.results),
+            'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
         })
 
-    if single:
-        if view == 'team':
-            # Return the view for a single team
-            team = Team.gql('WHERE name = :1', value)[0]
-            matches = Matchup.gql('WHERE team_1 = :1', team).fetch(limit=None) +  Matchup.gql('WHERE team_2 = :1', team).fetch(limit=None)
-            e_vars.update({
-                'operation': 'team',
-                'mode': 'single',
-                'team': team,
-                'matches': matches,
-                'results': pickle.loads(team.results).keys(),
-                'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
-            })
-        if view == 'tournament':
-            # Return the view for a single tournament
-            tt = Tournament.gql('WHERE name = :1', value)
-            if tt.count() > 0:
-                tourney = tt[0]
-                tteams = filter(lambda x: tourney.name in pickle.loads(x.results).keys(), Team.all())
-                res = []
-                for team in tteams:
-                    res.append(pickle.loads(team.results)[tourney.name])
-                e_vars.update({
-                'operation': 'tournament',
-                'tournament': tourney,
-                'matches': Matchup.gql('WHERE tournament = :1', tourney.name),
-                # this is the syntax for lists as well as single entities
-                'teams': zip(tteams, res),
-                })
-            else:
-                e_vars.update({
-                    'lo_value': "Fail",
-                    'lo_reason': "Tournament does not exist"
-                })
-    else:
-        if view == 'team':
-            if value == 'current':
-                # Return the view for the current tournament's registered teams
-                e_vars.update({
-                    'operation': 'team',
-                    'mode': 'current',
-                    'lol_teams': filter(lambda x: current_tournament_lol in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
-                    'dota_teams': filter(lambda x: current_tournament_dota in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
-                    #'lol_teams': Team.gql('WHERE tournaments = :1', current_tournament_lol),
-                    #'dota_teams': Team.gql('WHERE tournaments = :1', current_tournament_dota),
-                })
-            else:
-                teams = Team.all()
-                e_vars.update({
-                    'operation': 'team',
-                    'mode': 'all',
-                    'lol_teams': Team.gql('WHERE game = :1', 'lol'),
-                    'dota_teams': Team.gql('WHERE game = :1', 'dota'),
-                })
+    elif view == 'team' and mode == 'all':
+        e_vars.update({
+            'operation': 'team',
+            'mode': 'all',
+        })
+    elif view == 'team' and mode == 'current':
+        # Return the view for the current tournament's registered teams
+        e_vars.update({
+            'operation': 'team',
+            'mode': 'current',
+        })
 
     return direct_to_template(request, 'esports/view.html', e_vars)
 
+
+
+    # if view == 'date':
+    #     e_vars.update({
+    #         'operation': 'date',
+    #         'mode': 'single',
+    #         'year': value[0:4],
+    #         'month': value[4:6],
+    #         'day': value[6:8],
+    #         'matches': Matchup.all(), #filter(lambda x: x.date.day == value, Matchup.all())
+    #     })
+    
 def main_contact(request):
     e_vars = data_vars.copy()
     return direct_to_template(request, 'esports/contact.html', e_vars) 

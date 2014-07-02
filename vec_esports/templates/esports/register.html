@@ -20,7 +20,7 @@ with response <strong>{{lo_reason}}</strong>
 
     {% if phase = 'register' %}
 
-    <form action="/c_teams/" method="post">
+    <form action="/register/" method="post">
         {% csrf_token %}
         <h2>Register New Team</h2>
         <strong>
@@ -86,13 +86,14 @@ with response <strong>{{lo_reason}}</strong>
        <h2>Re-register Team</h2>
         <p> Only do this if you want to re-register a team from a previous tournament with exactly the same details</p>
         <strong> The same $25 entry fee applies as for normal registration</strong>
-        <form action="/c_teams/" method="post">
+        <form action="/register/" method="post">
             {% csrf_token %}
             <select name="r_team">
-                {% for team in teams %}
-                    {% if not team.active %}
+                {% for team in old_lol_teams %}
                     <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
-                    {% endif %}
+                {% endfor %}
+                {% for team in old_dota_teams %}
+                    <option value={{team.name|urlencode}}>({{team.game}}) {{team.name}}</option>
                 {% endfor %}
             </select>
             <input type="submit" value="Submit" />

@@ -1,12 +1,12 @@
 <div class="grid_6">
-	<h2>Registered VECLOL_2 Teams:</h2>
-	{% for team in lol_teams %}
+	<h2>Registered {{current_tournament_lol}} Teams:</h2>
+	{% for team in current_lol_teams %}
 		<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 	{% endfor %}
 </div>
 <div class="grid_6">
-	<h2>Registered VECDOTA_2 Teams:</h2>
-	{% for team in dota_teams %}
+	<h2>Registered {{current_tournament_dota}} Teams:</h2>
+	{% for team in current_dota_teams %}
 		<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 	{% endfor %}
 </div>	

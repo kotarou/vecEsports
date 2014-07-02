@@ -119,7 +119,7 @@
 														<li><a href="/viewall/team/all/">All tournaments</a></li>
 													</ul>
 												</li>
-												<li><a href="/c_teams/">Register a team</a></li>
+												<li><a href="/register/">Register a team</a></li>
 											</ul>
 											<!-- /Sub Navigation -->
 										</li>
@@ -129,8 +129,8 @@
 												<li>
 													<a href="#">Current Tournaments</a>
 														<ul>
-															<li><a href="/view/tournament/VECLOL_2/">VECLOL_2</a></li>
-															<li><a href="/view/tournament/VECDOTA_2/">VECDOTA_2</a></li>
+															<li><a href="/view/tournament/{{current_tournament_lol}}/">{{current_tournament_lol}}</a></li>
+															<li><a href="/view/tournament/{{current_tournament_dota}}/">{{current_tournament_dota}}</a></li>
 														</ul>
 												</li>
 												<li>
@@ -143,7 +143,7 @@
 											</ul>
 										</li>
 										<li {%block contactview %}{%endblock contactview %} >
-											<a href="/p_contact/">Contact <span><i>|</i> Get in Touch</span></a>
+											<a href="/contact/">Contact <span><i>|</i> Get in Touch</span></a>
 										</li>
 									</ul>
 								</nav>

@@ -24,7 +24,7 @@
 	{% match_list 'complete' 'date_dec' matches %}
 
 	<h3>Played in:</h3>
-	{% for t in entered %}
-		<a href='/view/tournament/{{t.0}}' style="margin-left:50px;">{{t.0}}</a> ({{t.1}})
+	{% for t in results %}
+		<a href='/view/tournament/{{t}}' style="margin-left:50px;">{{t}}</a>
 	{% endfor%}
 </div>

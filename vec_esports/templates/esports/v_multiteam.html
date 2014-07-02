@@ -1,12 +1,12 @@
 <div class="grid_6">
 	<h2>League of Legends Teams</h2>
-	{% for team in lol_teams %}
+	{% for team in all_lol_teams %}
 	<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 	{% endfor %}
 </div>
 <div class="grid_6">
 	<h2>DOTA2 Teams</h2>
-	{% for team in dota_teams %}
+	{% for team in all_dota_teams %}
 	<a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
 	{% endfor %}
 </div>
