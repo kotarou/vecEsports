@@ -34,6 +34,7 @@ class Team(db.Model):
     sub_2     = db.StringProperty()
     contact_email = db.EmailProperty()
     results = db.StringProperty(multiline=True)
+    prior_players = db.StringProperty(multiline=True) 
 
 class Matchup(db.Model):
     """Models a matchup between two teams. Match type is a string BO1 BO3 etc. Match class is roundrobin / final / etc """

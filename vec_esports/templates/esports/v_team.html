@@ -25,6 +25,11 @@
 
 	<h3>Played in:</h3>
 	{% for t in results %}
-		<a href='/view/tournament/{{t}}' style="margin-left:50px;">{{t}}</a>
+		<a href='/view/tournament/{{t}}' style="margin-left:50px;">{{t}}</a><br />
+	{% endfor%}
+	<br />
+	<h3>Previous members:</h3>
+	{% for p in prior %}
+		<span style="margin-left:50px;">{{p}}</span><br />
 	{% endfor%}
 </div>

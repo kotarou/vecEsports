@@ -79,11 +79,12 @@ def admin(request):
     # Manual score adding
     # teams = Team.all()
     # for team in teams:
-    #     if team.name == "iiiiiiiii":
+    #     if team.name != "Danger Zone":
     #         res = {}
-    #         res['VECLOL_2'] = "Disqualified"
-    #         team.results = pickle.dumps(res)
+    #         #res['sub'] = "Teito"
+    #         team.prior_players = pickle.dumps(res)
     #         team.put()
+
 
     e_vars = data_vars.copy()
     e_vars['url'] = url
@@ -108,6 +109,9 @@ def teamSort(team, tournament_name):
         # They have a placing, score by that
         return int(res)
     else:
+        # They obtained an approx score
+        if(res[0].isdigit()):
+            return int(res[0])
         # They did not attain a score
         if res == "Banned":
             return 10000
@@ -172,6 +176,7 @@ def main_views(request, view, value=None, mode='single'):
             'matches': matches,
             'results': pickle.loads(team.results),
             'current': current_tournament_lol if team.game == 'lol' else current_tournament_dota,
+            'prior': pickle.loads(team.prior_players).values(),
         })
 
     elif view == 'team' and mode == 'all':
