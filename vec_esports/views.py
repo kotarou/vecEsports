@@ -30,10 +30,6 @@ data_vars = {
     'phase': current_phase,
     'current_tournament_lol':current_tournament_lol,
     'current_tournament_dota':current_tournament_dota,
-    'current_lol_teams':    filter(lambda x: current_tournament_lol in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
-    'old_lol_teams':        filter(lambda x: current_tournament_lol not in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'lol').fetch(None)),
-    'current_dota_teams':   filter(lambda x: current_tournament_dota in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
-    'old_dota_teams':       filter(lambda x: current_tournament_dota not in pickle.loads(x.results).keys(), Team.gql('WHERE game = :1', 'dota').fetch(None)),
     'all_lol_teams':        Team.gql('WHERE game = :1', 'lol').fetch(None),
     'all_dota_teams':       Team.gql('WHERE game = :1', 'dota').fetch(None),
 }
@@ -79,10 +75,10 @@ def admin(request):
     # Manual score adding
     # teams = Team.all()
     # for team in teams:
-    #     if team.name != "Danger Zone":
+    #     if team.name == "The Drill Team":
     #         res = {}
-    #         #res['sub'] = "Teito"
-    #         team.prior_players = pickle.dumps(res)
+    #         res['VECLOL_1'] = "3"
+    #         team.results = pickle.dumps(res)
     #         team.put()
 
 
@@ -183,12 +179,16 @@ def main_views(request, view, value=None, mode='single'):
         e_vars.update({
             'operation': 'team',
             'mode': 'all',
+            'all_lol_teams':        Team.gql('WHERE game = :1', 'lol').fetch(None),
+            'all_dota_teams':       Team.gql('WHERE game = :1', 'dota').fetch(None),
         })
     elif view == 'team' and mode == 'current':
         # Return the view for the current tournament's registered teams
         e_vars.update({
             'operation': 'team',
             'mode': 'current',
+            'current_lol_teams':    filter(lambda x: current_tournament_lol in pickle.loads(x.results).keys(), Team.all()),
+            'current_dota_teams':   filter(lambda x: current_tournament_dota in pickle.loads(x.results).keys(), Team.all()),
         })
 
     return direct_to_template(request, 'esports/view.html', e_vars)
@@ -307,6 +307,8 @@ def m_team(request, e_vars):
     else:
         entry[current_tournament_dota] = 0
 
+    prior = {}
+
     team = Team(
         key_name=team_name,
         game=team_game,
@@ -316,6 +318,7 @@ def m_team(request, e_vars):
         sub_1=team_p6, sub_2=team_p7,
         contact_email=team_contact,
         results = pickle.dumps(entry),
+        prior_players = pickle.dumps(prior),
         )
     team.put()
     
