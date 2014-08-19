@@ -23,14 +23,15 @@ with response <strong>{{lo_reason}}</strong>
     <form action="/register/" method="post">
         {% csrf_token %}
         <h2>Register New Team</h2>
-        <strong>
+        <!--<strong>
             Entry fees to our tournaments are currently $25 per team.<br/>
             Please send this through to the account: 12-3141-0343764-52 with a reference similar to your team name.<br/>
             Your registration will not be considered complete until this payment is recieved.<br/><br/>
-        </strong>
+        </strong>-->
+        Please visit the facebook page <a href="https://www.facebook.com/events/269661616556934/">here</a> for entry details on the Road to Glory tournament.
         <select name="game">
-            <option value="lol">League of Legends</option>
-            <option value="dota">DOTA2</option>
+                <option value="lol">League of Legends: {{current_tournament_lol}}</option>
+                <option value="dota">DOTA2: {{current_tournament_dota}}</option>
         </select>
         All player names should be summoner / in-game names.
         <br />

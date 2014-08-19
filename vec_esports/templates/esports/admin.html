@@ -22,13 +22,19 @@
             {% csrf_token %}
             <h2>Create Tournament</h2>
             <select name="game">
-                <option value="lol">League of Legends</option>
+                <option value="lol">League of Legends:</option>
                 <option value="dota">DOTA2</option>
             </select>
             <table>
                 <tr>
                     <td>Tournament Name *</td>
                     <td><input type="text" name="tmn" /></td>
+                </tr>
+                    <tr>
+                    <td>Tournament Name *</td>
+                    <textarea name="description" cols="25" rows="5">
+                        Default description
+                    </textarea><br>
                 </tr>
             </table>
             <input type="submit" value="Submit" />

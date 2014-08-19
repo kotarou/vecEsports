@@ -340,6 +340,7 @@ def m_tournament(request, e_vars):
     
     tournament_name = request.POST.get('tmn')
     tournament_game = request.POST.get('game')
+    tournament_description = request.POST.get('description')
     if(Team.get_by_key_name(tournament_name) != None):
         e_vars.update({
             'lo_value': "Fail",
@@ -352,6 +353,7 @@ def m_tournament(request, e_vars):
         name=tournament_name,
         game=tournament_game,
         completed=False,
+        description=tournament_description,
         )
     tourney.put()
     

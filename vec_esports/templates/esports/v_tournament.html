@@ -2,6 +2,8 @@
 {% load filters %}
 <div class="grid_12">
 	{% if tournament.completed %}<h1> This tournament has ended </h1> {% endif %}
+	<br />
+	{{tournament.description|safe }}
 	<h3>Registered Teams:</h3>
 	{% for team, score in teams %}
 	({{score}}) <a href='/view/team/{{team.name}}'>{{team.name}}</a><br />
